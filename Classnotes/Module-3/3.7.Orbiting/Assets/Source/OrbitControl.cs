@@ -21,7 +21,7 @@ public class OrbitControl : MonoBehaviour
     void Update()
     {
         // we follow the host
-        transform.position = HostXform.position + OrbitRadius * transform.right; ;
+        transform.position = HostXform.position + OrbitRadius * transform.right;
 
         // update our rotation (sattlite will rotate)
         Quaternion r = Quaternion.AngleAxis((OrbitSpeed*Time.smoothDeltaTime), Vector3.forward);
