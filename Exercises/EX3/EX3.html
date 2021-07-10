@@ -14,17 +14,17 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <o:DocumentProperties>
   <o:Author>Kelvin Sung</o:Author>
   <o:LastAuthor>Kelvin Sung</o:LastAuthor>
-  <o:Revision>2</o:Revision>
-  <o:TotalTime>1738</o:TotalTime>
+  <o:Revision>18</o:Revision>
+  <o:TotalTime>1748</o:TotalTime>
   <o:Created>2021-04-25T18:36:00Z</o:Created>
-  <o:LastSaved>2021-04-25T18:36:00Z</o:LastSaved>
+  <o:LastSaved>2021-07-09T22:45:00Z</o:LastSaved>
   <o:Pages>1</o:Pages>
-  <o:Words>1271</o:Words>
-  <o:Characters>7250</o:Characters>
+  <o:Words>1204</o:Words>
+  <o:Characters>6867</o:Characters>
   <o:Company>UWB</o:Company>
-  <o:Lines>60</o:Lines>
-  <o:Paragraphs>17</o:Paragraphs>
-  <o:CharactersWithSpaces>8504</o:CharactersWithSpaces>
+  <o:Lines>57</o:Lines>
+  <o:Paragraphs>16</o:Paragraphs>
+  <o:CharactersWithSpaces>8055</o:CharactersWithSpaces>
   <o:Version>16.00</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
@@ -35,7 +35,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <link rel=colorSchemeMapping href="EX3_files/colorschememapping.xml">
 <!--[if gte mso 9]><xml>
  <w:WordDocument>
-  <w:Zoom>230</w:Zoom>
+  <w:Zoom>300</w:Zoom>
   <w:SpellingState>Clean</w:SpellingState>
   <w:GrammarState>Clean</w:GrammarState>
   <w:TrackMoves>false</w:TrackMoves>
@@ -664,11 +664,11 @@ xmlns="http://www.w3.org/TR/REC-html40">
 @font-face
 	{font-family:PMingLiU;
 	panose-1:2 1 6 1 0 1 1 1 1 1;
-	mso-font-alt:PMingLiU;
+	mso-font-alt:\65B0\7D30\660E\9AD4;
 	mso-font-charset:136;
 	mso-generic-font-family:roman;
 	mso-font-pitch:variable;
-	mso-font-signature:1 134742016 16 0 1048576 0;}
+	mso-font-signature:-1610611969 684719354 22 0 1048577 0;}
 @font-face
 	{font-family:"Cambria Math";
 	panose-1:2 4 5 3 5 4 6 3 2 4;
@@ -705,19 +705,19 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:3 680460288 22 0 262145 0;}
 @font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;
-	mso-font-charset:0;
-	mso-generic-font-family:modern;
-	mso-font-pitch:fixed;
-	mso-font-signature:-536869121 64767 1 0 415 0;}
-@font-face
 	{font-family:Tahoma;
 	panose-1:2 11 6 4 3 5 4 4 2 4;
 	mso-font-charset:0;
 	mso-generic-font-family:swiss;
 	mso-font-pitch:variable;
 	mso-font-signature:-520081665 -1073717157 41 0 66047 0;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-536869121 64767 1 0 415 0;}
  /* Style Definitions */
  p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{mso-style-unhide:no;
@@ -1580,17 +1580,15 @@ course web-site<o:p></o:p></span></p>
 style='font-family:"Times New Roman",serif;mso-ascii-theme-font:minor-fareast;
 mso-hansi-theme-font:minor-fareast;mso-bidi-theme-font:minor-fareast'><o:p>&nbsp;</o:p></span></p>
 
-<h1><span style='mso-fareast-font-family:"Times New Roman"'>Each person must
-work on this assignment individually.<o:p></o:p></span></h1>
-
 <h1><span style='mso-fareast-font-family:"Times New Roman"'>Objective<o:p></o:p></span></h1>
 
-<p class=MsoNormal>At this point, you should feel comfortable programming and
-able to control the position and rotation of Unity <span class=SpellE>GameObjects</span>,
+<p class=MsoNormal>At this point, you should feel comfortable programming and able
+to control the position and rotation of Unity <span class=SpellE>GameObjects</span>,
 and have some sense of the differences between frame and real time. In this
-assignment, let&#8217;s practice some more refined object movements with the
-lerp function, implement simple object behaviors, and, experience working in 2
-coordinate systems in the Unity Editor.<br style='mso-special-character:line-break'>
+assignment, let&#8217;s practice some refined object movements with the lerp
+function, implement simple object behaviors, and, experience working with both
+of the coordinate systems in the Unity Editor.<br style='mso-special-character:
+line-break'>
 <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
 <![endif]></p>
 
@@ -1672,12 +1670,12 @@ and simple examples in games (again)<o:p></o:p></span></p>
 
 <h1><span style='mso-fareast-font-family:"Times New Roman"'>Approach<o:p></o:p></span></h1>
 
-<p class=MsoNormal>Please refer to my attempt at the solution on the MP3
+<p class=MsoNormal>Please refer to my attempt at the solution on the Ex3
 assignment page off our course website. Note the followings, there are four
-main object categories, three almost identical to MP2: hero, eggs spawned,
+main object categories, three almost identical to Ex2: hero, eggs spawned,
 enemies; and a new type of object: <b style='mso-bidi-font-weight:normal'>waypoint
-system (new)</b>. You are welcome to use my solution for MP2 (refer to the MP2
-assignment page) as your base for implementing MP3.</p>
+system (new)</b>. You are welcome to use my solution for Ex2 (posted on course
+homepage) as your base for implementing Ex3.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
@@ -1696,8 +1694,7 @@ of 100 (total world height is 200)<o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpLast><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
 
-<h2><span style='mso-fareast-font-family:"Times New Roman"'>Hero (Identical to
-MP2)</span></h2>
+<h2><span style='mso-fareast-font-family:"Times New Roman"'>Hero (Identical to Ex2)</span></h2>
 
 <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
@@ -1758,7 +1755,7 @@ seconds<o:p></o:p></span></p>
 <p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
 
 <h2><span style='mso-fareast-font-family:"Times New Roman"'>Spawned Egg (<i
-style='mso-bidi-font-style:normal'>Almost</i> identical to MP2)</span></h2>
+style='mso-bidi-font-style:normal'>Almost</i> identical to Ex2)</span></h2>
 
 <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
@@ -1924,7 +1921,7 @@ toggles the hiding of the waypoint objects<o:p></o:p></span></p>
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
 Symbol'><span style='mso-list:Ignore'>&middot;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>Identical
-to MP2:<o:p></o:p></span></p>
+to Ex2:<o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-left:.75in;mso-add-space:
 auto;text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
@@ -2009,8 +2006,8 @@ Symbol'><span style='mso-list:Ignore'>&middot;<span style='font:7.0pt "Times New
 mso-ascii-theme-font:minor-fareast;mso-fareast-font-family:"Times New Roman";
 mso-hansi-font-family:"Times New Roman";mso-hansi-theme-font:minor-fareast;
 mso-bidi-font-family:"Times New Roman";mso-bidi-theme-font:minor-fareast'>As
-soon as an enemy is destroyed, a new one is spawned subject to the above
-condition (maintain exactly 10, always within 90% of world boundaries)</span><span
+soon as an enemy is destroyed, a new one is spawned subject to the above condition
+(maintain exactly 10, always within 90% of world boundaries)</span><span
 style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
@@ -2101,7 +2098,7 @@ auto;text-indent:-.25in;mso-list:l0 level2 lfo2'><![if !supportLists]><span
 style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'><span
 style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>Identical
-to MP2:<o:p></o:p></span></p>
+to Ex2:<o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-left:1.5in;mso-add-space:
 auto;text-indent:-.25in;mso-list:l0 level3 lfo2'><![if !supportLists]><span
@@ -2188,7 +2185,7 @@ style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
 mso-ascii-theme-font:minor-fareast;mso-fareast-font-family:"Times New Roman";
 mso-hansi-font-family:"Times New Roman";mso-hansi-theme-font:minor-fareast;
 mso-bidi-font-family:"Times New Roman";mso-bidi-theme-font:minor-fareast;
-font-weight:normal;mso-bidi-font-weight:bold'>Note, you will lose points if MP2
+font-weight:normal;mso-bidi-font-weight:bold'>Note, you will lose points if Ex2
 functionality stops working. E.g. if Hero mouse control does not work anymore,
 you will lose all of the associated points.</span></strong><span
 style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
@@ -2226,8 +2223,8 @@ Hero: </span></strong><strong><span style='mso-ascii-font-family:"Times New Roma
 mso-ascii-theme-font:minor-fareast;mso-fareast-font-family:"Times New Roman";
 mso-hansi-font-family:"Times New Roman";mso-hansi-theme-font:minor-fareast;
 mso-bidi-font-family:"Times New Roman";mso-bidi-theme-font:minor-fareast;
-font-weight:normal;mso-bidi-font-weight:bold'>If all MP2 functionality lost:
--30%</span></strong><span style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+font-weight:normal;mso-bidi-font-weight:bold'>If lost all Ex2 functionality: -30%</span></strong><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-left:1.0in;mso-add-space:
 auto;text-indent:-.25in;mso-list:l3 level2 lfo6;tab-stops:list 1.0in'><![if !supportLists]><span
@@ -2330,8 +2327,8 @@ lumm=65000'><span style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Ro
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman";
 color:#A6A6A6;mso-themecolor:background1;mso-themeshade:166;mso-style-textfill-fill-color:
 #A6A6A6;mso-style-textfill-fill-themecolor:background1;mso-style-textfill-fill-alpha:
-100.0%;mso-style-textfill-fill-colortransforms:lumm=65000'>(5%) Destroys an
-enemy when collided<o:p></o:p></span></p>
+100.0%;mso-style-textfill-fill-colortransforms:lumm=65000'>(5%) Destroys an enemy
+when collided<o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l3 level1 lfo6;
 tab-stops:list .5in'><![if !supportLists]><span style='font-size:10.0pt;
@@ -2350,8 +2347,8 @@ auto;text-indent:-.25in;mso-list:l3 level2 lfo6;tab-stops:list 1.0in'><![if !sup
 style='font-size:10.0pt;mso-bidi-font-size:12.0pt;font-family:"Courier New";
 mso-fareast-font-family:"Courier New"'><span style='mso-list:Ignore'>o<span
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
-style='mso-fareast-font-family:"Times New Roman"'>(1%) MP2 functionality: you
-can lost up to 25% if following stop working<o:p></o:p></span></p>
+style='mso-fareast-font-family:"Times New Roman"'>(1%) Ex2 functionality: you
+can lose up to 25% if following stop working<o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-left:1.5in;mso-add-space:
 auto;text-indent:-.25in;mso-list:l3 level3 lfo6;tab-stops:list 1.5in'><![if !supportLists]><span
@@ -2361,10 +2358,10 @@ mso-themecolor:background1;mso-themeshade:166;mso-style-textfill-fill-color:
 #A6A6A6;mso-style-textfill-fill-themecolor:background1;mso-style-textfill-fill-alpha:
 100.0%;mso-style-textfill-fill-colortransforms:lumm=65000'><span
 style='mso-list:Ignore'>&sect;<span style='font:7.0pt "Times New Roman"'>&nbsp;
-</span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>(<span
-style='color:#A6A6A6;mso-themecolor:background1;mso-themeshade:166;mso-style-textfill-fill-color:
+</span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman";
+color:#A6A6A6;mso-themecolor:background1;mso-themeshade:166;mso-style-textfill-fill-color:
 #A6A6A6;mso-style-textfill-fill-themecolor:background1;mso-style-textfill-fill-alpha:
-100.0%;mso-style-textfill-fill-colortransforms:lumm=65000'>2%) Size 1x1<o:p></o:p></span></span></p>
+100.0%;mso-style-textfill-fill-colortransforms:lumm=65000'>(2%) Size 1x1<o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-left:1.5in;mso-add-space:
 auto;text-indent:-.25in;mso-list:l3 level3 lfo6;tab-stops:list 1.5in'><![if !supportLists]><span
@@ -2391,8 +2388,8 @@ style='mso-list:Ignore'>&sect;<span style='font:7.0pt "Times New Roman"'>&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman";
 color:#A6A6A6;mso-themecolor:background1;mso-themeshade:166;mso-style-textfill-fill-color:
 #A6A6A6;mso-style-textfill-fill-themecolor:background1;mso-style-textfill-fill-alpha:
-100.0%;mso-style-textfill-fill-colortransforms:lumm=65000'>(10%) Travels towards
-its <span class=SpellE>transform.up</span> at 40 units/sec<o:p></o:p></span></p>
+100.0%;mso-style-textfill-fill-colortransforms:lumm=65000'>(10%) Travels
+towards its <span class=SpellE>transform.up</span> at 40 units/sec<o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-left:1.5in;mso-add-space:
 auto;text-indent:-.25in;mso-list:l3 level3 lfo6;tab-stops:list 1.5in'><![if !supportLists]><span
@@ -2559,8 +2556,8 @@ style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
 "Times New Roman";mso-ascii-theme-font:minor-fareast;mso-fareast-font-family:
 "Times New Roman";mso-hansi-font-family:"Times New Roman";mso-hansi-theme-font:
 minor-fareast;mso-bidi-font-family:"Times New Roman";mso-bidi-theme-font:minor-fareast;
-font-weight:normal'>(5%) MP2 functions: </span></strong><span style='mso-fareast-font-family:
-"Times New Roman"'>you can lost up to 25% if following stop working<strong><span
+font-weight:normal'>(5%) Ex2 functions: </span></strong><span style='mso-fareast-font-family:
+"Times New Roman"'>you can lose up to 25% if following stop working<strong><span
 style='font-weight:normal'><o:p></o:p></span></strong></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-left:1.5in;mso-add-space:
@@ -2815,8 +2812,8 @@ style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
 "Times New Roman";mso-ascii-theme-font:minor-fareast;mso-fareast-font-family:
 "Times New Roman";mso-hansi-font-family:"Times New Roman";mso-hansi-theme-font:
 minor-fareast;mso-bidi-font-family:"Times New Roman";mso-bidi-theme-font:minor-fareast;
-font-weight:normal;mso-bidi-font-weight:bold'>(1%) MP2 functions: </span></strong><span
-style='mso-fareast-font-family:"Times New Roman"'>you can lost up to 10% if
+font-weight:normal;mso-bidi-font-weight:bold'>(1%) Ex2 functions: </span></strong><span
+style='mso-fareast-font-family:"Times New Roman"'>you can lose up to 10% if
 following stop working</span><strong><span style='mso-ascii-font-family:"Times New Roman";
 mso-ascii-theme-font:minor-fareast;mso-fareast-font-family:"Times New Roman";
 mso-hansi-font-family:"Times New Roman";mso-hansi-theme-font:minor-fareast;
@@ -2930,24 +2927,12 @@ minor-fareast;mso-bidi-font-family:"Times New Roman";mso-bidi-theme-font:minor-f
 mso-bidi-font-weight:normal'>(10%) Submissions<o:p></o:p></span></strong></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-left:1.0in;mso-add-space:
-auto;text-indent:-.25in;mso-list:l3 level2 lfo6;tab-stops:list 1.0in'><![if !supportLists]><strong><span
-style='font-size:10.0pt;mso-bidi-font-size:12.0pt;font-family:"Courier New";
-mso-fareast-font-family:"Courier New";font-weight:normal'><span
-style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
-</span></span></span></strong><![endif]><strong><span style='mso-ascii-font-family:
-"Times New Roman";mso-ascii-theme-font:minor-fareast;mso-fareast-font-family:
-"Times New Roman";mso-hansi-font-family:"Times New Roman";mso-hansi-theme-font:
-minor-fareast;mso-bidi-font-family:"Times New Roman";mso-bidi-theme-font:minor-fareast;
-font-weight:normal'>(10%) Edit with your name on the shared google doc + proper
-WebGL link in the document (so that I can click and test your MP)<o:p></o:p></span></strong></p>
-
-<p class=MsoListParagraphCxSpMiddle style='margin-left:1.0in;mso-add-space:
 auto;text-indent:-.25in;mso-list:l3 level2 lfo6;tab-stops:list 1.0in'><![if !supportLists]><span
 style='font-size:10.0pt;mso-bidi-font-size:12.0pt;font-family:"Courier New";
 mso-fareast-font-family:"Courier New"'><span style='mso-list:Ignore'>o<span
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
-style='mso-fareast-font-family:"Times New Roman"'>(10%) Submission to Canvas
-with a zip </span></p>
+style='mso-fareast-font-family:"Times New Roman"'><span
+style='mso-spacerun:yes'>&nbsp;</span>(10%) Submission with a zip </span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='margin-left:1.5in;mso-add-space:
 auto;text-indent:-.25in;mso-list:l3 level3 lfo6;tab-stops:list 1.5in'><![if !supportLists]><span
@@ -2973,55 +2958,11 @@ style='mso-list:Ignore'>&sect;<span style='font:7.0pt "Times New Roman"'>&nbsp;
 </span></span></span><![endif]><span style='mso-fareast-font-family:"Times New Roman"'>Double
 click to run the game<o:p></o:p></span></p>
 
-<p class=MsoNormal><span style='font-size:1rem'>This is a single-person
-assignment. This programming assignment counts 10% towards your final grade for
-this class.<o:p></o:p></p>
+<p class=MsoNormal><span style='font-size:1rem'>This is a per-team assignment,
+only one copy needs to be submitted for each team. This programming assignment
+counts 14% towards your final grade for this class.<o:p></o:p></p>
 
-</span>
-
-<h1><span style='mso-fareast-font-family:"Times New Roman"'>Extra Credit:<o:p></o:p></span></h1>
-
-<p class=MsoNormal>Max extra credit: is 20-points. Ideas for extra credits
-include:</p>
-
-<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l2 level1 lfo8;
-tab-stops:list .5in'><![if !supportLists]><span style='font-size:10.0pt;
-mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
-mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&middot;<span
-style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]>Enemy can shoot back at hero</p>
-
-<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l2 level1 lfo8;
-tab-stops:list .5in'><![if !supportLists]><span style='font-size:10.0pt;
-mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
-mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&middot;<span
-style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]>Two sets of waypoints for two sets of enemy
-patrol patterns</p>
-
-<p class=MsoListParagraphCxSpMiddle style='margin-left:1.0in;mso-add-space:
-auto;text-indent:-.25in;mso-list:l2 level2 lfo8;tab-stops:list 1.0in'><![if !supportLists]><span
-style='font-size:10.0pt;mso-bidi-font-size:12.0pt;font-family:"Courier New";
-mso-fareast-font-family:"Courier New"'><span style='mso-list:Ignore'>o<span
-style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>E.g.,
-second set of A to F controlling another 10 enemy controls</p>
-
-<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l2 level1 lfo8;
-tab-stops:list .5in'><![if !supportLists]><span style='font-size:10.0pt;
-mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
-mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&middot;<span
-style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]>A user control variable number of waypoints in
-the system</p>
-
-<p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l2 level1 lfo8;
-tab-stops:list .5in'><![if !supportLists]><span style='font-size:10.0pt;
-mso-bidi-font-size:12.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;
-mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&middot;<span
-style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]>Etc. etc. etc.</p>
-
-</div>
+</span></div>
 
 </body>
 
