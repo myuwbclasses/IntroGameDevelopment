@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Meant to be a component of a camera
-public partial class CameraSupport : MonoBehaviour
+public class CameraSupport : MonoBehaviour
 {
     private Camera mTheCamera;   // Will find this on the gameObject
     private Bounds mWorldBound;  // Computed bound from the camera
