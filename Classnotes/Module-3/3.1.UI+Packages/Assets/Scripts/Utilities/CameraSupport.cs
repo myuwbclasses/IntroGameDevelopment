@@ -24,7 +24,7 @@ public class CameraSupport : MonoBehaviour
         mTheCamera = gameObject.GetComponent<Camera>();
         Debug.Assert(mTheCamera != null); // if this is null, then, the script is not on a Camera and nothing works
 
-        Debug.Log("Camer:Start:" + gameObject.name);
+        Debug.Log("Camera Start:" + gameObject.name);
 
         #region bound support
         mWorldBound = new Bounds();
