@@ -24,7 +24,7 @@ public class GreenArrowBehavior : MonoBehaviour
         // Now spawn an egg when space bar is hit
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject e = Instantiate(Resources.Load("Prefabs/Egg") as GameObject); // Prefab MUST BE locaed in Resources/Prefab folder!
+            GameObject e = Instantiate(Resources.Load("AnotherEgg") as GameObject); // Prefab MUST BE locaed in Resources/Prefab folder!
             e.transform.localPosition = transform.localPosition;
             Debug.Log("Spawn Eggs:" + e.transform.localPosition);
         }
