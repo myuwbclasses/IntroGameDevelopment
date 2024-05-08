@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;  // Required to work with UI, e.g., Text
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GreenArrowBehavior mHero = null;  // must set in the editor
 
     // for display egg count
-    public Text mEggCountEcho = null;
+    public TMP_Text mEggCountEcho = null;
 
     // Start is called before the first frame update
     void Start()
