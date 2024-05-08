@@ -8,10 +8,15 @@ public class GreenArrowBehavior : MonoBehaviour
     public float mHeroRotateSpeed = 90f / 2f; // 90-degrees in 2 seconds
 
     private int mTotalEggCount = 0;
+    public SliderWithEcho my_size = null;
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Assert(my_size != null);
+        my_size.mSlider.minValue = 5;
+        my_size.mSlider.maxValue = 50;
+
     }
 
     // Update is called once per frame
@@ -30,6 +35,9 @@ public class GreenArrowBehavior : MonoBehaviour
             // Debug.Log("Spawn Eggs:" + e.transform.localPosition);
             mTotalEggCount++;
         }
+
+        float s = my_size.value();
+        transform.localScale = new Vector3(s, s, 1);
     }
     
     public void OneLessEgg() { mTotalEggCount--;  }

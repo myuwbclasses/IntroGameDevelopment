@@ -31,7 +31,7 @@ public class GreenArrowBehavior : MonoBehaviour
         else
         {
             if (Input.GetKey(KeyCode.W))
-                p += ((mHeroSpeed * Time.smoothDeltaTime) * transform.up);
+                p += ((mHeroSpeed* Time.smoothDeltaTime) * transform.up);
 
              if (Input.GetKey(KeyCode.S))
                 p -= ((mHeroSpeed * Time.smoothDeltaTime) * transform.up);
