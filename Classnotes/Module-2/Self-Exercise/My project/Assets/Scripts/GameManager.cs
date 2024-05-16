@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Timeline.Actions;
-using UnityEngine;
-using UnityEngine.UI;  // Required to work with UI, e.g., Text
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
