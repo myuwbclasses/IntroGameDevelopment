@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a663e3cad609254a8ad6f6d6d2eddcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTheCamera: {fileID: 519420031}
   mFollowMousePosition: 1
   mHeroSpeed: 20
   mHeroRotateSpeed: 45
