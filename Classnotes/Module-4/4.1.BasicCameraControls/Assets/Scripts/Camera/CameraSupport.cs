@@ -35,7 +35,7 @@ public partial class CameraSupport : MonoBehaviour
         // UpdateWorldWindowBound();
         //      No need to re-compute until world is actually changed
         //      GameManager (UserControlLogic) will call the camera manipulation functions
-        //      which will triget WorldBound re-compute
+        //      which will trigger WorldBound re-compute
     }
 
     public Bounds GetWorldBound() { return mWorldBound; }

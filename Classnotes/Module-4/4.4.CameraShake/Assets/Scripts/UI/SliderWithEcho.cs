@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SliderWithEcho : MonoBehaviour
 {
     public string mLabelText = "Label Text:";
-    public Text mEcho = null;
+    public TMP_Text mEcho = null;
     public Slider mSlider = null;
 
     // Start is called before the first frame update
