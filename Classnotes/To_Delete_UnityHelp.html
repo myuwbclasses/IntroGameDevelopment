@@ -1,0 +1,68 @@
+<title>Unity Help Page</title>
+<h1>Unity Help Page</h1>
+<h3>Download/Installation</h3>
+<ul>
+    <li>Unity version: work with the latest, all examples in class are based on 
+        <span style="text-decoration: underline;"><strong>Unity-2022.3.20f1</strong></span> 
+        (LTS: Long Term Support releases):</li>
+    <li>Download+Install: follow this link
+        <a href="https://unity3d.com/unity/qa/lts-releases">https://unity3d.com/unity/qa/lts-releases</a>
+        (in China, here is a better link
+        <a href="https://unity.cn/releases/lts/2021">https://unity.cn/releases/lts/2021</a>, <strong>2022.3.17f1c1</strong> would be just fine),
+        scroll down to find our version and install.
+    <li>Modules to install:
+        <ul>
+            <li><b>IDE</b>: I will be using <a href="https://code.visualstudio.com/">
+                    Visual Studio Code (VSC)</a>.
+                    You are free to use anything IDE you like, 
+                    the default IDE for Unity is 
+                    Microsoft Visual Studio Community, which works very well also. 
+                    </li>
+            <li><b>WebGL Build Support</b>: Please make sure to install this module 
+                    for our playtesting (for part-2 of this class will be based on WebGL builds. 
+                    Additionally, if you are running on a Mac, 
+                    please also install <b>Windows Build Support</b> 
+                    such that you can build for PC EXE and the TA can run your assignment submissions. </li>
+            <li><b>Documentation</b>: I would advice installing this as well.
+        </ul>
+    </li>
+</ul>
+<h3>Debugging</h3>
+<ul>
+    <li>VSC <a href="https://forum.unity.com/threads/how-to-debug-unity-with-vscode-in-2022.1325217/">
+        Debugger from Unity</a>
+        has been deprecated. I use Debug.Log() (like cout) for debugging.</li>
+    <li>Here is <a href="https://docs.unity3d.com/Manual/ManagedCodeDebugging.html">
+        the official documentation on debugging with C#</a>.
+</ul>
+
+<h3>Begin working with Unity</h3>
+<p>Tutorials, go over this yourself after (or before) class:</p>
+<ul>
+<li><a href="https://learn.unity.com/tutorials">https://learn.unity.com/tutorials</a> under the <b>Level</b> tab, select <i>Foundational</i> and <i>Beginner</i> and take a view of the tutorial videos.
+</li>
+<li>Documentations: <a href="https://docs.unity3d.com/Manual/index.html">https://docs.unity3d.com/Manual/index.html</a>
+<ul>
+<li>Scripting: <a href="https://docs.unity3d.com/ScriptReference/">https://docs.unity3d.com/ScriptReference/</a></li>
+<li>Shader: <a href="https://docs.unity3d.com/Manual/SL-Reference.html">https://docs.unity3d.com/Manual/SL-Reference.html</a>&nbsp;</li>
+</ul>
+</li>
+</ul>
+
+<h3>!!WARNING!!</h3>
+<p>DO NOT attempt to upgrade your Unity during this class, FOR ANY REASON. Once downloaded, once working, DO NOT follow new releases!!</p>
+
+<h3>Problems Q&A</h3>
+<ul>
+    <li>Missing Unity API Intellicence: there may be a few things that are wrong:
+        <ul>
+            <li>Default editor setting: Edit->Preferences->External Tools->External Script Editor, 
+                    make sure this is set to your default IDE.</li> 
+            <li>First time opening the project: Assets->Open C# Project</li>
+            <li>Visual Studio Code: if you are using VSC, make sure to install the 
+                    Unity extension from Microsoft</li>
+        </ul>
+    </li>
+    <li>UI option missing from create manu: You need to add the UnityEngine.UI package (Windows->PackageManager [Packages: Unity Registry], search for <b>Unity UI</b>
+    </li>
+</ul>
