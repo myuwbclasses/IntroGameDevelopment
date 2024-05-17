@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class GreenArrowBehavior : MonoBehaviour
 {
+    public Camera mTheCamera = null;
     public bool mFollowMousePosition = true;
     public float mHeroSpeed = 20f;
     [SerializeField] 
     private float mHeroRotateSpeed = 90f / 2f; // 90-degrees in 2 seconds
 
+    private Color mMouseColor = Color.red;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Assert(mTheCamera != null); // must be set in the editor before starting the game!
+        GetComponent<Renderer>().material.color = mMouseColor;
     }
 
     // Update is called once per frame
@@ -20,12 +24,21 @@ public class GreenArrowBehavior : MonoBehaviour
     {
         Vector3 p = transform.localPosition;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)) {
             mFollowMousePosition = !mFollowMousePosition;
+            Debug.Log("Current control mode Mouse=" + mFollowMousePosition);
+            if (mFollowMousePosition)
+                GetComponent<Renderer>().material.color = mMouseColor;
+            else
+                GetComponent<Renderer>().material.color = Color.white;
+        }
 
         if (mFollowMousePosition)
         {
-            p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            p = mTheCamera.ScreenToWorldPoint(Input.mousePosition);
+            // Alternates:
+            //     p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //     p = GameObject.Find("Main Camera").GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
             p.z = 0f;  // <-- this is VERY IMPORTANT!
             // Debug.Log("Screen Point:" + Input.mousePosition + "  World Point:" + p);
         }
