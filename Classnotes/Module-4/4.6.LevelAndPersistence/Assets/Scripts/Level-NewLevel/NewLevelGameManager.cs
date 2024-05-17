@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class NewLevelGameManager : MonoBehaviour
 {
-    public Text GameStateEcho = null;
+    public TMP_Text GameStateEcho = null;
     // Start is called before the first frame update
     void Start()
     {

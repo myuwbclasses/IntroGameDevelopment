@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;  // for Loading Scene!!
@@ -15,7 +16,7 @@ public class UserControlLogic : MonoBehaviour
     public SliderWithEcho mVW = null;
     public SliderWithEcho mVH = null;
 
-    public Text GameStateEcho = null;
+    public TMP_Text GameStateEcho = null;
 
     public 
     
