@@ -25,12 +25,8 @@ public class HeroMovement : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.D)) {
-            Collider2D other = GameObject.Find("ThePlatform - Brown").GetComponent<Collider2D>();
-            if (mHeroPhysics.IsTouching(other)) { // can only move right when on platform
-                Debug.Log("Hero is touching: " + other.gameObject);
                 mHeroPhysics.velocity = new Vector2(mSpeed, 0);
                 // Note: this is changing velocity
-            }
         }
 
         if (Input.GetKey(KeyCode.W)) {
@@ -44,6 +40,7 @@ public class HeroMovement : MonoBehaviour
         }
 
     }
+    /*
 
     void OnCollisionEnter2D(Collision2D other) {
         // Note: the Hero's Collider.isTriggered is OFF
@@ -70,4 +67,5 @@ public class HeroMovement : MonoBehaviour
     void OnTriggerExit2D(Collider2D other) {
         Debug.Log("Hero TriggerExit:" + other.gameObject.name);
     }
+    */
 }
