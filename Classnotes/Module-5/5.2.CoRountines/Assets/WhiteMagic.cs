@@ -7,80 +7,95 @@ using UnityEngine;
 public class WhiteMagic : MonoBehaviour
 {
     [SerializeField, Range(0.05f, 1f)] public float ChangeRate = 0.5f;
+
     private const string kHeroName = "Hero - Green";
-    // Assuming to be on the White object
-    private Coroutine mHeroChanging = null;  // to signify that hero is currently undergoing color changes
-    private Color[] mHeroColors = { new Color(1f, 0f, 0f, 1f), 
-                                    new Color(1f, 1f, 0f, 1f),
-                                    new Color(1f, 1f, 1f, 1f),
-                                    new Color(0f, 1f, 1f, 1f),
-                                    new Color(0f, 0f, 1f, 1f),
-                                    new Color(0f, 0f, 0f, 1f),
-                                    new Color(0.2f, 0.94f, 0.34f, 1.0f)};
+    
+    private Coroutine mColorChanging = null;  // to signify that hero is currently undergoing color changes
+    private Color[] mColorSequence = { 
+                            new Color(1f, 0f, 0f, 1f), 
+                            new Color(1f, 1f, 0f, 1f),
+                            new Color(0.8f, 0.8f, 0.8f, 1f),
+                            new Color(0f, 1f, 1f, 1f),
+                            new Color(0f, 0f, 1f, 1f),
+                            new Color(0f, 0f, 0f, 1f),
+                            new Color(1f, 1f, 1f, 1.0f)};
 
     // Start is called before the first frame update
     void Start()
     {
-        // Properly initialize hero color
-        GameObject.Find(kHeroName).GetComponent<SpriteRenderer>().color = mHeroColors[mHeroColors.Length-1];
+        // initialize color
+        GetComponent<SpriteRenderer>().color = mColorSequence[mColorSequence.Length-1];
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Alpha0)) {
-            GameObject.Find(kHeroName).GetComponent<SpriteRenderer>().color = mHeroColors[0];
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2)) {
-            GameObject.Find(kHeroName).GetComponent<SpriteRenderer>().color = mHeroColors[2];
-        }
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("WhiteMagic TriggerEnter:" + other.gameObject.name);
-        if (other.gameObject.name == kHeroName) {
-            // check to make sure if CoRoutine already running
-            if (mHeroChanging != null) 
-                ColorChangeDone(other.gameObject); // stop the current running
-
-            mHeroChanging = StartCoroutine(HeroColorChange(other.gameObject)); 
-        }
+        Debug.Log("WhiteMagic TriggerEnter: " + other.gameObject.name);
+        EnterColorChangeMode(other.gameObject);
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        Debug.Log("WhiteMagic TriggerExit:" + other.gameObject.name);
-        if (other.gameObject.name == kHeroName) {
+        Debug.Log("WhiteMagic TriggerExit: " + other.gameObject.name);
+        ExitColorChangeMode();
+    }
+
+    private void EnterColorChangeMode(GameObject hero) {
+        if (hero.name == kHeroName) {  // only enter if collide with hero
             // make sure to clean up coroutine ...
-            if (mHeroChanging != null) 
-                ColorChangeDone(other.gameObject);
+            if (mColorChanging != null) 
+                ExitColorChangeMode();
+
+            IEnumerator rightFunc = ColorChangeFromRight(); // To show: variable of function pointer type
+            if (hero.transform.localPosition.x > transform.localPosition.x)  // assume coming from the right
+                mColorChanging = StartCoroutine(rightFunc);
+            else
+                mColorChanging = StartCoroutine(ColorChangeFromLeft());
+        }
+    }
+
+    private void ExitColorChangeMode() {
+        if (mColorChanging != null) {
+            StopCoroutine(mColorChanging);
+                    // Also, check out StopAllCoroutines();
+            mColorChanging = null;
+            GetComponent<SpriteRenderer>().color = mColorSequence[mColorSequence.Length-1];
         }
     }
 
     // === Support for coroutine
-    private IEnumerator HeroColorChange(GameObject hero) {
+    private IEnumerator ColorChangeFromLeft() {
         int count = 0;
-        while (count < mHeroColors.Length) {
-            hero.GetComponent<SpriteRenderer>().color = mHeroColors[count];
+        while (count < mColorSequence.Length) {
+            GetComponent<SpriteRenderer>().color = mColorSequence[count];
             yield return new WaitForSeconds(ChangeRate);
                 // alternate: to be called again immediately at next frame
                 //    yield return null; 
             // <-- Next invocation will begin here 
-            Debug.Log("CoRoutine: start again count=" + count + " Color=" + hero.GetComponent<Renderer>().material.color);
-            count += 1;
+            Debug.Log("Left CoRoutine: start again count=" + count + " Color=" + GetComponent<SpriteRenderer>().color);
+            count++;
         }
-        ColorChangeDone(hero);
+        ExitColorChangeMode();
     }
 
-    void ColorChangeDone(GameObject hero) {
-        if (mHeroChanging != null) {
-            StopCoroutine(mHeroChanging);
-                    // Also, check out StopAllCoroutines();
-            mHeroChanging = null;
-            hero.GetComponent<SpriteRenderer>().color = mHeroColors[mHeroColors.Length-1];
+    private IEnumerator ColorChangeFromRight() {
+        int count = 0;
+        while (count < mColorSequence.Length) {
+            if (count%2 == 0)
+                GetComponent<SpriteRenderer>().color = Color.yellow;
+            else 
+                GetComponent<SpriteRenderer>().color = Color.magenta;
+            
+            yield return new WaitForSeconds(ChangeRate);
+                // alternate: to be called again immediately at next frame
+                //    yield return null; 
+            // <-- Next invocation will begin here 
+            Debug.Log("Right CoRoutine: start again count=" + count + " Color=" + GetComponent<SpriteRenderer>().color);
+            count++;
         }
+        ExitColorChangeMode();
     }
-
 
 }
