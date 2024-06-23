@@ -29,7 +29,7 @@ public class HeroControl : MonoBehaviour {
         mTheCamera.PushCameraByPos(transform.position, WorldBoundRegion);
 
         // testing the intersection
-        CameraSupport.WorldBoundStatus status = mTheCamera.CollideWorldBound(GetComponent<Renderer>().bounds, WorldBoundRegion);
+        CameraSupport.WorldBoundStatus status = mTheCamera.CollideWorldBound(GetComponent<SpriteRenderer>().bounds, WorldBoundRegion);
         // Debug.Log("Hero Collision=" + status);
         #endregion
 

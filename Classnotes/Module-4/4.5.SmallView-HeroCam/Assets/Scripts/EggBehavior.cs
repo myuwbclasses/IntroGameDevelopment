@@ -16,7 +16,7 @@ public class EggBehavior : MonoBehaviour
     void Update()
     {
         CameraSupport.WorldBoundStatus status = 
-                mTheCamera.CollideWorldBound(GetComponent<Renderer>().bounds, WorldRegion);
+                mTheCamera.CollideWorldBound(GetComponent<SpriteRenderer>().bounds, WorldRegion);
         // Debug.Log("BoundCollisionStatus = " + status);
 
         if (status != CameraSupport.WorldBoundStatus.Inside)

@@ -1350,9 +1350,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1699387612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d97025df5f194224e86eb8d02f634b18, type: 3}
+  m_Script: {fileID: 11500000, guid: 48530775f4c19454590385db6c2e524a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mTheCamera: {fileID: 692051648}
+  WorldRegion: 0.7
 --- !u!212 &1699387614
 SpriteRenderer:
   m_ObjectHideFlags: 0
