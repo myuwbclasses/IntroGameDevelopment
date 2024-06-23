@@ -16,7 +16,7 @@ public class GreenArrowBehavior : MonoBehaviour
     void Start()
     {
         Debug.Assert(mTheCamera != null); // must be set in the editor before starting the game!
-        GetComponent<Renderer>().material.color = mMouseColor;
+        GetComponent<SpriteRenderer>().color = mMouseColor;
     }
 
     // Update is called once per frame
@@ -28,9 +28,9 @@ public class GreenArrowBehavior : MonoBehaviour
             mFollowMousePosition = !mFollowMousePosition;
             Debug.Log("Current control mode Mouse=" + mFollowMousePosition);
             if (mFollowMousePosition)
-                GetComponent<Renderer>().material.color = mMouseColor;
+                GetComponent<SpriteRenderer>().color = mMouseColor;
             else
-                GetComponent<Renderer>().material.color = Color.white;
+                GetComponent<SpriteRenderer>().color = Color.white;
         }
 
         if (mFollowMousePosition)
