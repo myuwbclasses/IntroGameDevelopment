@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e970005725ed5d4a91c872cbd6c446a, type: 3}
+  m_Name: RedBlock
+  m_EditorClassIdentifier: 
+  mInitColor: {r: 1, g: 0, b: 0, a: 1}
+  mColorSequence:
+  - {r: 0.9056604, g: 0, b: 0, a: 1}
+  - {r: 0.8584906, g: 0, b: 0, a: 1}
+  - {r: 0.7783019, g: 0, b: 0, a: 1}
+  - {r: 0.6650944, g: 0, b: 0, a: 1}
+  - {r: 0.621, g: 0, b: 0, a: 1}
+  - {r: 0.481, g: 0, b: 0, a: 1}
+  - {r: 0.397, g: 0, b: 0, a: 1}
+  mColorBlink:
+  - {r: 0.03182125, g: 0, b: 1, a: 1}
+  - {r: 0.11113831, g: 0.8726415, b: 0.15325743, a: 1}
