@@ -20,7 +20,7 @@ public class ShakePosition
     public void SetShakeParameters(float frequency, float durationInSections)
     {
         mDuration = durationInSections;
-        mOmega = frequency * 2 * Mathf.PI;
+        mOmega = frequency * 2f * Mathf.PI;
     }
     public void SetShakeMagnitude(Vector2 magnitude, Vector3 OrgPos) {
         mOrgPos = OrgPos;
@@ -49,7 +49,7 @@ public class ShakePosition
     {
         // computes (Cycles) * cos(  Omega * t )
         var frac = mSecLeft / mDuration;
-        return frac * frac * Mathf.Cos((1 - frac) * this.mOmega);
+        return frac * frac * Mathf.Cos((mDuration - mSecLeft) * this.mOmega);
     }
     
 }
