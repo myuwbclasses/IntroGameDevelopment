@@ -14,17 +14,17 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <o:DocumentProperties>
   <o:Author>Kelvin Sung</o:Author>
   <o:LastAuthor>Kelvin Sung</o:LastAuthor>
-  <o:Revision>296</o:Revision>
-  <o:TotalTime>6037</o:TotalTime>
+  <o:Revision>297</o:Revision>
+  <o:TotalTime>6050</o:TotalTime>
   <o:Created>2019-09-23T01:45:00Z</o:Created>
-  <o:LastSaved>2025-03-07T08:44:00Z</o:LastSaved>
+  <o:LastSaved>2025-03-07T08:57:00Z</o:LastSaved>
   <o:Pages>5</o:Pages>
-  <o:Words>1277</o:Words>
-  <o:Characters>7280</o:Characters>
+  <o:Words>1284</o:Words>
+  <o:Characters>7321</o:Characters>
   <o:Company>UWB</o:Company>
-  <o:Lines>60</o:Lines>
+  <o:Lines>61</o:Lines>
   <o:Paragraphs>17</o:Paragraphs>
-  <o:CharactersWithSpaces>8540</o:CharactersWithSpaces>
+  <o:CharactersWithSpaces>8588</o:CharactersWithSpaces>
   <o:Version>16.00</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
@@ -37,8 +37,6 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <w:WordDocument>
   <w:View>Print</w:View>
   <w:Zoom>170</w:Zoom>
-  <w:SpellingState>Clean</w:SpellingState>
-  <w:GrammarState>Clean</w:GrammarState>
   <w:TrackMoves>false</w:TrackMoves>
   <w:TrackFormatting/>
   <w:ValidateAgainstSchemas/>
@@ -52,6 +50,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
   <w:Compatibility>
    <w:BreakWrappedTables/>
    <w:SplitPgBreakAndParaMark/>
+   <w:UseFELayout/>
   </w:Compatibility>
   <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
   <m:mathPr>
@@ -658,6 +657,14 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:0 268435456 0 0 -2147483648 0;}
 @font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-alt:\5B8B\4F53;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:515 680460288 22 0 262145 0;}
+@font-face
 	{font-family:"Cambria Math";
 	panose-1:2 4 5 3 5 4 6 3 2 4;
 	mso-font-charset:0;
@@ -671,6 +678,13 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-generic-font-family:swiss;
 	mso-font-pitch:variable;
 	mso-font-signature:-469750017 -1073732485 9 0 511 0;}
+@font-face
+	{font-family:"\@SimSun";
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:515 680460288 22 0 262145 0;}
  /* Style Definitions */
  p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{mso-style-unhide:no;
@@ -856,18 +870,13 @@ p.msonormal0, li.msonormal0, div.msonormal0
 	font-family:"Times New Roman",serif;
 	mso-fareast-font-family:"Times New Roman";
 	mso-fareast-theme-font:minor-fareast;}
-span.SpellE
-	{mso-style-name:"";
-	mso-spl-e:yes;}
-span.GramE
-	{mso-style-name:"";
-	mso-gram-e:yes;}
 .MsoChpDefault
 	{mso-style-type:export-only;
 	mso-default-props:yes;
 	font-size:10.0pt;
 	mso-ansi-font-size:10.0pt;
 	mso-bidi-font-size:10.0pt;
+	mso-fareast-font-family:SimSun;
 	mso-font-kerning:0pt;
 	mso-ligatures:none;}
 @page WordSection1
@@ -1103,7 +1112,7 @@ Symbol'><span style='mso-list:Ignore'>&middot;<span style='font:7.0pt "Times New
 mso-ascii-theme-font:minor-fareast;mso-fareast-font-family:"Times New Roman";
 mso-hansi-font-family:"Times New Roman";mso-hansi-theme-font:minor-fareast;
 mso-bidi-font-family:"Times New Roman";mso-bidi-theme-font:minor-fareast'>Platformer
-support: RigidBody2<span class=GramE>D::</span>Dynamic<o:p></o:p></span></p>
+support: RigidBody2D::Dynamic<o:p></o:p></span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l0 level1 lfo2'><![if !supportLists]><span
 style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
@@ -1170,13 +1179,13 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><b style='mso-bidi-font-weight:
         normal'><span style='color:red'>Watch out</span></b> can move right
-        movement is only possible on the T<span class=SpellE>hePlatform</span>
-        (upper Brown platform) or in the air</li>
+        movement is only possible on the ThePlatform (upper Brown platform) or
+        in the air</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'><b
          style='mso-bidi-font-weight:normal'><span style='color:red'>CANNOT </span></b>move
-         right on <span class=SpellE>TheFloor</span> (Black platform)</li>
+         right on TheFloor (Black platform)</li>
     </ul>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>This is awkward to
@@ -1196,9 +1205,8 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
        &#8220;Trigger&#8221;!!</li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=GramE>Brown(</span><span
-        class=SpellE>ThePlatform</span>)/Black(<span class=SpellE>TheFloor</span>)/Orange(<span
-        class=SpellE>StationaryObsticle</span>): Simple platforms </li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Brown(ThePlatform)/Black(TheFloor)/Orange(StationaryObsticle):
+        Simple platforms </li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>White
         (Collide-And-Overlap): Only detects collision (allows overlap)</li>
@@ -1220,9 +1228,8 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
         collision detection)</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'><span class=SpellE>IsTrigger</span>:
-         is off, which means this is NOT just for detecting collision, it is
-         more</li>
+         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>IsTrigger: is off,
+         which means this is NOT just for detecting collision, it is more</li>
      <ul type=square>
       <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
           auto;mso-list:l1 level6 lfo5;tab-stops:list 3.0in'>Try: switch on
@@ -1235,7 +1242,7 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>RigidBody2D: this
         object is the <i style='mso-bidi-font-style:normal'>active </i>party in
-        collisions, this object <span class=GramE>collide</span> with others</li>
+        collisions, this object collide with others</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Type: Dynamic
@@ -1245,7 +1252,7 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
          rotation in Z (object will _not_ rotate as a result of collision)</li>
     </ul>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE>HeroMovement</span>:
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>HeroMovement:
         script, refer to the following</li>
    </ul>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
@@ -1270,8 +1277,8 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>BoxCollider2D:</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'><span class=SpellE>IsTrigger</span>:
-         set to <span class=GramE>On</span> (only for detecting collision)</li>
+         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>IsTrigger: set to
+         On (only for detecting collision)</li>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>That&#8217;s why
          Hero can detect when colliding with this object and can overlap</li>
@@ -1285,8 +1292,7 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>BoxCollider2D: </li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'><span class=SpellE>isTrigger</span>:
-         Off</li>
+         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>isTrigger: Off</li>
     </ul>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>RigidBody2D: </li>
@@ -1309,21 +1315,15 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
    </ul>
   </ul>
   <li class=MsoNormal style='color:black;mso-list:l1 level2 lfo5;tab-stops:
-      list 1.0in'><span class=GramE><b><span style='mso-fareast-font-family:
-      "Times New Roman"'>Scripts::</span></b></span><span class=SpellE><b><span
-      style='mso-fareast-font-family:"Times New Roman"'>HeroMovement</span></b></span><span
+      list 1.0in'><b><span style='mso-fareast-font-family:"Times New Roman"'>Scripts::HeroMovement</span></b><span
       style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></li>
   <ul style='margin-top:0in' type=square>
+   <li class=MsoNormal style='mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>mHeroPhysics:
+       is reference to the RigidBody2D component</li>
+   <li class=MsoNormal style='mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>SerializeField:
+       Notice this keyword, allow private datatype access from the editor </li>
    <li class=MsoNormal style='mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span
-       class=SpellE>mHeroPhysics</span>: is reference to the RigidBody2D
-       component</li>
-   <li class=MsoNormal style='mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span
-       class=SpellE>SerializeField</span>: Notice this keyword, allow private
-       datatype access from the editor </li>
-   <li class=MsoNormal style='mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span
-       class=GramE><span style='mso-fareast-font-family:"Times New Roman";
-       color:black'>Update(</span></span><span style='mso-fareast-font-family:
-       "Times New Roman";color:black'>):</span></li>
+       style='mso-fareast-font-family:"Times New Roman";color:black'>Update():</span></li>
    <ul style='margin-top:0in' type=square>
     <li class=MsoNormal style='mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>A/W
         keys: tries to change position direction</li>
@@ -1339,15 +1339,16 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
         changing the traveling velocity (goes back to zero because of gravity)</li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>D: only allows
-        right-ward movement when touching the Brown platform</li>
+        right-ward movement when touching the Brown platform<span
+        style='mso-fareast-font-family:SimSun'> or not touching anything (in
+        the Default layer)</span></li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE>OnCollision</span>:
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>OnCollision:
         Enter/Stay/Exit</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Collision with
-         objects with <span class=SpellE>Colliders&#8217;s</span> <span
-         class=SpellE>IsTrigger</span> set to OFF</li>
+         objects with Colliders&#8217;s IsTrigger set to OFF</li>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Default: Collide
          and stay (e.g., standing on platform) unless</li>
@@ -1356,7 +1357,7 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
          has RigidBody2D, and type is Dynamic</li>
     </ul>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE>OnTrigger</span>:
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>OnTrigger:
         Enter/Stay/Exit</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
@@ -1372,12 +1373,11 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
        auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span
        style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-weight:
-       bold'>How to for a platformer with Collider2D and <span class=SpellE>RigidBody</span></span></li>
+       bold'>How to for a platformer with Collider2D and RigidBody</span></li>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
        auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span
        style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-weight:
-       bold'>Collider2<span class=GramE>D::</span><span class=SpellE>IsTrigger</span>:
-       </span></li>
+       bold'>Collider2D::IsTrigger: </span></li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span
@@ -1386,13 +1386,13 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span
         style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-weight:
-        bold'>Off: will trigger and with <span class=SpellE><span class=GramE>RigidBody</span></span><span
-        class=GramE>::</span>Dynamic-type, will push the object</span></li>
+        bold'>Off: will trigger and with RigidBody::Dynamic-type, will push the
+        object</span></li>
    </ul>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span class=SpellE><span
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span
        style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-weight:
-       bold'>RigidBody</span></span></li>
+       bold'>RigidBody</span></li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span
@@ -1454,36 +1454,33 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
         RigidBody2D (not able to be actively colliding with another object)</li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Does have a
-        Collider2D with <span class=SpellE>IsTrigger</span> set to On</li>
+        Collider2D with IsTrigger set to On</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Can report on
-         collision (by <span class=SpellE>OnTrigger</span>-functions) </li>
+         collision (by OnTrigger-functions) </li>
     </ul>
    </ul>
   </ul>
   <li class=MsoNormal style='color:black;mso-list:l1 level2 lfo5;tab-stops:
-      list 1.0in'><span class=GramE><b><span style='mso-fareast-font-family:
-      "Times New Roman"'>Scripts::</span></b></span><span class=SpellE><b><span
-      style='mso-fareast-font-family:"Times New Roman"'>WhiteMagic</span></b></span><b><span
-      style='mso-fareast-font-family:"Times New Roman"'> </span></b><span
-      style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-weight:
-      bold'>on the White block</span><span style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></li>
+      list 1.0in'><b><span style='mso-fareast-font-family:"Times New Roman"'>Scripts::WhiteMagic
+      </span></b><span style='mso-fareast-font-family:"Times New Roman";
+      mso-bidi-font-weight:bold'>on the White block</span><span
+      style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></li>
   <ul type=square>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span class=SpellE>mColorChanging</span>:
-       data type is <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>mColorChanging: data
+       type is <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
        normal'>Coroutine </i></b>when not null, means White cube in color
        changing mode</li>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span class=SpellE>OnTriggerEnger</span>:
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>OnTriggerEnger:
        attempt to go into color changing mode</li>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span class=SpellE>OnTriggerExist</span>:
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>OnTriggerExist:
        attempt to exit from color changing mode</li>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span class=SpellE>ColorChangeFromLeft</span>/<span
-       class=GramE>Right(</span>)</li>
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>ColorChangeFromLeft/Right()</li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Note the <b
@@ -1495,30 +1492,25 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
         where the function will yield execution until later</li>
    </ul>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span class=SpellE><span
-       class=GramE>EnterColorChageMode</span></span><span class=GramE>(</span>)</li>
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>EnterColorChageMode()</li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE>rightFunc</span>:
-        data type is <span class=SpellE><b style='mso-bidi-font-weight:normal'><i
-        style='mso-bidi-font-style:normal'>IEnumerator</i></b></span><b
-        style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>
-        </i></b>capable of holding the address of a function</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>rightFunc: data type
+        is <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+        normal'>IEnumerator </i></b>capable of holding the address of a
+        function</li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Calls <span
-        class=SpellE><span class=GramE>StarCorotuine</span></span><span
-        class=GramE>(</span>) to star either the left or the right color
-        changing mode</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Calls
+        StarCorotuine() to star either the left or the right color changing
+        mode</li>
    </ul>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span class=SpellE><span
-       class=GramE>ExitColorChangeMode</span></span><span class=GramE>(</span>)</li>
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>ExitColorChangeMode()</li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Note: <span
-        class=SpellE><span class=GramE>StopCoroutine</span></span><span
-        class=GramE>(</span><i style='mso-bidi-font-style:normal'>argument of <b
-        style='mso-bidi-font-weight:normal'>Coroutine</b> data type</i>)</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Note: StopCoroutine(<i
+        style='mso-bidi-font-style:normal'>argument of <b style='mso-bidi-font-weight:
+        normal'>Coroutine</b> data type</i>)</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Meaning, you can
@@ -1526,8 +1518,7 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
          and you can select specific one to stop</li>
     </ul>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE><span
-        class=GramE>StopAllCorotuines</span></span><span class=GramE>(</span>):
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>StopAllCorotuines():
         will stop every single coroutine </li>
    </ul>
   </ul>
@@ -1541,9 +1532,9 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
        auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'><span
        style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-weight:
        bold'>Coroutine is run <b><i style='mso-bidi-font-style:normal'>synchronously
-       </i></b>(e.g.<span class=GramE>, <b><i style='mso-bidi-font-style:normal'><span
-       style='mso-spacerun:yes'>&nbsp;</span></i></b>at</span> the end of the
-       Update() calls of all exponents)</span></li>
+       </i></b>(e.g., <b><i style='mso-bidi-font-style:normal'><span
+       style='mso-spacerun:yes'>&nbsp;</span></i></b>at the end of the Update()
+       calls of all exponents)</span></li>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
        auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>This is powerful and
        can be confusing, and very importantly is VERY challenging to debug!</li>
@@ -1610,40 +1601,36 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>A Sprite: Egg</li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE>ColorBlocks</span>-folder:
-        Three <span class=SpellE>ColorBlock</span> (these are <span
-        class=SpellE>ScriptableObject</span> to be discussed)</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>ColorBlocks-folder:
+        Three ColorBlock (these are ScriptableObject to be discussed)</li>
    </ul>
   </ul>
   <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;mso-list:l1 level2 lfo5;tab-stops:list 1.0in'><span class=SpellE><b
-      style='mso-bidi-font-weight:normal'>ScriptableObject</b></span><b
-      style='mso-bidi-font-weight:normal'>/<span class=SpellE>ColorsForBlock</span></b></li>
+      auto;mso-list:l1 level2 lfo5;tab-stops:list 1.0in'><b style='mso-bidi-font-weight:
+      normal'>ScriptableObject/ColorsForBlock</b></li>
   <ul type=square>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>Think: <span
-       class=SpellE><b style='mso-bidi-font-weight:normal'>MonoBehavior</b></span><b
-       style='mso-bidi-font-weight:normal'> </b>is for modifying behaviors,
-       then, <span class=SpellE><b style='mso-bidi-font-weight:normal'>ScriptableObject</b></span>
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>Think: <b
+       style='mso-bidi-font-weight:normal'>MonoBehavior </b>is for modifying
+       behaviors, then, <b style='mso-bidi-font-weight:normal'>ScriptableObject</b>
        is for providing data to the behavior</li>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
        auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>How it works: Refer
-       to <span class=SpellE><b style='mso-bidi-font-weight:normal'>ColorsForBlocks</b>.cs</span></li>
+       to <b style='mso-bidi-font-weight:normal'>ColorsForBlocks</b>.cs</li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Create a new C#
-        class, subclass from <span class=SpellE>ScriptableObject</span></li>
+        class, subclass from ScriptableObject</li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Take note of: [<span
-        class=SpellE><span class=GramE>CreateAssetMenu</span></span><span
-        class=GramE>(</span>) ]</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Take note of:
+        [CreateAssetMenu() ]</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'><span class=SpellE>fileName</span>:
-         default file name</li>
+         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>fileName: default
+         file name</li>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'><span class=SpellE>menuName</span>:
-         what shows in create</li>
+         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>menuName: what
+         shows in create</li>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'><b
          style='mso-bidi-font-weight:normal'>WARNING</b>: if you change the
@@ -1653,7 +1640,7 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Now, you can code
         any data you want to provide, in this case, defining the colors for the
-        <span class=SpellE>WhiteMagic</span> behavior from previous example</li>
+        WhiteMagic behavior from previous example</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Notice, only
@@ -1668,78 +1655,71 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Now, in the Asset folder,
-        you can create an instance of <span class=SpellE>ColorsForBlock</span>!!
-        (RMB: Right-Mouse-Button)</li>
+        you can create an instance of ColorsForBlock!! (RMB:
+        Right-Mouse-Button)</li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Think: <span
-        class=SpellE>ColorsForBlock</span> is like a Sprite</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Think:
+        ColorsForBlock is like a Sprite</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Egg: You create a
          new Sprite (by dragging in an image), rename the Sprite to Egg</li>
      <ul type=square>
       <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-          auto;mso-list:l1 level6 lfo5;tab-stops:list 3.0in'><span
-          class=SpellE>RedBlock</span>: You create a new <span class=SpellE>ColorsForBlock</span>
-          by RMB and rename the created</li>
+          auto;mso-list:l1 level6 lfo5;tab-stops:list 3.0in'>RedBlock: You
+          create a new ColorsForBlock by RMB and rename the created</li>
      </ul>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Egg: drag to any <span
-         class=GramE>GameObject::</span><span class=SpellE>SpriteRenderer</span>
-         to provide the look of a new object</li>
+         auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Egg: drag to any
+         GameObject::SpriteRenderer to provide the look of a new object</li>
      <ul type=square>
       <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-          auto;mso-list:l1 level6 lfo5;tab-stops:list 3.0in'><span
-          class=SpellE>RedBlock</span>: drag to any <span class=SpellE>ColorBlock</span>
-          to provide the colors for block color-changing</li>
+          auto;mso-list:l1 level6 lfo5;tab-stops:list 3.0in'>RedBlock: drag to
+          any ColorBlock to provide the colors for block color-changing</li>
      </ul>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>Egg: if you change
-         the image, ALL <span class=SpellE>gameobject</span> refer to Egg will
-         change appearance</li>
+         the image, ALL gameobject refer to Egg will change appearance</li>
      <ul type=square>
       <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-          auto;mso-list:l1 level6 lfo5;tab-stops:list 3.0in'><span
-          class=SpellE>RedBlock</span>: if you change the colors in <span
-          class=SpellE>RedBlock</span>, ALL <span class=SpellE>ColorBlock</span>
-          referring to <span class=SpellE>RedBlock</span> will have different
-          colors!</li>
+          auto;mso-list:l1 level6 lfo5;tab-stops:list 3.0in'>RedBlock: if you
+          change the colors in RedBlock, ALL ColorBlock referring to RedBlock
+          will have different colors!</li>
      </ul>
     </ul>
    </ul>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>The three Resources/<span
-       class=SpellE>ColorBlocks</span> are three instances of <span
-       class=SpellE>ColorsForBlocks</span> with modified color values</li>
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>The three
+       Resources/ColorBlocks are three instances of ColorsForBlocks with
+       modified color values</li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>These are data for <span
-        class=SpellE>ColorBlock</span>-script</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>These are data for
+        ColorBlock-script</li>
    </ul>
   </ul>
   <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;mso-list:l1 level2 lfo5;tab-stops:list 1.0in'><span class=GramE><b
-      style='mso-bidi-font-weight:normal'>Scripts::</b></span><span
-      class=SpellE><b style='mso-bidi-font-weight:normal'>ColorBlock</b>.cs</span></li>
+      auto;mso-list:l1 level2 lfo5;tab-stops:list 1.0in'><b style='mso-bidi-font-weight:
+      normal'>Scripts::ColorBlock</b>.cs</li>
   <ul type=square>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>This was the <span
-       class=SpellE>WhiteMagic.cs</span> script, instead of defining the color
-       data in code, now, it has a reference to the <span class=SpellE><b
-       style='mso-bidi-font-weight:normal'>ColorsForBlocks</b></span>, so, </li>
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>This was the
+       WhiteMagic.cs script, instead of defining the color data in code, now,
+       it has a reference to the <b style='mso-bidi-font-weight:normal'>ColorsForBlocks</b>,
+       so, </li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE>ColorBlock</span>:
-        defines the behavior without the actual color data</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>ColorBlock: defines
+        the behavior without the actual color data</li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE>ColorsForBlocks</span>:
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>ColorsForBlocks:
         defines the data</li>
    </ul>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
        auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>Think:</li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE>SpriteRenderer</span>:
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>SpriteRenderer:
         defines how to show an image on a GameObject without the actual image</li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
         auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>Sprite: defines the
@@ -1749,17 +1729,14 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
        auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>Notice: </li>
    <ul type=square>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'><span class=SpellE>BlackBlock</span>
-        vs <span class=SpellE>WhiteBlock</span> vs <span class=SpellE>RedBlock</span>:
-        they have very different colors defined</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>BlackBlock vs
+        WhiteBlock vs RedBlock: they have very different colors defined</li>
     <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>The <span
-        class=SpellE>ColorBlock</span>-White/<span class=SpellE>ColorBlock</span>-Red/<span
-        class=SpellE>ColorBlock</span>-Black: these objects all have the same <span
-        class=SpellE>ColorBlock</span> component, but the components are with
-        different <span class=SpellE>ColorsForBlocks</span>, so, these <span
-        class=SpellE>gameObjects</span> have the same behavior but different
-        data.</li>
+        auto;mso-list:l1 level4 lfo5;tab-stops:list 2.0in'>The
+        ColorBlock-White/ColorBlock-Red/ColorBlock-Black: these objects all
+        have the same ColorBlock component, but the components are with
+        different ColorsForBlocks, so, these gameObjects have the same behavior
+        but different data.</li>
     <ul type=square>
      <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
          auto;mso-list:l1 level5 lfo5;tab-stops:list 2.5in'>They all blinks,
@@ -1768,23 +1745,22 @@ mso-padding-alt:0in 0in 1.0pt 0in'><span style='mso-fareast-font-family:"Times N
    </ul>
   </ul>
   <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;mso-list:l1 level2 lfo5;tab-stops:list 1.0in'><span class=GramE><b
-      style='mso-bidi-font-weight:normal'>Scripts::</b></span><span
-      class=SpellE><b style='mso-bidi-font-weight:normal'>DynamicBlock</b>.cs</span></li>
+      auto;mso-list:l1 level2 lfo5;tab-stops:list 1.0in'><b style='mso-bidi-font-weight:
+      normal'>Scripts::DynamicBlock</b>.cs</li>
   <ul type=square>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
        auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>Shows/Verifies: how
-       to create a <span class=SpellE>ColorBlock</span> from scratch</li>
+       to create a ColorBlock from scratch</li>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>The Pink/<span
-       class=SpellE>Organge</span>: blocks have this component</li>
+       auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>The Pink/Organge:
+       blocks have this component</li>
   </ul>
   <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
       auto;mso-list:l1 level2 lfo5;tab-stops:list 1.0in'>References:</li>
   <ul type=square>
    <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
        auto;mso-list:l1 level3 lfo5;tab-stops:list 1.5in'>Overview on the ideas
-       behind <span class=SpellE>ScriptableObjects</span>: <a
+       behind ScriptableObjects: <a
        href="https://www.youtube.com/watch?v=PVOVIxNxxeQ">https://www.youtube.com/watch?v=PVOVIxNxxeQ</a><span
        style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></li>
   </ul>
