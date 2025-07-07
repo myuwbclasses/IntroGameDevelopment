@@ -27,7 +27,7 @@ public class HeroMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.D)) {
             Collider2D other = GameObject.Find("ThePlatform - Brown").GetComponent<Collider2D>();
             if (mHeroPhysics.IsTouching(other) ||  // right movement can only occur on platform
-               (!mHeroPhysics.IsTouchingLayers(LayerMask.NameToLayer("Default")) ) // or not touching any objects in the Default layer 
+               (!mHeroPhysics.IsTouchingLayers(1<<LayerMask.NameToLayer("Default")) ) // or not touching any objects in the Default layer 
             ) { 
                 Debug.Log("Hero is touching: " + other.gameObject + " or nothing");
                 mHeroPhysics.velocity = new Vector2(mSpeed, 0);
