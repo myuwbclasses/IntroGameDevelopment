@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GreenArrowBehavior : MonoBehaviour
 {
@@ -24,7 +23,7 @@ public class GreenArrowBehavior : MonoBehaviour
     {
         Vector3 p = transform.localPosition;
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Keyboard.current.spaceKey.wasPressedThisFrame) {
             mFollowMousePosition = !mFollowMousePosition;
             Debug.Log("Current control mode Mouse=" + mFollowMousePosition);
             if (mFollowMousePosition)
@@ -35,25 +34,25 @@ public class GreenArrowBehavior : MonoBehaviour
 
         if (mFollowMousePosition)
         {
-            p = mTheCamera.ScreenToWorldPoint(Input.mousePosition);
+            p = mTheCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             // Alternates:
-            //     p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //     p = GameObject.Find("Main Camera").GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+            //     p = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            //     p = GameObject.Find("Main Camera").GetComponent<Camera>().ScreenToWorldPoint(Mouse.current.position.ReadValue());
             p.z = 0f;  // <-- this is VERY IMPORTANT!
-            // Debug.Log("Screen Point:" + Input.mousePosition + "  World Point:" + p);
+            // Debug.Log("Screen Point:" + Mouse.current.position.ReadValue() + "  World Point:" + p);
         }
         else
         {
-            if (Input.GetKey(KeyCode.W))
+            if (Keyboard.current.wKey.isPressed)
                 p += ((mHeroSpeed* Time.smoothDeltaTime) * transform.up);
 
-             if (Input.GetKey(KeyCode.S))
+             if (Keyboard.current.sKey.isPressed)
                 p -= ((mHeroSpeed * Time.smoothDeltaTime) * transform.up);
 
-            if (Input.GetKey(KeyCode.A))
+            if (Keyboard.current.aKey.isPressed)
                 transform.Rotate(transform.forward,  mHeroRotateSpeed * Time.smoothDeltaTime);
 
-            if (Input.GetKey(KeyCode.D))
+            if (Keyboard.current.dKey.isPressed)
                 transform.Rotate(transform.forward, -mHeroRotateSpeed * Time.smoothDeltaTime);
         }
 
