@@ -236,6 +236,34 @@ PrefabInstance:
       propertyPath: m_Navigation.m_Mode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2902935808785266278, guid: 2599fd83b75c06344a56481f527c71c1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2902935808785266278, guid: 2599fd83b75c06344a56481f527c71c1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2902935808785266278, guid: 2599fd83b75c06344a56481f527c71c1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1528726903}
+    - target: {fileID: 2902935808785266278, guid: 2599fd83b75c06344a56481f527c71c1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2902935808785266278, guid: 2599fd83b75c06344a56481f527c71c1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangteRate
+      objectReference: {fileID: 0}
+    - target: {fileID: 2902935808785266278, guid: 2599fd83b75c06344a56481f527c71c1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GreenArrowBehavior, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2902935808785266278, guid: 2599fd83b75c06344a56481f527c71c1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2902935809215842979, guid: 2599fd83b75c06344a56481f527c71c1, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

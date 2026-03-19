@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RestState : StateMachineBehaviour
 {
@@ -13,10 +12,10 @@ public class RestState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Keyboard.current.iKey.wasPressedThisFrame)
             animator.SetBool("Begin", true);    
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Keyboard.current.dKey.wasPressedThisFrame)
             animator.SetBool("Dec", true);    
         
     }

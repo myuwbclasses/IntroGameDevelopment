@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HerControl : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class HerControl : MonoBehaviour
     void Update()
     {
         // I-key toggles idle
-        if (Input.GetKeyDown(KeyCode.I)) {
+        if (Keyboard.current.iKey.wasPressedThisFrame) {
             Animator a = GetComponent<Animator>();
             bool idle = a.GetBool("Idle");
             if (idle) // currently in idle?

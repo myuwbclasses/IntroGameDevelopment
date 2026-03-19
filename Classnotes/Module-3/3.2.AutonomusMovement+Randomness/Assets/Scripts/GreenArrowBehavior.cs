@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GreenArrowBehavior : MonoBehaviour
 {
@@ -24,7 +23,7 @@ public class GreenArrowBehavior : MonoBehaviour
 
         CheckTargetPosition();
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Keyboard.current.hKey.wasPressedThisFrame)
         {
             mTarget.SetActive(!mTarget.activeSelf);
         }

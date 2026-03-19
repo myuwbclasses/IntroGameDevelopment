@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.InputSystem;
 
 public class HeroKnight : MonoBehaviour {
 
@@ -68,7 +68,11 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // -- Handle input and movement --
-        float inputX = Input.GetAxis("Horizontal");
+        float inputX = 0f;
+        if ((Keyboard.current.dKey.isPressed) || (Keyboard.current.rightArrowKey.isPressed))
+            inputX = 1f;
+        else if ((Keyboard.current.aKey.isPressed) || (Keyboard.current.leftArrowKey.isPressed))
+            inputX = -1f;
 
         // Swap direction of sprite depending on walk direction
         if (inputX > 0)
@@ -96,18 +100,18 @@ public class HeroKnight : MonoBehaviour {
         m_animator.SetBool("WallSlide", m_isWallSliding);
 
         //Death
-        if (Input.GetKeyDown("e") && !m_rolling)
+        if (Keyboard.current.eKey.wasPressedThisFrame && !m_rolling)
         {
             m_animator.SetBool("noBlood", m_noBlood);
             m_animator.SetTrigger("Death");
         }
             
         //Hurt
-        else if (Input.GetKeyDown("q") && !m_rolling)
+        else if (Keyboard.current.qKey.wasPressedThisFrame && !m_rolling)
             m_animator.SetTrigger("Hurt");
 
         //Attack
-        else if(Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
+        else if(Mouse.current.leftButton.wasPressedThisFrame && m_timeSinceAttack > 0.25f && !m_rolling)
         {
             m_currentAttack++;
 
@@ -127,17 +131,17 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // Block
-        else if (Input.GetMouseButtonDown(1) && !m_rolling)
+        else if (Mouse.current.rightButton.wasPressedThisFrame && !m_rolling)
         {
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", true);
         }
 
-        else if (Input.GetMouseButtonUp(1))
+        else if (Mouse.current.rightButton.wasReleasedThisFrame)
             m_animator.SetBool("IdleBlock", false);
 
         // Roll
-        else if (Input.GetKeyDown("left shift") && !m_rolling && !m_isWallSliding)
+        else if (Keyboard.current.leftShiftKey.wasPressedThisFrame && !m_rolling && !m_isWallSliding)
         {
             m_rolling = true;
             m_animator.SetTrigger("Roll");
@@ -146,7 +150,7 @@ public class HeroKnight : MonoBehaviour {
             
 
         //Jump
-        else if (Input.GetKeyDown("space") && m_grounded && !m_rolling)
+        else if (Keyboard.current.spaceKey.wasPressedThisFrame && m_grounded && !m_rolling)
         {
             m_animator.SetTrigger("Jump");
             m_grounded = false;
