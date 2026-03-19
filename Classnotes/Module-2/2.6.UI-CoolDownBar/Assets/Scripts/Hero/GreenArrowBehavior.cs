@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GreenArrowBehavior : MonoBehaviour
 {
@@ -21,14 +20,28 @@ public class GreenArrowBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Vertical: Up/Down-Arrow, or WS-keys
-        transform.position += Input.GetAxis("Vertical") * transform.up; // Move arrow up/down
+        // Vertical: WS-keys
+        if (Keyboard.current.wKey.isPressed)
+        {
+            transform.position += transform.up;
+        }
+        if (Keyboard.current.sKey.isPressed)
+        {
+            transform.position -= transform.up;
+        }
 
-        // Horizontal: Left/Right-Arrow, or AD-Keys
-        transform.position += Input.GetAxis("Horizontal") * transform.right; //Move arrow left/right
+        // Horizontal: AD-Keys
+        if (Keyboard.current.aKey.isPressed)
+        {
+            transform.position -= transform.right;
+        }
+        if (Keyboard.current.dKey.isPressed)
+        {
+            transform.position += transform.right;
+        }
 
         // Now spawn an egg when space bar is hit
-        if (Input.GetKey(KeyCode.Space))
+        if (Keyboard.current.spaceKey.isPressed)
         {
             if (mCoolDown.ReadyForNext())
             {

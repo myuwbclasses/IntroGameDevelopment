@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WASD_Movement : MonoBehaviour
 {
@@ -14,6 +13,10 @@ public class WASD_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector2 movement = Vector2.zero;
+        if ()
+
+
         // Vertical: Up/Down-Arrow, or WS-keys
         transform.localPosition += Input.GetAxis("Vertical") * transform.up *
                                     (kSpeed * Time.smoothDeltaTime);
