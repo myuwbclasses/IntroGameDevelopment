@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UserControlLogic : MonoBehaviour
 {
@@ -31,7 +30,7 @@ public class UserControlLogic : MonoBehaviour
         CheckPan();
 
         #region  Perform Shake
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Keyboard.current.xKey.wasPressedThisFrame)
         {
             mTheCamera.ShakeCamera(new Vector2(3f, 3f));
         }
@@ -45,18 +44,18 @@ public class UserControlLogic : MonoBehaviour
 
     private void CheckZoom()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Keyboard.current.hKey.wasPressedThisFrame)
             mTheCamera.Zoom(mVX.value());
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Keyboard.current.jKey.wasPressedThisFrame)
             mTheCamera.ZoomTowards(mRefPoint.transform.position, mVX.value());
     }
 
     private void CheckPan()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Keyboard.current.nKey.wasPressedThisFrame)
             mTheCamera.MoveBy(5f, 5f);
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Keyboard.current.mKey.wasPressedThisFrame)
             mTheCamera.MoveTo(mRefPoint.transform.position.x, mRefPoint.transform.position.y);
     }
 }

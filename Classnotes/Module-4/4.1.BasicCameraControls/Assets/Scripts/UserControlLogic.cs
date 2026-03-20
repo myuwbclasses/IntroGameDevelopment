@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UserControlLogic : MonoBehaviour
 {
@@ -30,18 +29,18 @@ public class UserControlLogic : MonoBehaviour
 
     private void CheckZoom()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Keyboard.current.hKey.wasPressedThisFrame)
             mTheCamera.Zoom(mZoomFactor.value());
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Keyboard.current.jKey.wasPressedThisFrame)
             mTheCamera.ZoomTowards(mRefPoint.transform.position, mZoomFactor.value());
     }
 
     private void CheckPan()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Keyboard.current.nKey.wasPressedThisFrame)
             mTheCamera.MoveBy(mDX.value(), mDY.value());
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Keyboard.current.mKey.wasPressedThisFrame)
             mTheCamera.MoveTo(mRefPoint.transform.position.x, mRefPoint.transform.position.y);
     }
 }

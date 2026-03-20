@@ -30,7 +30,7 @@ public class HeroMovement : MonoBehaviour
                (!mHeroPhysics.IsTouchingLayers(1<<LayerMask.NameToLayer("Default")) ) // or not touching any objects in the Default layer 
             ) { 
                 Debug.Log("Hero is touching: " + other.gameObject + " or nothing");
-                mHeroPhysics.velocity = new Vector2(mSpeed, 0);
+                mHeroPhysics.linearVelocity = new Vector2(mSpeed, 0);
                 // Note: this is changing velocity
             }
         }
@@ -41,7 +41,7 @@ public class HeroMovement : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.Space)) {
-            mHeroPhysics.velocity = new Vector2(0, mSpeed);
+            mHeroPhysics.linearVelocity = new Vector2(0, mSpeed);
                 // Note: this is changing velocity
         }
 

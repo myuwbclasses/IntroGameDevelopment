@@ -25,7 +25,7 @@ public class HeroMovement : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.D)) {
-                mHeroPhysics.velocity = new Vector2(mSpeed, 0);
+                mHeroPhysics.linearVelocity = new Vector2(mSpeed, 0);
                 // Note: this is changing velocity
         }
 
@@ -35,7 +35,7 @@ public class HeroMovement : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.Space)) {
-            mHeroPhysics.velocity = new Vector2(0, mSpeed);
+            mHeroPhysics.linearVelocity = new Vector2(0, mSpeed);
                 // Note: this is changing velocity
         }
 

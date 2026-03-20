@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;  // for Loading Scene!!
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement; // Required for scene management
+
 
 public class UserControlLogic : MonoBehaviour
 {
     public GameObject mRefPoint = null;
+
     public CameraSupport mTheCamera = null;
 
     public CameraSupport mSmallView = null;
@@ -37,7 +39,7 @@ public class UserControlLogic : MonoBehaviour
         CheckPan();
 
         #region  Perform Shake
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Keyboard.current.xKey.wasPressedThisFrame)
         {
             mTheCamera.ShakeCamera(new Vector2(3f, 3f));
             GameState.sGameState.IncShakeCount();
@@ -50,7 +52,7 @@ public class UserControlLogic : MonoBehaviour
         #endregion
 
         // Loading new Level
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Keyboard.current.lKey.wasPressedThisFrame)
         {
             SceneManager.LoadScene("NewLevel");
         }
@@ -59,18 +61,18 @@ public class UserControlLogic : MonoBehaviour
 
     private void CheckZoom()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Keyboard.current.hKey.wasPressedThisFrame)
             mTheCamera.Zoom(mVX.value());
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Keyboard.current.jKey.wasPressedThisFrame)
             mTheCamera.ZoomTowards(mRefPoint.transform.position, mVX.value());
     }
 
     private void CheckPan()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Keyboard.current.nKey.wasPressedThisFrame)
             mTheCamera.MoveBy(5f, 5f);
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Keyboard.current.mKey.wasPressedThisFrame)
             mTheCamera.MoveTo(mRefPoint.transform.position.x, mRefPoint.transform.position.y);
     }
 }

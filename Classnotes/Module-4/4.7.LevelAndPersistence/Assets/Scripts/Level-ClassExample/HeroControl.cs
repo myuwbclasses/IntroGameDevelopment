@@ -1,5 +1,5 @@
 using UnityEngine;	
-using System.Collections;
+using UnityEngine.InputSystem;
 
 public class HeroControl : MonoBehaviour {
 
@@ -19,10 +19,21 @@ public class HeroControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        #region User Position Control
-        transform.position += Input.GetAxis ("Vertical")  * transform.up * 
+		#region User Position Control
+		float movement = 0f;
+		if ((Keyboard.current.wKey.isPressed) || Keyboard.current.upArrowKey.isPressed)
+			movement += 1f;
+		if ((Keyboard.current.sKey.isPressed) || Keyboard.current.downArrowKey.isPressed)
+			movement -= 1f;
+		transform.position += movement * transform.up * 
 									(kHeroSpeed * Time.smoothDeltaTime);
-        transform.position += Input.GetAxis("Horizontal") * transform.right *
+		
+		movement = 0f;
+		if ((Keyboard.current.dKey.isPressed) || Keyboard.current.rightArrowKey.isPressed)
+			movement += 1f;
+		if ((Keyboard.current.aKey.isPressed) || Keyboard.current.leftArrowKey.isPressed)
+			movement -= 1f;		
+        transform.position += movement * transform.right *
                                     (kHeroSpeed * Time.smoothDeltaTime);
         #endregion
 
@@ -38,7 +49,7 @@ public class HeroControl : MonoBehaviour {
 
         #region Testing TimedLerp: using size
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Keyboard.current.zKey.wasPressedThisFrame)
         {
             Vector3 finalScale = transform.localScale;
             transform.localScale += new Vector3(kDeltaSize, kDeltaSize, 0f);

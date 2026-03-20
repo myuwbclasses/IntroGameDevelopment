@@ -1,5 +1,5 @@
 using UnityEngine;	
-using System.Collections;
+using UnityEngine.InputSystem;
 
 public class HeroControl : MonoBehaviour {
 
@@ -15,15 +15,48 @@ public class HeroControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position += Input.GetAxis ("Vertical")  * transform.up * 
+		#region User Position Control
+		float movement = 0f;
+		if ((Keyboard.current.wKey.isPressed) || Keyboard.current.upArrowKey.isPressed)
+			movement += 1f;
+		if ((Keyboard.current.sKey.isPressed) || Keyboard.current.downArrowKey.isPressed)
+			movement -= 1f;
+		transform.position += movement * transform.up * 
 									(kHeroSpeed * Time.smoothDeltaTime);
-        transform.position += Input.GetAxis("Horizontal") * transform.right *
+		
+		movement = 0f;
+		if ((Keyboard.current.dKey.isPressed) || Keyboard.current.rightArrowKey.isPressed)
+			movement += 1f;
+		if ((Keyboard.current.aKey.isPressed) || Keyboard.current.leftArrowKey.isPressed)
+			movement -= 1f;		
+        transform.position += movement * transform.right *
                                     (kHeroSpeed * Time.smoothDeltaTime);
+        #endregion
 
+        #region Testing the Camera Support: Push and Collision Bound
         mTheCamera.PushCameraByPos(transform.position, WorldBoundRegion);
 
         // testing the intersection
         CameraSupport.WorldBoundStatus status = mTheCamera.CollideWorldBound(GetComponent<SpriteRenderer>().bounds, WorldBoundRegion);
-        Debug.Log("Hero Collision=" + status);
-	}
-}
+        // Debug.Log("Hero Collision=" + status);
+        #endregion
+
+        #region Testing TimedLerp: using size
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Vector3 finalScale = transform.localScale;
+            transform.localScale += new Vector3(kDeltaSize, kDeltaSize, 0f);
+            mSizeLerp.SetLerpParms(mDuration.value(), mRate.value());
+            mSizeLerp.BeginLerp(transform.localScale, finalScale);
+        }
+
+        if (mSizeLerp.LerpIsActive())
+        {
+            Vector3 s = mSizeLerp.UpdateLerp();
+            transform.localScale = new Vector3(s.x, s.y, 0.0f);
+        }
+
+        #endregion
+        }
+    }
