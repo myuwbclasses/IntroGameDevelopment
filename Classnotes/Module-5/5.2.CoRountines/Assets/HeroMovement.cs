@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HeroMovement : MonoBehaviour
 {
@@ -19,22 +18,22 @@ public class HeroMovement : MonoBehaviour
     {
         float d = mSpeed * Time.smoothDeltaTime;
 
-        if (Input.GetKey(KeyCode.A)) {
+        if (Keyboard.current.aKey.isPressed) {
             transform.localPosition += new Vector3(-d, 0, 0);
                 // Note: this is updating the position (no physics)
         }
 
-        if (Input.GetKey(KeyCode.D)) {
+        if (Keyboard.current.dKey.isPressed) {
                 mHeroPhysics.linearVelocity = new Vector2(mSpeed, 0);
                 // Note: this is changing velocity
         }
 
-        if (Input.GetKey(KeyCode.W)) {
+        if (Keyboard.current.wKey.isPressed) {
             transform.localPosition += new Vector3(0, d, 0);
                 // Note: this is updating the position (no physics)
         }
 
-        if (Input.GetKey(KeyCode.Space)) {
+        if (Keyboard.current.spaceKey.isPressed) {
             mHeroPhysics.linearVelocity = new Vector2(0, mSpeed);
                 // Note: this is changing velocity
         }
