@@ -40,23 +40,5 @@ public class HeroControl : MonoBehaviour {
         CameraSupport.WorldBoundStatus status = mTheCamera.CollideWorldBound(GetComponent<SpriteRenderer>().bounds, WorldBoundRegion);
         // Debug.Log("Hero Collision=" + status);
         #endregion
-
-        #region Testing TimedLerp: using size
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            Vector3 finalScale = transform.localScale;
-            transform.localScale += new Vector3(kDeltaSize, kDeltaSize, 0f);
-            mSizeLerp.SetLerpParms(mDuration.value(), mRate.value());
-            mSizeLerp.BeginLerp(transform.localScale, finalScale);
-        }
-
-        if (mSizeLerp.LerpIsActive())
-        {
-            Vector3 s = mSizeLerp.UpdateLerp();
-            transform.localScale = new Vector3(s.x, s.y, 0.0f);
-        }
-
-        #endregion
-        }
     }
+}
