@@ -20,7 +20,7 @@ public class ShakePosition
     public void SetShakeParameters(float frequency, float durationInSections)
     {
         mDuration = durationInSections;
-        mOmega = frequency * 2f * Mathf.PI;
+        mOmega = (frequency / mDuration) * 2f * Mathf.PI;
     }
     public void SetShakeMagnitude(Vector2 magnitude, Vector3 OrgPos) {
         mOrgPos = OrgPos;
