@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// to show up in the Create-Menu as: MagicBlock
+// shows up in the Assets › Create menu as: "Create colors for Blocks"
 [CreateAssetMenu(fileName="ColorsForBlocks", menuName="Create colors for Blocks")]
 
 public class ColorsForBlocks : ScriptableObject

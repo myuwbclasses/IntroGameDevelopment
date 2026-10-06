@@ -956,7 +956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mTheCamera: {fileID: 692051648}
   WorldBoundRegion: 0.8
-  kHeroSpeed: 40
+  mHeroSpeed: 40
   mRate: {fileID: 231081087}
   mDuration: {fileID: 1227939747}
 --- !u!1 &1077746064

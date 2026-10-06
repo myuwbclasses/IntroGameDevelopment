@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 138799730}
   - component: {fileID: 138799729}
   m_Layer: 0
-  m_Name: Collide-And-Push (Opstical) - Pink)
+  m_Name: Collide-And-Push (Obstacle) - Pink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 804191418}
   - component: {fileID: 804191417}
   m_Layer: 0
-  m_Name: StationaryObsticle (Like a Platform) - Orange
+  m_Name: StationaryObstacle (Like a Platform) - Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

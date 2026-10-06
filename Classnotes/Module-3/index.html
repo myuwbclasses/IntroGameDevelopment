@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 3 · Autonomous Behaviors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #f1f3f7;
+    --text: #1d2330;
+    --muted: #5b6475;
+    --border: #e2e6ee;
+    --accent: #2f6fdf;
+    --accent-soft: #e8f0fd;
+    --green: #1f9d55;
+    --green-soft: #e7f6ee;
+    --amber: #b7791f;
+    --amber-soft: #fdf5e6;
+    --red: #c53030;
+    --red-soft: #fdecec;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 2px 8px rgba(16,24,40,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117;
+      --surface: #161b24;
+      --surface-2: #1d2430;
+      --text: #e6e9ef;
+      --muted: #9aa4b5;
+      --border: #2a3240;
+      --accent: #6aa0ff;
+      --accent-soft: #1b2a45;
+      --green: #4ccb86;
+      --green-soft: #15291f;
+      --amber: #e2b04a;
+      --amber-soft: #2c2415;
+      --red: #f07171;
+      --red-soft: #2e1a1c;
+      --code-bg: #0a0d13;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, kbd, .path {
+    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    font-size: .86em;
+  }
+  code { background: var(--surface-2); border: 1px solid var(--border); padding: .08em .4em; border-radius: 5px; }
+  kbd {
+    background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+    padding: .05em .45em; border-radius: 5px; white-space: nowrap;
+  }
+  .path { background: var(--accent-soft); color: var(--accent); padding: .08em .45em; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .ui { font-weight: 600; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 40px; padding: 0 24px; }
+  nav.toc { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; padding: 36px 0; }
+  nav.toc .label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 12px; }
+  nav.toc a { display: block; padding: 6px 12px; border-radius: 8px; color: var(--muted); font-size: 14px; border-left: 2px solid transparent; }
+  nav.toc a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+  nav.toc a.active { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+  nav.toc a.sub { padding-left: 26px; font-size: 13.5px; }
+  /* Collapsible example groups: click the arrow to show/hide an example's sections */
+  nav.toc details > summary { display: flex; align-items: center; list-style: none; cursor: pointer; border-radius: 8px; }
+  nav.toc details > summary::-webkit-details-marker { display: none; }
+  nav.toc details > summary a { flex: 1; min-width: 0; }
+  nav.toc details > summary::after { content: "›"; flex: none; width: 24px; text-align: center; color: var(--muted); font-size: 16px; line-height: 1; transition: transform .15s; }
+  nav.toc details[open] > summary::after { transform: rotate(90deg); }
+  nav.toc details > summary:hover::after { color: var(--text); }
+  nav.toc details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  main { padding: 36px 0 80px; min-width: 0; }
+
+  /* Hero */
+  header.hero {
+    background: linear-gradient(135deg, #2f6fdf 0%, #6a4fd8 100%);
+    color: #fff; border-radius: 18px; padding: 36px 36px 32px; margin-bottom: 32px;
+    position: relative; overflow: hidden;
+  }
+  header.hero::after {
+    content: ""; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px;
+    border-radius: 50%; background: rgba(255,255,255,.08);
+  }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+  header.hero h1 { font-size: 36px; line-height: 1.2; margin: 6px 0 14px; letter-spacing: -.02em; }
+  .hero-links { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.16); color: #fff; border: 1px solid rgba(255,255,255,.28);
+    padding: 7px 14px; border-radius: 999px; font-size: 14px; font-weight: 500;
+  }
+  .btn:hover { background: rgba(255,255,255,.26); text-decoration: none; }
+
+  /* Sections */
+  section { margin-bottom: 44px; }
+  h2 { font-size: 24px; letter-spacing: -.01em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  h4 { font-size: 15.5px; margin: 20px 0 6px; color: var(--text); }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li > ul, li > ol { margin: 4px 0 6px; }
+  ul ul { list-style: circle; }
+  ul ul ul { list-style: square; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+
+  /* Coverage grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  .topic { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .topic h4 { margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+  .topic .ico { width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 15px; }
+  .topic ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); }
+
+  /* Folder chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); }
+  .chip.keep { background: var(--green-soft); border-color: transparent; color: var(--green); }
+  .chip.skip { background: var(--red-soft); border-color: transparent; color: var(--red); text-decoration: line-through; text-decoration-thickness: 1px; }
+
+  /* Callouts */
+  .callout { border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; border-left: 4px solid; font-size: 15px; }
+  .callout > :last-child { margin-bottom: 0; }
+  .callout .title { font-weight: 600; display: block; margin-bottom: 4px; }
+  .callout.info { background: var(--accent-soft); border-color: var(--accent); }
+  .callout.tip { background: var(--green-soft); border-color: var(--green); }
+  .callout.warn { background: var(--amber-soft); border-color: var(--amber); }
+  .callout.danger { background: var(--red-soft); border-color: var(--red); }
+  .callout.learned { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--green); }
+  .callout.learned .title { color: var(--green); }
+
+  /* Review questions */
+  .review { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; font-size: 15px; }
+  .review .title { font-weight: 600; display: block; margin-bottom: 4px; color: var(--accent); }
+  .review ol { margin: 4px 0 0; padding-left: 22px; }
+  .review ol > li { margin: 10px 0; }
+  .review details { margin-top: 6px; }
+  .review summary { cursor: pointer; color: var(--accent); font-size: 14px; font-weight: 500; }
+  .review details p { margin: 6px 0 0; padding: 8px 12px; background: var(--surface-2); border-radius: 8px; }
+
+  /* Example headers */
+  .example-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .example-num { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; flex: none; }
+  .example-head h3 { margin: 0; font-size: 21px; }
+  .example-head .sub { color: var(--muted); font-size: 14px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 6px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .pill:hover { text-decoration: none; filter: brightness(.97); }
+
+  /* Figures */
+  figure { margin: 16px 0; }
+  figure img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; box-shadow: var(--shadow); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  img.inline { vertical-align: middle; border-radius: 6px; border: 1px solid var(--border); height: 44px; margin-left: 6px; }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; background: var(--surface-2); }
+  tr:last-child td { border-bottom: none; }
+  .tbl { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .tbl table { margin: 0; }
+
+  /* Steps */
+  ol.steps { counter-reset: s; list-style: none; padding-left: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding-left: 38px; margin: 10px 0; }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface-2); border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+    display: grid; place-items: center; color: var(--muted);
+  }
+
+  /* ECS diagram */
+  .ecs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
+  .ecs div { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+  .ecs b { display: block; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .ecs span { font-size: 14.5px; color: var(--muted); }
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: "JetBrains Mono", monospace; font-size: 13.5px; margin: 8px 0; }
+  .flow span { background: var(--surface-2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+  .flow i { color: var(--muted); font-style: normal; }
+
+  footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 40px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding: 0 16px; }
+    nav.toc { display: none; }
+    header.hero { padding: 28px 22px; }
+    header.hero h1 { font-size: 28px; }
+    .card { padding: 18px; }
+    .ecs { grid-template-columns: 1fr; }
+  }
+
+  code { overflow-wrap: anywhere; }
+  pre.code code { overflow-wrap: normal; }
+  pre.code { max-width: 100%; background: var(--code-bg); color: var(--code-text); padding: 12px 16px; border-radius: 10px; overflow-x: auto; font-size: 13.5px; margin: 8px 0 12px; }
+  pre.code code { background: none; border: none; padding: 0; color: inherit; }
+  .pill.muted { background: var(--surface-2); color: var(--muted); cursor: default; }
+  .procon { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+  .procon > div { border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; background: var(--surface); font-size: 15px; }
+  .procon b { display: block; margin-bottom: 4px; }
+  .procon .pro b { color: var(--green); } .procon .con b { color: var(--red); }
+  figure.inline-fig { max-width: 420px; }
+  ul.checklist { list-style: none; padding-left: 0; margin: 0; }
+  ul.checklist li { position: relative; padding-left: 32px; margin: 8px 0; }
+  ul.checklist li::before { content: ""; position: absolute; left: 0; top: 3px; width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 5px; background: var(--surface); }
+  tr.group td { font-weight: 600; background: var(--surface-2); }
+  td.indent { padding-left: 32px; color: var(--muted); }
+  tr.total td { font-weight: 700; border-top: 2px solid var(--border); }
+  .hero-sub { position: relative; z-index: 1; margin: 0 0 18px; max-width: 640px; opacity: .92; font-size: 16.5px; }
+  .start-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+  .start-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); color: var(--text); }
+  .start-card:hover { text-decoration: none; border-color: var(--accent); }
+  .start-card .ico { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 16px; margin-bottom: 10px; }
+  .start-card b { display: block; margin-bottom: 4px; }
+  .start-card span:last-child { font-size: 14.5px; color: var(--muted); }
+  .module { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .module-head { display: flex; gap: 14px; align-items: flex-start; }
+  .module-head h3 { margin: 2px 0 2px; font-size: 20px; }
+  .module-head h3 a { color: var(--text); }
+  .module-head .sub { color: var(--muted); font-size: 14.5px; }
+  .ex-list { list-style: none; padding: 0; margin: 14px 0 4px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 6px 16px; }
+  .ex-list li { margin: 0; }
+  .ex-list a { display: flex; gap: 10px; align-items: baseline; padding: 6px 10px; border-radius: 8px; color: var(--text); font-size: 15px; }
+  .ex-list a:hover { background: var(--surface-2); text-decoration: none; }
+  .ex-list a span { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--accent); min-width: 28px; }
+  .pill.selfex { background: var(--amber-soft); color: var(--amber); }
+  @media (max-width: 600px) { .module { padding: 18px; } }
+  .time { display: inline-block; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); margin-left: 10px; vertical-align: middle; letter-spacing: .02em; }
+  .step-title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .sprites { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 12px 0 6px; }
+  .sprite { display: block; text-align: center; border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px 10px; background: var(--surface-2); color: var(--text); }
+  .sprite:hover { text-decoration: none; border-color: var(--accent); }
+  .sprite img { height: 56px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto 8px; }
+  .sprite b { display: block; font-size: 14px; }
+  .sprite span { font-size: 12.5px; color: var(--muted); }
+  .task { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin: 22px 0 6px; }
+  .task:first-of-type { margin-top: 6px; }
+  @media (max-width: 600px) { .sprites { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .procon { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Module 3</div>
+    <a href="#coverage">Coverage</a>
+    <details>
+      <summary title="Show or hide the sections of 3.1"><a href="#ex1">3.1 Gradual rotation + chasing</a></summary>
+      <a href="#ex1-egg" class="sub">Egg</a>
+      <a href="#ex1-greenarrowbehavior" class="sub">GreenArrowBehavior</a>
+      <a href="#ex1-movement-considerations" class="sub">Movement considerations</a>
+      <a href="#ex1-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 3.2"><a href="#ex2">3.2 Autonomous movement</a></summary>
+      <a href="#ex2-scene-setting" class="sub">Scene setting</a>
+      <a href="#ex2-gamemanager" class="sub">GameManager</a>
+      <a href="#ex2-greenarrowbehavior" class="sub">GreenArrowBehavior</a>
+      <a href="#ex2-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 3.3"><a href="#ex3">3.3 Finite state machine</a></summary>
+      <a href="#ex3-the-plane-s-state-machine" class="sub">The Plane's state machine</a>
+      <a href="#ex3-implementation-keys" class="sub">Implementation keys</a>
+      <a href="#ex3-organization" class="sub">Organization</a>
+      <a href="#ex3-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 3.4"><a href="#ex4">3.4 FSM + randomness</a></summary>
+      <a href="#ex4-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 3.5"><a href="#ex5">3.5 Keyframe animation</a></summary>
+      <a href="#ex5-animation-clips" class="sub">Animation clips</a>
+      <a href="#ex5-animator-states" class="sub">Animator states</a>
+      <a href="#ex5-my-angry-fsm" class="sub">My Angry FSM</a>
+      <a href="#ex5-sharing" class="sub">Sharing</a>
+      <a href="#ex5-scripts" class="sub">Scripts</a>
+      <a href="#ex5-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 3.6"><a href="#ex6">3.6 Sprite animation</a></summary>
+      <a href="#ex6-sprite-mode" class="sub">Sprite Mode</a>
+      <a href="#ex6-slicing-a-sprite-sheet" class="sub">Slicing a sprite sheet</a>
+      <a href="#ex6-an-example" class="sub">An example</a>
+      <a href="#ex6-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 3.7"><a href="#ex7">3.7 Tile palettes + Tilemap</a></summary>
+      <a href="#ex7-painting-a-level" class="sub">Painting a level</a>
+      <a href="#ex7-tile-sprite-sheet" class="sub">Tile sprite sheet</a>
+      <a href="#ex7-tile-palette" class="sub">Tile Palette</a>
+      <a href="#ex7-tilemap" class="sub">Tilemap</a>
+      <a href="#ex7-example-paint-operation" class="sub">Example paint operation</a>
+      <a href="#ex7-collision-support" class="sub">Collision support</a>
+      <a href="#ex7-layering-front-back" class="sub">Layering (front/back)</a>
+      <a href="#ex7-review" class="sub">Check your understanding</a>
+    </details>
+    <a href="Module-3-Summary.pptx">⬇ Summary slides (.pptx)</a>
+    <div class="label" style="margin-top:24px">References</div>
+    <a href="../index.html">Class notes home</a>
+    <a href="../Module-1/index.html">Module 1</a>
+    <a href="../Module-2/index.html">Module 2</a>
+    <a href="index.html" aria-current="page" style="color:var(--text);font-weight:600">Module 3 (this page)</a>
+    <a href="../Module-4/index.html">Module 4</a>
+    <a href="../Module-5/index.html">Module 5</a>
+    <a href="../UnityHelp.html">Unity help</a>
+
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Module 3 · Examples</div>
+      <h1>Autonomous Behaviors and Tilemap</h1>
+      <div class="hero-links">
+        <a class="btn" href="https://github.com/myuwbclasses/IntroGameDevelopment">GitHub repository ↗</a>
+        <a class="btn" href="../UnityHelp.html">Unity help</a>
+      </div>
+    </header>
+
+    <!-- COVERAGE -->
+    <section id="coverage">
+      <h2>Coverage</h2>
+      <div class="grid">
+        <div class="topic">
+          <h4><span class="ico">💡</span>Concepts</h4>
+          <ul>
+            <li>The lerp function: gradual rotation and chasing</li>
+            <li>Simple implementation of a finite state machine</li>
+            <li>Randomness and simple examples in games</li>
+            <li>Sprite sheets and sprite atlases: efficient loading and animation</li>
+            <li>Keyframe and sprite animation</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">🛠</span>Unity skills</h4>
+          <ul>
+            <li><b>Sprite Editor:</b> extracting individual tiles and sprites</li>
+            <li><b>Animation window:</b> defining keyframe animations</li>
+            <li><b>Animator:</b> animation states, transitions and finite state machines</li>
+            <li><b>Tile Palette and Tilemap:</b> creating levels by painting</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="examples">
+      <h2>Examples for Module 3</h2>
+
+      <!-- 3.1 -->
+      <div class="card" id="ex1">
+        <div class="example-head">
+          <div class="example-num">3.1</div>
+          <div><h3>Gradual Rotation and Chasing</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/3.1/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <ul style="margin:4px 0 0">
+            <li><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>: move the egg</li>
+            <li>The green arrow continuously chases after the egg</li>
+            <li><b>TurnRate</b> slider:
+              <ul>
+                <li><code>0.1</code> (the slider's minimum): turns very slowly toward the egg (a rate of <code>0</code> would not turn at all)</li>
+                <li><code>2</code> (the maximum): quickly points towards the egg</li>
+                <li><code>0.1 &lt; rate &lt; 2</code>: turns gradually, from very slow (close to 0.1) to very quick (close to 2)</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <h4 id="ex1-egg">Egg</h4>
+        <p><code>WASD_Movement</code>: trivial behavior.</p>
+
+        <h4 id="ex1-greenarrowbehavior">GreenArrowBehavior</h4>
+        <ul>
+          <li>Public variables:
+            <ul>
+              <li><code>mTurnRate</code>: connects to the TurnRate slider</li>
+              <li><code>mMyTarget</code>: connects to the Egg</li>
+            </ul>
+          </li>
+          <li><code>PointAtPosition()</code>: points <code>transform.up</code> toward any given position, by incrementally rotating <code>transform.up</code> to align with <code>V</code>.
+            <div class="callout warn">If <code>transform.up</code> and <code>V</code> point in exactly opposite directions, the turning doesn't work.</div>
+          </li>
+          <li><code>Update()</code>: calls <code>PointAtPosition()</code>, then moves in the direction of <code>transform.up</code>.</li>
+        </ul>
+
+        <h4 id="ex1-movement-considerations">In-game object movement considerations</h4>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:200px">Kind of control</th><th>What it means</th></tr>
+            <tr><td class="ui">Easy</td><td>Direct control: you control the position and direction of the object's movement.</td></tr>
+            <tr><td class="ui">Less easy</td><td>Indirect control: e.g., you control the velocity of an object.</td></tr>
+            <tr><td class="ui">Obey the rules of physics</td><td>Indirect control in a world with physics (gravity and potential collisions): you configure the physics to control the object's movement.</td></tr>
+            <tr><td class="ui">Follow your own algorithm</td><td>No control: autonomous (as in this case).</td></tr>
+          </table>
+        </div>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>Gradual rotation: <code>Vector3.LerpUnclamped()</code></li>
+            <li>The <code>PointAtPosition()</code> function: quite reusable</li>
+            <li>In-game object movement considerations</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex1-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>In <code>PointAtPosition()</code>, what would happen if <code>r</code> were exactly <code>1</code>?
+              <details><summary>Show answer</summary><p><code>Vector3.LerpUnclamped(transform.up, v, 1)</code> is exactly <code>v</code>, so the arrow would snap to face the egg in a single frame. There'd be no gradual turn. Gradual rotation comes from <code>r</code> being small (here <code>mTurnRate.value() * Time.smoothDeltaTime</code>, about 0.03 at TurnRate 2), so each frame turns only a little.</p></details>
+            </li>
+            <li>With a low TurnRate, the arrow sometimes circles the egg forever without reaching it. Why?
+              <details><summary>Show answer</summary><p>The arrow always moves forward at <code>kMySpeed</code> (5 units per second) but can only turn a little each frame, so it has a minimum turning circle. If the egg sits inside that circle, the arrow keeps turning toward it but never cuts in tightly enough to reach it. A higher TurnRate makes the circle smaller.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 3.2 -->
+      <div class="card" id="ex2">
+        <div class="example-head">
+          <div class="example-num">3.2</div>
+          <div><h3>Autonomous Movement with Randomness</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/3.2/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <ul style="margin:4px 0 0">
+            <li>Watch the green arrow chase the egg. When it gets close, the egg respawns at a new position in the pinkish area.</li>
+            <li>The slider bar changes the size of the pinkish area (% of the world bounds).</li>
+            <li><kbd>N</kbd>: spawn a new GreenArrow. Each new arrow creates its own egg to chase.</li>
+            <li><kbd>H</kbd>: hide the eggs (every arrow toggles its own egg).</li>
+            <li><b>Try:</b> spawn 20 arrows, then hide the eggs. See a bunch of patrolling arrows?!</li>
+          </ul>
+        </div>
+
+        <h4 id="ex2-scene-setting">Scene setting</h4>
+        <ul>
+          <li><b>GameManager</b> (a child of the Main Camera): an empty GameObject for hanging the singleton GameManager.</li>
+          <li><b>TargetBoundBox</b> (pinkish): this box is <i>behind</i> the green arrow, with a larger z-position (the larger the z, the further behind).
+            <div class="callout warn"><span class="title">Be careful</span>The camera settings only allow z values up to 1000: <code>MainCamera.Far</code>.</div>
+          </li>
+          <li><b>GreenArrow</b>: chases after the egg.</li>
+        </ul>
+
+        <h4 id="ex2-gamemanager">GameManager</h4>
+        <ul>
+          <li><code>Awake()</code>: initialization must be done before <code>GreenArrowBehavior::Start()</code>!</li>
+          <li>Has references to:
+            <ul>
+              <li><code>mTargetBox</code>: the TargetBoundBox, scaled to the size the user specifies</li>
+              <li><code>mTargetSize</code>: the TargetBoundSlider slider bar, a child of UI-Canvas</li>
+            </ul>
+          </li>
+          <li><code>GetTargetBound()</code>: computes a percentage of a given bound. Note the references to:
+            <ul>
+              <li><code>Camera.main</code>: the Camera component on the Main Camera</li>
+              <li><code>orthographicSize</code>: half the height of the world</li>
+              <li><code>orthographicSize * aspect</code>: half the width of the world</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4 id="ex2-greenarrowbehavior">GreenArrowBehavior</h4>
+        <ul>
+          <li><code>ComputeNewTargetPosition()</code>: a random target position within a given bound</li>
+          <li><code>Vector3.Distance()</code>: notice this function; it's convenient</li>
+        </ul>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>Computing a percentage of a given bound (<code>GameManager::GetTargetBound()</code>)</li>
+            <li>A random position in a bound (<code>GreenArrowBehavior::ComputeNewTargetPosition()</code>)</li>
+            <li>Distance between two GameObjects: <code>Vector3.Distance()</code></li>
+            <li>GameObject positions: <b>z values are important</b>
+              <ul>
+                <li>Front is smaller z; behind/far is larger z.</li>
+                <li>You <b>should not</b> change an object's z-value during gameplay. It may cause “flipping” rotation. E.g., in <code>ComputeNewTargetPosition()</code>, change the target's z to <code>2.0f</code> and watch the arrow sometimes flip.</li>
+              </ul>
+            </li>
+            <li>Slider bar callback function (event driven): efficient, it only computes when there are changes; edited in the UI.</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex2-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>You press <kbd>H</kbd> to hide the eggs. Why do the arrows keep flying around instead of stopping?
+              <details><summary>Show answer</summary><p>Hiding only deactivates the egg (<code>SetActive(false)</code>): it isn't drawn, but its position still exists. Each arrow keeps chasing that invisible position, and <code>CheckTargetPosition()</code> still moves it to a new random spot whenever the arrow gets close. That's the “patrolling” you see.</p></details>
+            </li>
+            <li>While the game runs, you make the Game window much wider but leave the slider alone. Does the pink TargetBoundBox resize? Where do new eggs appear?
+              <details><summary>Show answer</summary><p>The box doesn't resize: <code>ComputeTargetBound()</code> runs only in <code>Awake()</code> and when the slider's value changes (<code>NewTargetSize()</code>). But <code>ComputeNewTargetPosition()</code> calls <code>GetTargetBound()</code> every time, using the new aspect ratio, so new eggs can appear outside the old pink box until you move the slider. That's the trade-off of event-driven updates: something that isn't an event can change too.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 3.3 -->
+      <div class="card" id="ex3">
+        <div class="example-head">
+          <div class="example-num">3.3</div>
+          <div><h3>Finite State Machine</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/3.3/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info"><span class="title">Run behavior</span>Move the arrow with <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>. Touch the plane to trigger its fixed behavior.</div>
+
+        <h4 id="ex3-the-plane-s-state-machine">A simple state machine on the Plane</h4>
+        <p>Normally nothing happens. On collision, the plane cycles through these states:</p>
+        <div class="flow"><span>Rest</span><i>collision →</i><span>Enlarge</span><i>120 frames →</i><span>Rotate CW</span><i>80 frames →</i><span>Rotate CCW</span><i>80 frames →</i><span>Shrink</span><i>120 frames →</i><span>Rest</span></div>
+        <figure style="max-width:560px">
+          <a href="3.3.EnemyState.svg"><img src="3.3.EnemyState.svg" width="900" height="940" alt="State transition diagram for the Plane in Example 3.3: Rest goes to Enlarge on collision; Enlarge goes to Rotate CW after 120 frames; Rotate CW goes to Rotate CCW after 80 frames; Rotate CCW goes to Shrink after 80 frames; Shrink returns to Rest after 120 frames. Rest loops to itself when there is no collision."></a>
+          <figcaption>The Plane's state transition diagram (<code>PlaneBehavior_FSM.cs</code>). Click to open it full size.</figcaption>
+        </figure>
+        <div class="callout info"><span class="title">Note</span>In our context, if an operation doesn't need time, it is <b>not</b> a state. Every state in the FSM takes more than one <code>Update()</code> cycle.</div>
+
+        <h4 id="ex3-implementation-keys">Implementation keys</h4>
+        <ul>
+          <li><b>Draw the state diagram!!</b></li>
+          <li>Instance variables for state definition and transition</li>
+          <li>An <code>enum</code> for the individual states</li>
+          <li>A <code>switch</code> (case) statement in <code>Update()</code></li>
+          <li>State service: each state is a separate function! As states get complicated, they can be defined as instances of different classes (with a shared base class).</li>
+        </ul>
+
+        <h4 id="ex3-organization">Organization</h4>
+        <ul>
+          <li>Partial class: different files implementing the same class.</li>
+          <li><code>PlaneBehavior.cs</code> and <code>PlaneBehavior_FSM.cs</code> each contain separate details!</li>
+        </ul>
+
+        <div class="callout danger">
+          <span class="title">Watch out!! Incomplete (or unintentional) state specification</span>
+          Try moving the GreenUp to touch the Plane while it's changing! E.g., when the plane has grown large, a new collision triggers a brand-new state cycle, and the plane keeps growing larger! How do you avoid this? On collision, check that the current state is actually idle.
+        </div>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>Finite state machines: it's important to draw out <b>all</b> states, and define all possible inputs and state transitions.</li>
+            <li>Implementation keys: review the above!</li>
+            <li>It's relatively straightforward to define simple, repetitive autonomous behaviors!</li>
+            <li>C# partial classes help separate source code into different files for organization.</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex3-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>You want to add a new 60-frame <b>Pause</b> state between Rotate CCW and Shrink. What needs to change in <code>PlaneBehavior_FSM.cs</code>?
+              <details><summary>Show answer</summary><p>Four things: (1) add <code>ePauseState</code> to the <code>EnemyState</code> enum; (2) write a <code>ServicePauseState()</code> that counts 60 frames, then goes to <code>eShrinkState</code>; (3) add a <code>case EnemyState.ePauseState:</code> to the <code>switch</code> in <code>UpdateFSM()</code>; and (4) change <code>ServiceCCWState()</code> to go to <code>ePauseState</code> instead of <code>eShrinkState</code>. Update the state diagram first!</p></details>
+            </li>
+            <li><code>mState</code> is declared <code>private</code> in <code>PlaneBehavior_FSM.cs</code>, yet <code>OnTriggerEnter2D()</code> in <code>PlaneBehavior.cs</code> sets it. Why is that allowed?
+              <details><summary>Show answer</summary><p>Both files declare <code>partial class PlaneBehavior</code>, so they're two parts of <i>one</i> class. <code>private</code> means private to the class, not to the file, so every part can use every member.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 3.4 -->
+      <div class="card" id="ex4">
+        <div class="example-head">
+          <div class="example-num">3.4</div>
+          <div><h3>FSM + Randomness</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/3.4/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          All planes cycle through the states without resting, with random enlarge and rotation periods (the constants became variables). After a while, does it look rather random?
+        </div>
+        <ul>
+          <li><b>GameManager</b> (hanging off the MainCamera): creates all the planes at startup.</li>
+          <li><b>Plane</b>, randomness: <code>Start()</code> sets the number of frames in the scale/rotate states to random values.</li>
+        </ul>
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>The beauty and simplicity of randomness</li>
+            <li>Ease of expansion when things are well abstracted</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex4-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>Each plane's <code>Start()</code> adds <code>Random.Range(-30, 30)</code> to its 120-frame Enlarge length. What range of lengths can a plane get?
+              <details><summary>Show answer</summary><p>90 to 149 frames. With <i>int</i> arguments, <code>Random.Range(min, max)</code> never returns <code>max</code>, so the offset runs from -30 to 29. (With float arguments, both ends are included.)</p></details>
+            </li>
+            <li>All 100 planes start enlarging on the very first frame. Why do they look random after a minute?
+              <details><summary>Show answer</summary><p>Each plane got its own random state lengths in <code>Start()</code>, so their cycles have different periods. The small differences add up every cycle, until the planes are all at different points in their cycles.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 3.5 -->
+      <div class="card" id="ex5">
+        <div class="example-head">
+          <div class="example-num">3.5</div>
+          <div><h3>Keyframe Animation + FSM</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/3.5/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout warn"><span class="title">Disclaimer</span>Animation is a large and complex topic; we'll only cover the very basics.</div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <ul style="margin:4px 0 0">
+            <li><kbd>I</kbd>: trigger Angry</li>
+            <li><kbd>D</kbd>: trigger size decrease</li>
+            <li>Collide the plane and arrow to trigger an animation state change from the Rest state:
+              <ul>
+                <li>Arrow: Angry (after the current run, when the state is Rest)</li>
+                <li>Plane: size decrease (immediately, interrupting the state flow!)</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <h4 id="ex5-animation-clips">Define animation clips</h4>
+        <p>The result of keyframe animation: it associates an “animation time period” with a GameObject.</p>
+        <ol class="steps">
+          <li>Select a GameObject in the Hierarchy window.</li>
+          <li>Open the Animation window: <span class="path">Window › Animation › Animation</span>.</li>
+          <li>Create any animation, and you've associated the defined “animation time period” with the GameObject.</li>
+          <li>Create the keyframe animation:
+            <ul>
+              <li>Default state: when the animation time period is zero.</li>
+              <li>Click to move the current-time line.</li>
+              <li>Update the GameObject's state (e.g., Transform values in the Scene window).</li>
+              <li>Click <b>Add Keyframe</b> (or <kbd>Left mouse</kbd> › Add Key) to create a new keyframe.</li>
+              <li>Scrub the current-time line to see the defined animation.</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="callout info"><span class="title">Note</span>At the end of an animation, the animated attribute <b><i>always</i></b> returns to its initial default value, <b><i>even if</i></b> the animation's final state is different. Animation is a <i>temporary deviation</i> from the initial default.</div>
+
+        <h4 id="ex5-animator-states">Organized as states in the Animator</h4>
+        <p>Transitions between the states define a finite state machine for an object.</p>
+        <ul>
+          <li><b>Animator (controller):</b> controls a collection of states. A tool for organizing, as an FSM, all the animations associated with a GameObject (e.g., a character).</li>
+          <li><b>State:</b> in the Animator, a simple wrapper around an existing animation clip.</li>
+          <li><b>Transitions:</b> detailed support for transitions between states. Solo/Mute check boxes are for debugging (test only, or mute, this transition).</li>
+          <li><b>Parameters:</b> you can define these to control the states:
+            <ul>
+              <li><b>Bool:</b> you must turn it on/off yourself.</li>
+              <li><b>Trigger:</b> a Bool that the system turns off once it causes a state transition (see <b>Begin</b>).</li>
+            </ul>
+          </li>
+          <li>Examine: animation state (control over speed), and state transitions (simple conditionals, or control from a script).</li>
+        </ul>
+
+        <h4 id="ex5-my-angry-fsm">Example: my Angry FSM</h4>
+        <p>Here are my example states (Angry FSM):</p>
+        <figure style="max-width:640px">
+          <a href="3.5.Angry_FSM.svg"><img src="3.5.Angry_FSM.svg" width="1000" height="890" alt="Angry animator controller for Example 3.5, shared by the Arrow and the Plane: Entry leads to Rest, the default state. From Rest, the Begin trigger goes to IncSize, and Dec = true goes to DecSize. IncSize goes to RotateLeft, RotateLeft to RotateRight, RotateRight to DecSize, and DecSize back to Rest, each when its clip ends. RestState.cs maps the I key to Begin and the D key to Dec; DecSizeState.cs sets Dec back to false on enter. RotateLeft has an Animation Event that calls FromAnimation(msg) on a script attached to the same object. On collision, ArrowBehavior calls CrossFade(&quot;DecSize&quot;) on the Plane, jumping straight to DecSize from any state."></a>
+          <figcaption>The Angry animator controller (<code>Angry.controller</code>), shared by the Arrow and the Plane. Click to open it full size.</figcaption>
+        </figure>
+        <ul>
+          <li>Parameter <b>Begin</b>: a Trigger that causes the transition to IncSize.</li>
+          <li>Parameter <b>Dec</b>: a Bool (to show how it works); it could be a Trigger.</li>
+        </ul>
+
+        <h4 id="ex5-sharing">Sharing</h4>
+        <p>You can assign the Angry Animator to any GameObject.</p>
+        <ul>
+          <li>Notice the Arrow and Plane have the same Angry animator controller, and show identical animation from the transformation changes.</li>
+          <li><b>Except:</b> with an Animation Event callback, the object needs a script that defines the event's function (in this case <code>FromAnimation()</code>), e.g., ArrowBehavior.</li>
+        </ul>
+
+        <h4 id="ex5-scripts">Scripts</h4>
+        <ul>
+          <li><b>ArrowBehavior:</b>
+            <ul>
+              <li><code>OnTriggerEnter2D()</code>: starts its own Angry cycle (sets <code>Begin</code>), and forces the Plane into the DecSize state (sets <code>Dec</code>, then <code>CrossFade("DecSize")</code>)</li>
+              <li><code>FromAnimation()</code>: receives the event from the RotateLeft clip</li>
+            </ul>
+          </li>
+          <li><b>PlaneBehavior:</b> also defines <code>FromAnimation()</code>. An Animation Event isn't bound to a particular class: Unity calls the function by name on <i>every</i> script on the same GameObject that defines it. So when the Plane plays RotateLeft, <code>PlaneBehavior::FromAnimation()</code> receives the event, as long as PlaneBehavior is attached to the Plane. If no script on the object defines the function, Unity logs an “AnimationEvent … has no receiver” error.</li>
+          <li><b>Angry state behaviors:</b>
+            <ul>
+              <li>RestState: monitors the keyboard to decide which state to transition to</li>
+              <li>DecState: switches off Dec if true (this could be a Trigger)</li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>The basic concept of keyframe animation:
+              <ul>
+                <li>When an animation is defined, an object has an animation-time-period attribute.</li>
+                <li>Think of animation as a deviation cycle from the initial value; it always returns to the initial value.</li>
+              </ul>
+            </li>
+            <li>Unity how-to:
+              <ul>
+                <li><b>Animation window:</b> create animation clips for a GameObject</li>
+                <li><b>Animator:</b> create a finite state machine: empty states and transitions; parameters to control states and transitions; interrupt the current state and force another (<code>CrossFade()</code>)</li>
+                <li>You can share an animator controller when it only controls the transform; with animation events, sharing is trickier.</li>
+              </ul>
+            </li>
+            <li><b>Note:</b> when the Arrow is in the Angry cycle, the collision response (another Angry run) only happens <i>after</i> the cycle ends. Contrast this with the Plane, which goes into its response immediately via <code>CrossFade()</code>.</li>
+            <li>You can build an FSM with the Animator even with no animations involved. I see both pluses (convenient, less coding) and minuses (messy UI workflow, rigid interface). You decide.</li>
+          </ul>
+        </div>
+        <div class="callout danger"><span class="title">Watch out!!</span>Attributes under Animator control are off-limits to all other components. E.g., if the Animator controls an object's rotation, you will <b><i>not</i></b> be able to control its rotation from anywhere else (e.g., the user can't rotate the same object!).</div>
+
+        <div class="review" id="ex5-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>Pressing <kbd>D</kbd> starts DecSize only when the object is resting, but a collision sends the Plane to DecSize at any moment. Why the difference?
+              <details><summary>Show answer</summary><p>The <kbd>D</kbd> key is read by <code>RestState.OnStateUpdate()</code>, which only runs while the Rest state is active, and the <code>Dec</code> transition only leaves from Rest. A collision calls <code>CrossFade("DecSize", 0.2f)</code>, which jumps straight to DecSize from whatever state is playing.</p></details>
+            </li>
+            <li>In the IncSize clip, the last keyframe sets the scale to 2. After IncSize ends and the Animator moves on, what is the object's scale?
+              <details><summary>Show answer</summary><p>Back to its original scale, not 2. Animation is a temporary deviation from the initial default: once the clip that changed the scale is no longer playing, the attribute returns to its default value.</p></details>
+            </li>
+          </ol>
+        </div>
+
+        <h4>References</h4>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:190px">Unity Manual (Editor)</th><th>Unity API (scripting)</th></tr>
+            <tr>
+              <td><ul style="margin:0">
+                <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/AnimationOverview.html">Overview ↗</a></li>
+                <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/AnimationEditorGuide.html">Animation window ↗</a></li>
+                <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/class-AnimatorController.html">Animator ↗</a></li>
+              </ul></td>
+              <td><ul style="margin:0">
+                <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/StateMachineBehaviour.html">StateMachineBehaviour ↗</a></li>
+                <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/AnimationState.html">AnimationState ↗</a></li>
+                <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/script-AnimationWindowEvent.html">Animation events ↗</a></li>
+              </ul></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3.6 -->
+      <div class="card" id="ex6">
+        <div class="example-head">
+          <div class="example-num">3.6</div>
+          <div><h3>Sprite Animation</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/3.6/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+
+        <h4 id="ex6-sprite-mode">Textures in Unity: Sprite Mode</h4>
+        <ul>
+          <li><b>Single:</b> a simple image of an object.</li>
+          <li><b>Multiple</b> (sprite sheet, sprite atlas): saves load time and/or defines animation.
+            <ul>
+              <li>Organization of an animated sprite sheet</li>
+              <li>How to slice: Automatic (optimized) vs Grid by Cell Size (for animation support)</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4 id="ex6-slicing-a-sprite-sheet">Unity how-to: slicing a sprite sheet (atlas)</h4>
+        <ol class="steps">
+          <li>Import the sprite sheet (Texture Type: Sprite (2D and UI)).</li>
+          <li>Select the sprite.</li>
+          <li>Set Sprite Mode to <b>Multiple</b>.</li>
+          <li>Open the Sprite Editor, click <b>Slice</b>, then <b>Apply</b>.
+            <div class="callout tip">You may have to install the Sprite Editor <a href="https://docs.unity3d.com/6000.3/Documentation/Manual/upm-ui.html">using the Package Manager ↗</a>: search for “2D Sprite” under Unity Registry.</div>
+          </li>
+        </ol>
+
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <ul style="margin:4px 0 0">
+            <li><kbd>I</kbd>: toggle Her idle animation. The transition to idle is immediate; the transition out of idle takes a while (about 10 idle cycles: <code>CrossFade("Her_Entire_Sheet", 10f)</code>).</li>
+            <li>The HeroKnight animation is RICH (I don't know all of it): <kbd>E</kbd> kills the hero, <kbd>Left mouse</kbd> attacks, and there's much more!!</li>
+          </ul>
+        </div>
+
+        <h4 id="ex6-an-example">An example</h4>
+        <ul>
+          <li>Three sprite sheets: HerPlayer, HimPlayer and TinyTown, sliced into individual sprites:
+            <ul>
+              <li>HerPlayer and HimPlayer by fixed size (grid-cell count)</li>
+              <li>TinyTown with automatic size detection</li>
+            </ul>
+          </li>
+          <li><b>Drag an individual sprite</b> to create a GameObject with no animation: e.g., the Tilemap_48 and Tilemap_49 objects are dragged from individual sprite elements (elements 48 and 49 of TinyTown).</li>
+          <li><b>Drag an entire sprite sheet</b> to create a GameObject with an Animator: e.g., HerPlayer (rename the created Animator in the Assets window). Repeat for HimPlayer.</li>
+          <li><b>Sharing the created Animator:</b> unfortunately, this can't be done; the association with the sprite is static. Try it: replace HimPlayer's Animator controller with Her_Entire_Sheet!</li>
+          <li>I painfully created the Her_Idle animation clip + state. Lesson learned: this stuff is challenging!</li>
+          <li><b>Not done:</b> to support interactions, we'd have to define colliders for each sprite. Here's <a href="https://www.youtube.com/watch?v=ls1WxW1zXNc">a short tutorial ↗</a> on what you can do (create associated keyframes for the collider).</li>
+        </ul>
+
+        <div class="callout tip"><span class="title">Recommendation</span>Find free character assets (most teams do) and modify them for your needs. <b>Make sure to cite!!</b> Hero Knight is an example from the <a href="https://assetstore.unity.com/packages/2d/characters/hero-knight-pixel-art-165188">Unity Asset Store ↗</a>.</div>
+
+        <div class="callout learned">
+          <span class="title">Learned: some basic Unity how-to</span>
+          <ul style="margin:4px 0 0">
+            <li>Working with a sprite sheet: slice it into individual tiles with the Sprite Editor (remember to set the mode to Multiple)</li>
+            <li>Drag to create a GameObject with a default sprite animation</li>
+            <li>Create a simple sprite animation and support animation state transitions</li>
+            <li>Good animation is tedious and, more importantly, challenging!</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex6-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>Suppose one cycle of the Her_Idle clip lasts 1 second. About how long does the switch out of idle take after you press <kbd>I</kbd>?
+              <details><summary>Show answer</summary><p>About 10 seconds. <code>CrossFade("Her_Entire_Sheet", 10f)</code> measures its duration in units of the current state's length, so 10 means ten idle cycles. Going into idle uses <code>0.1f</code>, a tenth of a cycle, which is why that switch looks immediate.</p></details>
+            </li>
+            <li>You slice HerPlayer's sprite sheet with <b>Automatic</b> instead of <b>Grid by Cell Size</b>. What goes wrong in the animation?
+              <details><summary>Show answer</summary><p>Automatic slicing crops each frame tightly around its pixels, so frames come out at different sizes, with different pivots, and possibly in a different order. Played in sequence, the character jitters or jumps around. A fixed grid gives every frame the same size and pivot, which animation needs.</p></details>
+            </li>
+          </ol>
+        </div>
+
+        <h4>References and credits</h4>
+        <ul>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/sprite/sprite-editor/sprite-editor-landing.html">Sprite Editor ↗</a></li>
+          <li>TinyTown: <a href="https://www.kenney.nl/assets/tiny-town">kenney.nl/assets/tiny-town ↗</a></li>
+          <li>Kenney: <a href="https://www.kenney.nl/assets/platformer-characters">kenney.nl/assets/platformer-characters ↗</a></li>
+          <li>Hero Knight: <a href="https://assetstore.unity.com/packages/2d/characters/hero-knight-pixel-art-165188">Unity Asset Store ↗</a></li>
+        </ul>
+      </div>
+
+      <!-- 3.7 -->
+      <div class="card" id="ex7">
+        <div class="example-head">
+          <div class="example-num">3.7</div>
+          <div><h3>Tile Palettes and Tilemap</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/3.7/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+
+        <h4 id="ex7-painting-a-level">What: create a level by <i>painting</i> it</h4>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:170px">Piece</th><th>Painting analogy</th></tr>
+            <tr><td class="ui">Tile sprite sheet</td><td>The paint: the choice of colors to use in a painting</td></tr>
+            <tr><td class="ui">Tile Palette</td><td>The palette of colors to paint with; here a “color” is a selected tile from the tile sprite sheet</td></tr>
+            <tr><td class="ui">Tilemap</td><td>The canvas: the target to paint on</td></tr>
+          </table>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <ul style="margin:4px 0 0">
+            <li><kbd>A</kbd> <kbd>D</kbd> (or <kbd>←</kbd> <kbd>→</kbd>): run (<kbd>W</kbd> and <kbd>S</kbd> do nothing)</li>
+            <li><kbd>Space</kbd>: jump</li>
+            <li><kbd>Left Shift</kbd>: roll</li>
+            <li><kbd>Left mouse</kbd>: attack</li>
+            <li><kbd>Right mouse</kbd>: block</li>
+            <li><kbd>Q</kbd>: hurt</li>
+            <li><kbd>E</kbd>: kill</li>
+          </ul>
+        </div>
+
+        <h4 id="ex7-tile-sprite-sheet">Tile sprite sheet</h4>
+        <ul>
+          <li>Turn a tile sprite sheet into individual sprites (usually with automatic slicing).</li>
+          <li>Remember: the <b><i>size</i></b> of each sprite element is controlled/refined by the texture's <i>Pixels Per Unit</i>.</li>
+        </ul>
+
+        <h4 id="ex7-tile-palette">Tile Palette</h4>
+        <ul>
+          <li>Make sure the Tilemap packages are installed: in <span class="path">Window › Package Manager</span>, make sure “2D Tilemap Editor” and “2D Tilemap Extras” are installed.</li>
+          <li>To create a Tile Palette: <span class="path">Window › 2D › Tile Palette</span> (see <a href="https://docs.unity3d.com/6000.3/Documentation/Manual/tilemaps/tile-palettes/create-tile-palette.html">Create a tile palette ↗</a>).</li>
+          <li>Remember, this is for painting onto the Tilemap (discussed next). Here's the UI:</li>
+        </ul>
+        <figure>
+          <img src="images/tile-palette.png" width="975" height="202" alt="Unity Tile Palette window with four numbered areas: 1 palette name, 2 palette edit and grid buttons, 3 target Tilemap dropdown, 4 painting tools">
+          <figcaption>The Tile Palette window.</figcaption>
+        </figure>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:50px">#</th><th style="width:130px">Applies to</th><th>What it does</th></tr>
+            <tr><td>1</td><td>This palette</td><td>Name of this palette (you can create many)</td></tr>
+            <tr><td>2</td><td>This palette</td><td>Operations on this palette: edit, grid on/off</td></tr>
+            <tr><td>3</td><td>The Tilemap</td><td>Which map to draw on</td></tr>
+            <tr><td>4</td><td>The Tilemap</td><td>Drawing mode: select area, move area, brush, …</td></tr>
+          </table>
+        </div>
+
+        <h4 id="ex7-tilemap">Tilemap</h4>
+        <ul>
+          <li>Unity tutorial: <a href="https://learn.unity.com/tutorial/introduction-to-tilemaps">Introduction to Tilemaps ↗</a></li>
+          <li>One grid system with many layers of maps.</li>
+          <li>Idea: each grid cell contains one tile sprite (again, the tile sprite's size is set by the Pixels Per Unit attribute on the original tile sprite sheet texture).</li>
+        </ul>
+
+        <h4 id="ex7-example-paint-operation">Example paint operation</h4>
+        <ol class="steps">
+          <li><b>Tile sprite sheet setup:</b> drag in your tile sprite sheet, set it to Multiple, and slice it into individual tiles.</li>
+          <li>Open the Tile Palette and create a new palette using your tile sprite sheet.</li>
+          <li>Create a Tilemap object (this creates a Grid with one map child). Name the child <b>Background</b>.</li>
+          <li><b>Refine the tile pixel size</b> (this is what I do): paint a tile in the grid, then adjust the tile sprite sheet's Pixels Per Unit (or the grid size) until each tile covers exactly one grid cell.</li>
+          <li>Paint the Background. When done, get ready to paint platforms (with colliders): first disable Background (make it inactive).</li>
+          <li>Create a new tilemap (<kbd>Right mouse</kbd> over Grid › <span class="path">2D Object › Tilemap › Rectangular</span>). Name it <b>Platforms</b>, select Platforms as the target in the Tile Palette, and paint the platforms.</li>
+          <li>Repeat for the <b>MovableTiles</b> map.</li>
+        </ol>
+
+        <h4 id="ex7-collision-support">Collision support</h4>
+        <ul>
+          <li>Idea: put collidable tiles in separate map layers; in our case, the Platforms map.</li>
+          <li>After drawing, you can switch on collision for individual maps by adding a TilemapCollider2D component (<span class="path">Add Component › Tilemap › Tilemap Collider 2D</span>). All the tiles in that layer then have a Collider2D and can detect collisions.</li>
+          <li>For more accurate/smooth collision support (on MovableTiles):
+            <ul>
+              <li>Add a <b>CompositeCollider2D</b> (under Physics 2D) to the Tilemap's map to <i>smooth out</i> issues caused by too many colliders. Here's <a href="https://www.youtube.com/watch?v=Z0O59mWbq1E">a short discussion of the issue ↗</a>.</li>
+              <li>A Rigidbody2D is added to the map automatically; you'll probably want to change its type to Kinematic.</li>
+              <li>Set TilemapCollider2D › Composite Operation to <b>Merge</b>.</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="callout info">
+          <span class="title">Note</span>
+          <ul style="margin:4px 0 0">
+            <li>A Collider2D's size can be adjusted (e.g., larger or smaller than the actual object).</li>
+            <li>For a collision to occur, one of the parties <i>must have</i> a Rigidbody2D (everything you learned about collision in Unity applies here). So if the hero walks over the tiles, the hero should have a Rigidbody2D (and at least one Collider2D). Recall:
+              <ul>
+                <li><b>Dynamic:</b> moves according to physics (try setting <i>Gravity Scale</i> to 0)</li>
+                <li><b>Kinematic:</b> only for collision; it can't respond (no movement after colliding)</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <h4 id="ex7-layering-front-back">Player/Tilemap layering (front/back)</h4>
+        <ul>
+          <li>See <a href="https://www.youtube.com/watch?v=rVBzTKvoStk">this video ↗</a>.</li>
+          <li>Control: every object's <span class="path">Renderer › Additional Settings › Order in Layer</span>.</li>
+          <li>Layers: 2 = HeroKnight, 1 = Platform, 0 = Background.</li>
+        </ul>
+
+        <div class="callout learned">
+          <span class="title">Learned: again, mostly Unity tools</span>
+          <ul style="margin:4px 0 0">
+            <li><b>Tile Palette:</b> how to create one, and how to paint on different maps</li>
+            <li><b>Tilemap:</b> separate maps for separate characteristics, including colliders</li>
+            <li><b>Collisions:</b> probably always use composite colliders for platformers</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex7-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>The HeroKnight's Order in Layer is 2, Platforms is 1 and Background is 0. If you set the HeroKnight's Order in Layer to <code>0</code>, what might you see?
+              <details><summary>Show answer</summary><p>The hero can disappear behind the Background, or flicker in and out where they overlap: with the same Order in Layer, Unity has no fixed rule for which one draws on top. Higher Order in Layer values draw in front.</p></details>
+            </li>
+            <li>The MovableTiles map has a Rigidbody2D set to <b>Kinematic</b>. Why not <b>Dynamic</b>?
+              <details><summary>Show answer</summary><p>A Dynamic body is moved by physics: the tiles would fall under gravity and get pushed around when the hero lands on them. A Kinematic body ignores forces and moves only when a script moves it, which is what <code>PlatformMovement</code> does. The Rigidbody2D is still needed for the CompositeCollider2D.</p></details>
+            </li>
+          </ol>
+        </div>
+
+        <h4>Credits</h4>
+        <ul>
+          <li>TinyTown: <a href="https://www.kenney.nl/assets/tiny-town">kenney.nl/assets/tiny-town ↗</a></li>
+          <li>Kenney: <a href="https://www.kenney.nl/assets/platformer-characters">kenney.nl/assets/platformer-characters ↗</a></li>
+          <li>Hero Knight: <a href="https://assetstore.unity.com/packages/2d/characters/hero-knight-pixel-art-165188">Unity Asset Store ↗</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <a href="../Module-2/index.html">← Module 2</a> · <a href="../Module-4/index.html">Module 4 →</a>
+    </footer>
+  </main>
+
+</div>
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a[href^="#"]'));
+    var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function update() {
+      var y = window.scrollY + 80, idx = 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top + window.scrollY <= y) idx = i; });
+      // A section hidden inside a collapsed example group highlights the example's own link instead
+      var current = links[idx], group = current.closest('details');
+      if (group && !group.open) current = group.querySelector('summary a');
+      links.forEach(function (a) { a.classList.toggle('active', a === current); });
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    document.querySelectorAll('nav.toc details').forEach(function (d) { d.addEventListener('toggle', update); });
+    update();
+  })();
+</script>
+</body>
+</html>

@@ -614,7 +614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mTheCamera: {fileID: 692051648}
   WorldBoundRegion: 0.8
-  kHeroSpeed: 20
+  mHeroSpeed: 20
 --- !u!1001 &1075920879
 PrefabInstance:
   m_ObjectHideFlags: 0

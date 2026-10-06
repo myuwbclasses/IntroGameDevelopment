@@ -16,14 +16,13 @@ public class GreenArrowBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         PointAtPosition(mMyTarget.transform.localPosition, mTurnRate.value() * Time.smoothDeltaTime);
         transform.localPosition += kMySpeed * Time.smoothDeltaTime * transform.up;
     }
 
     private void PointAtPosition(Vector3 p, float r)
     {
-        Vector3 v = p - transform.localPosition;
+        Vector3 v = (p - transform.localPosition).normalized;
         transform.up = Vector3.LerpUnclamped(transform.up, v, r);
     }
 

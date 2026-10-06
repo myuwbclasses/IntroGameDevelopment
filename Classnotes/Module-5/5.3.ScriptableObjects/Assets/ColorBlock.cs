@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ColorBlock : MonoBehaviour
 {
-    [SerializeField, Range(0.05f, 1f)] public float ChangeRate = 0.5f;
+    [Range(0.05f, 1f)] public float ChangeRate = 0.5f;
 
     private const string kHeroName = "Hero - Green";
     
@@ -27,12 +25,12 @@ public class ColorBlock : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("WhiteMagic TriggerEnter: " + other.gameObject.name);
+        Debug.Log("ColorBlock TriggerEnter: " + other.gameObject.name);
         EnterColorChangeMode(other.gameObject);
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        Debug.Log("WhiteMagic TriggerExit: " + other.gameObject.name);
+        Debug.Log("ColorBlock TriggerExit: " + other.gameObject.name);
         ExitColorChangeMode();
     }
 

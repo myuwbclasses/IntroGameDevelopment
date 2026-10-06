@@ -165,7 +165,7 @@ public partial class CameraSupport : MonoBehaviour
         mTheCamera.rect = new Rect(x, y, r.width, r.height);
     }
 
-    public void SetViewprotSize(float w, float h)
+    public void SetViewportSize(float w, float h)
     {
         Rect r = mTheCamera.rect;
         mTheCamera.rect = new Rect(r.x, r.y, w, h);

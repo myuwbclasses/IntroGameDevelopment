@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 1 · Introduction + Warm Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #f1f3f7;
+    --text: #1d2330;
+    --muted: #5b6475;
+    --border: #e2e6ee;
+    --accent: #2f6fdf;
+    --accent-soft: #e8f0fd;
+    --green: #1f9d55;
+    --green-soft: #e7f6ee;
+    --amber: #b7791f;
+    --amber-soft: #fdf5e6;
+    --red: #c53030;
+    --red-soft: #fdecec;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 2px 8px rgba(16,24,40,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117;
+      --surface: #161b24;
+      --surface-2: #1d2430;
+      --text: #e6e9ef;
+      --muted: #9aa4b5;
+      --border: #2a3240;
+      --accent: #6aa0ff;
+      --accent-soft: #1b2a45;
+      --green: #4ccb86;
+      --green-soft: #15291f;
+      --amber: #e2b04a;
+      --amber-soft: #2c2415;
+      --red: #f07171;
+      --red-soft: #2e1a1c;
+      --code-bg: #0a0d13;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, kbd, .path {
+    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    font-size: .86em;
+  }
+  code { background: var(--surface-2); border: 1px solid var(--border); padding: .08em .4em; border-radius: 5px; }
+  kbd {
+    background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+    padding: .05em .45em; border-radius: 5px; white-space: nowrap;
+  }
+  .path { background: var(--accent-soft); color: var(--accent); padding: .08em .45em; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .ui { font-weight: 600; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 40px; padding: 0 24px; }
+  nav.toc { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; padding: 36px 0; }
+  nav.toc .label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 12px; }
+  nav.toc a { display: block; padding: 6px 12px; border-radius: 8px; color: var(--muted); font-size: 14px; border-left: 2px solid transparent; }
+  nav.toc a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+  nav.toc a.active { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+  nav.toc a.sub { padding-left: 26px; font-size: 13.5px; }
+  /* Collapsible example groups: click the arrow to show/hide an example's sections */
+  nav.toc details > summary { display: flex; align-items: center; list-style: none; cursor: pointer; border-radius: 8px; }
+  nav.toc details > summary::-webkit-details-marker { display: none; }
+  nav.toc details > summary a { flex: 1; min-width: 0; }
+  nav.toc details > summary::after { content: "›"; flex: none; width: 24px; text-align: center; color: var(--muted); font-size: 16px; line-height: 1; transition: transform .15s; }
+  nav.toc details[open] > summary::after { transform: rotate(90deg); }
+  nav.toc details > summary:hover::after { color: var(--text); }
+  nav.toc details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  main { padding: 36px 0 80px; min-width: 0; }
+
+  /* Hero */
+  header.hero {
+    background: linear-gradient(135deg, #2f6fdf 0%, #6a4fd8 100%);
+    color: #fff; border-radius: 18px; padding: 36px 36px 32px; margin-bottom: 32px;
+    position: relative; overflow: hidden;
+  }
+  header.hero::after {
+    content: ""; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px;
+    border-radius: 50%; background: rgba(255,255,255,.08);
+  }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+  header.hero h1 { font-size: 36px; line-height: 1.2; margin: 6px 0 14px; letter-spacing: -.02em; }
+  .hero-links { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.16); color: #fff; border: 1px solid rgba(255,255,255,.28);
+    padding: 7px 14px; border-radius: 999px; font-size: 14px; font-weight: 500;
+  }
+  .btn:hover { background: rgba(255,255,255,.26); text-decoration: none; }
+
+  /* Sections */
+  section { margin-bottom: 44px; }
+  h2 { font-size: 24px; letter-spacing: -.01em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  h4 { font-size: 15.5px; margin: 20px 0 6px; color: var(--text); }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li > ul, li > ol { margin: 4px 0 6px; }
+  ul ul { list-style: circle; }
+  ul ul ul { list-style: square; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+
+  /* Coverage grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  .topic { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .topic h4 { margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+  .topic .ico { width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 15px; }
+  .topic ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); }
+
+  /* Folder chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); }
+  .chip.keep { background: var(--green-soft); border-color: transparent; color: var(--green); }
+  .chip.skip { background: var(--red-soft); border-color: transparent; color: var(--red); text-decoration: line-through; text-decoration-thickness: 1px; }
+
+  /* Callouts */
+  .callout { border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; border-left: 4px solid; font-size: 15px; }
+  .callout > :last-child { margin-bottom: 0; }
+  .callout .title { font-weight: 600; display: block; margin-bottom: 4px; }
+  .callout.info { background: var(--accent-soft); border-color: var(--accent); }
+  .callout.tip { background: var(--green-soft); border-color: var(--green); }
+  .callout.warn { background: var(--amber-soft); border-color: var(--amber); }
+  .callout.danger { background: var(--red-soft); border-color: var(--red); }
+  .callout.learned { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--green); }
+  .callout.learned .title { color: var(--green); }
+
+  /* Review questions */
+  .review { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; font-size: 15px; }
+  .review .title { font-weight: 600; display: block; margin-bottom: 4px; color: var(--accent); }
+  .review ol { margin: 4px 0 0; padding-left: 22px; }
+  .review ol > li { margin: 10px 0; }
+  .review details { margin-top: 6px; }
+  .review summary { cursor: pointer; color: var(--accent); font-size: 14px; font-weight: 500; }
+  .review details p { margin: 6px 0 0; padding: 8px 12px; background: var(--surface-2); border-radius: 8px; }
+
+  /* Example headers */
+  .example-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .example-num { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; flex: none; }
+  .example-head h3 { margin: 0; font-size: 21px; }
+  .example-head .sub { color: var(--muted); font-size: 14px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 6px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .pill:hover { text-decoration: none; filter: brightness(.97); }
+
+  /* Figures */
+  figure { margin: 16px 0; }
+  figure img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; box-shadow: var(--shadow); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  img.inline { vertical-align: middle; border-radius: 6px; border: 1px solid var(--border); height: 44px; margin-left: 6px; }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; background: var(--surface-2); }
+  tr:last-child td { border-bottom: none; }
+  .tbl { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .tbl table { margin: 0; }
+
+  /* Steps */
+  ol.steps { counter-reset: s; list-style: none; padding-left: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding-left: 38px; margin: 10px 0; }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface-2); border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+    display: grid; place-items: center; color: var(--muted);
+  }
+
+  /* ECS diagram */
+  .ecs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
+  .ecs div { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+  .ecs b { display: block; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .ecs span { font-size: 14.5px; color: var(--muted); }
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: "JetBrains Mono", monospace; font-size: 13.5px; margin: 8px 0; }
+  .flow span { background: var(--surface-2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+  .flow i { color: var(--muted); font-style: normal; }
+
+  /* ECS diagram 1: GameObjects (entities) holding components */
+  .ecs-objects { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 12px 0 6px; }
+  .go { border: 2px solid var(--border); border-radius: 12px; background: var(--surface); padding: 12px 14px; min-width: 0; }
+  .go-name { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-weight: 600; font-size: 15px; }
+  .go-name small, .ecs-loop small { font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+  .comps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .comp { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; font-size: 13px; padding: 5px 10px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); }
+  .comp.script { background: var(--green-soft); color: var(--green); border-color: transparent; }
+  .comp em { font-family: "Inter", system-ui, sans-serif; font-style: normal; font-size: 11.5px; color: var(--muted); margin-left: 4px; }
+
+  /* ECS diagram 2: Unity's systems calling the components */
+  .ecs-loop { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1fr) minmax(0, 1.8fr); gap: 10px; align-items: stretch; margin: 12px 0 6px; }
+  .ecs-loop > div { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 12px 14px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+  .ecs-loop .frame { border: 2px dashed var(--accent); background: var(--accent-soft); }
+  .ecs-loop .frame > small { color: var(--accent); }
+  .sys { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 14px; }
+  .sys b { display: block; font-size: 13px; }
+  .sys code { font-size: .82em; }
+  @media (max-width: 700px) { .ecs-loop { grid-template-columns: 1fr; } }
+
+  footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 40px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding: 0 16px; }
+    nav.toc { display: none; }
+    header.hero { padding: 28px 22px; }
+    header.hero h1 { font-size: 28px; }
+    .card { padding: 18px; }
+    .ecs { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Module 1</div>
+    <a href="#coverage">Coverage</a>
+    <a href="#setup">Setup &amp; tools</a>
+    <a href="#git" class="sub">Git and GitHub</a>
+    <details>
+      <summary title="Show or hide the sections of 1.1"><a href="#ex1">1.1 Basic Simple Project</a></summary>
+      <a href="#ex1-editor" class="sub">The editor</a>
+      <a href="#ex1-camera" class="sub">2D camera</a>
+      <a href="#ex1-sprites" class="sub">Textures &amp; sprites</a>
+      <a href="#ex1-modes" class="sub">Editor vs Play mode</a>
+      <a href="#ex1-build" class="sub">Building</a>
+      <a href="#ex1-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the ECS sections"><a href="#ecs">ECS &amp; Unity</a></summary>
+      <a href="#ecs-map" class="sub">The three ideas</a>
+      <a href="#ecs-entity" class="sub">What an entity is made of</a>
+      <a href="#ecs-systems" class="sub">Who calls your code</a>
+      <a href="#ecs-try" class="sub">Try it</a>
+      <a href="#ecs-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 1.2"><a href="#ex2">1.2 Scripts on GameObjects</a></summary>
+      <a href="#ex2-add" class="sub">Adding a script</a>
+      <a href="#ex2-mono" class="sub">MonoBehaviour objects</a>
+      <a href="#ex2-script" class="sub">The GreenArrowBehavior script</a>
+      <a href="#ex2-views" class="sub">Scene vs Game windows</a>
+      <a href="#ex2-run" class="sub">Running the game</a>
+      <a href="#ex2-units" class="sub">Units of the world</a>
+      <a href="#ex2-review" class="sub">Check your understanding</a>
+    </details>
+    <a href="Module-1-Summary.pptx">⬇ Summary slides (.pptx)</a>
+    <a href="#ex3">Self-exercise</a>
+    <a href="#credits">Credits</a>
+    <div class="label" style="margin-top:24px">References</div>
+    <a href="../index.html">Class notes home</a>
+    <a href="index.html" aria-current="page" style="color:var(--text);font-weight:600">Module 1 (this page)</a>
+    <a href="../Module-2/index.html">Module 2</a>
+    <a href="../Module-3/index.html">Module 3</a>
+    <a href="../Module-4/index.html">Module 4</a>
+    <a href="../Module-5/index.html">Module 5</a>
+    <a href="../UnityHelp.html">Unity help</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Module 1 · Examples</div>
+      <h1>Introduction + Warm Up</h1>
+      <div class="hero-links">
+        <a class="btn" href="https://github.com/myuwbclasses/IntroGameDevelopment">GitHub repository ↗</a>
+        <a class="btn" href="../UnityHelp.html#install">Unity installation help</a>
+      </div>
+    </header>
+
+    <!-- COVERAGE -->
+    <section id="coverage">
+      <h2>Coverage</h2>
+      <div class="grid">
+        <div class="topic">
+          <h4><span class="ico">⎇</span>GitHub</h4>
+          <ul>
+            <li>Branch / fork</li>
+            <li>The only four folders a Unity project needs</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">▶</span>Basics</h4>
+          <ul>
+            <li>Open and work with the Unity editor</li>
+            <li>Set up a 2D camera, including world size</li>
+            <li>Build to EXE and WebGL</li>
+            <li>Host a WebGL game</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">⌨</span>User interaction</h4>
+          <ul>
+            <li>Polling keyboard states</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">◆</span>Unity objects</h4>
+          <ul>
+            <li>Textures and 2D sprite objects</li>
+            <li>Attach scripts (MonoBehaviour objects)</li>
+            <li>Use the Transform to change position</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h4 style="margin-top:0">To save a Unity project, you only need these four folders</h4>
+        <div class="chips">
+          <span class="chip keep">Assets</span>
+          <span class="chip keep">Packages</span>
+          <span class="chip keep">ProjectSettings</span>
+          <span class="chip keep">UserSettings</span>
+        </div>
+        <p style="margin-bottom:6px">There's no reason to push the other folders to GitHub (or to submit them). Unity or your code editor regenerates them, or, like Builds, they only hold build output:</p>
+        <div class="chips" style="margin-bottom:0">
+          <span class="chip skip">Library</span>
+          <span class="chip skip">Temp</span>
+          <span class="chip skip">Logs</span>
+          <span class="chip skip">obj</span>
+          <span class="chip skip">Builds</span>
+          <span class="chip skip">.vs</span>
+          <span class="chip skip">.vscode</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <h2>Setup &amp; tools</h2>
+
+      <div class="card">
+        <h4 style="margin-top:0">Unity</h4>
+        <p>Download and install Unity 3D. See <a href="../UnityHelp.html#install">Unity installation help</a>. Note the version I'm using; for this class I see no reason to update to a newer one.</p>
+        <div class="callout danger">
+          <span class="title">Once you choose a version, do not change or update it for the rest of this class!</span>
+          Updating software versions during a project is a major cause of project delay. Avoid it at all costs.
+        </div>
+      </div>
+
+      <div class="card">
+        <h4 style="margin-top:0">Online tools</h4>
+        <p><b>Hosting a web page:</b> in Part 2 you'll host WebGL builds for your assignments and projects. A free and convenient way to host your own page is <a href="https://pages.github.com/">GitHub Pages ↗</a>.</p>
+      </div>
+
+      <div class="card" id="git">
+        <h4 style="margin-top:0">Git and GitHub</h4>
+        <ol class="steps">
+          <li>At the very minimum, <b>fork</b> the provided repository so you'll know when there are changes.</li>
+          <li><b>Do not start Unity yet.</b> Instead, open the GitHub folder in File Explorer.</li>
+          <li>
+            <b>Observe</b> the Unity project folder <code>1.1.BasicSimpleProject</code>. It has five subfolders:
+            <div class="chips">
+              <span class="chip">Assets</span><span class="chip">Packages</span><span class="chip">ProjectSettings</span><span class="chip">UserSettings</span><span class="chip">EXE</span>
+            </div>
+            <ul>
+              <li>You only need to pay attention to <b>Assets</b>. Keep all the resources you create in this folder.</li>
+              <li><b>EXE</b> holds the <i>build</i> result of the project.</li>
+              <li>The other three folders track the state of your Unity editor.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Observe:</b> now open <code>1.1.BasicSimpleProject</code> with Unity. After the project opens, many new folders appear, including <code>Library</code>, <code>Logs</code> and <code>Temp</code>.
+            <ul>
+              <li><b>None</b> of these new folders are needed to save or retrieve your work.</li>
+              <li>They do speed up Unity's startup, but please do <b>not</b> submit them and do <b>not</b> push them to GitHub.</li>
+            </ul>
+            <div class="callout warn">If you're using the free version of GitHub, the <code>Library</code> folder may be too large to push and can lock up your repo.</div>
+          </li>
+        </ol>
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          Before submitting the <i>source</i> for your programming assignments, go to the project folder and remove all the unneeded folders, e.g., <code>Temp</code>, <code>obj</code>, <code>Library</code>, <code>Logs</code>, <code>Builds</code>.
+        </div>
+        <div class="callout warn"><span class="title">Warning</span>Always keep backup copies. If you accidentally remove files or folders you need, you must have a way to revert your changes.</div>
+      </div>
+    </section>
+
+    <!-- EXAMPLE 1.1 -->
+    <section id="ex1">
+      <h2>Examples for Module 1</h2>
+
+      <div class="card">
+        <div class="example-head">
+          <div class="example-num">1.1</div>
+          <div>
+            <h3>Basic Simple Project</h3>
+            <div class="sub">Created from Unity Hub + New Project → 2D (Built-In Render Pipeline) [scroll down, the template is at the bottom]</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/1.1/index.html">▶ Play in browser (WebGL)</a>
+          <a class="pill" href="1.1.BasicSimpleProject/EXE/Module-1-Ex1-EXE.zip">⬇ Download PC EXE</a>
+        </div>
+
+        <h4>Open the scene</h4>
+        <ul>
+          <li>Examine the file system (outside of Unity) and compare to the <span class="ui">Project</span> panel (<span class="path">Window › Panels › Project</span>).</li>
+          <li>Notice the <b>Assets</b> and <b>Packages</b> folders: these are exact views of the file system we examined in File Explorer.</li>
+          <li>Click <b>Assets</b>, then <b>Scenes</b>.</li>
+          <li>Double-click <b>ClassExample</b>. This is our initial scene (level).</li>
+          <li>Make sure you're working in 2D by clicking the <b>2D</b> option at the top left of the Scene window.</li>
+        </ul>
+        <figure>
+          <img src="images/editor-2d-toggle.png" width="453" height="172" alt="The 2D toggle at the top left of the Unity Scene window">
+          <figcaption>The 2D toggle in the Scene window toolbar.</figcaption>
+        </figure>
+
+        <h4 id="ex1-editor">The many editor windows</h4>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:130px">Window</th><th>Purpose</th></tr>
+            <tr><td class="ui">Game</td><td>For playing. Try it: click the Play button</td></tr>
+            <tr><td class="ui">Scene</td><td>For editing</td></tr>
+            <tr><td class="ui">Hierarchy</td><td>Examine your entire scene (all objects are listed here)</td></tr>
+            <tr><td class="ui">Inspector</td><td>Examine the details of the selected object</td></tr>
+            <tr><td class="ui">Project</td><td>The view into the file system we saw earlier, where your stuff is kept</td></tr>
+            <tr><td class="ui">Console</td><td>Errors from Unity and debug output from Debug.Log</td></tr>
+          </table>
+        </div>
+        <div class="callout warn">Be careful not to confuse the <b>Scene</b> and <b>Game</b> windows. Look at the background color!</div>
+
+        <h4>Configure the editor</h4>
+        <ul>
+          <li>Drag the tab of the <span class="ui">Game</span> window. You can detach the window!</li>
+          <li>Put the <span class="ui">Game</span> and <span class="ui">Scene</span> windows side by side.
+            <ul>
+              <li><span class="ui">Scene</span> window: make sure you can see the camera boundaries.</li>
+              <li>Resize the <span class="ui">Game</span> window and notice how the camera boundaries in the Scene window update to match the Game window's aspect ratio.</li>
+            </ul>
+          </li>
+          <li>This leads us to talk about the camera.</li>
+        </ul>
+
+        <h4 id="ex1-camera">2D environment: Main Camera settings</h4>
+        <p>Click the <b>Main Camera</b> object in the <span class="ui">Hierarchy</span> window and look at the <span class="ui">Inspector</span> window (both can be opened via <span class="path">Window › General</span>).</p>
+        <ul>
+          <li>Switch to 3D mode and see that the camera defines a rectangular box in the world. The content of that box is what gets shown.
+            <ol>
+              <li><kbd>Alt</kbd> + <kbd>Left mouse</kbd>: tumble the 3D editor camera</li>
+              <li><kbd>Middle mouse</kbd> scroll: zoom in/out</li>
+              <li>Click the manipulator button to activate the <b>move</b> tool; notice the <b>rotate</b> and <b>scale</b> tools too. <img class="inline" src="images/move-tool.jpg" alt="Move tool button in the toolbar"></li>
+            </ol>
+          </li>
+          <li>Notice the <b>Transform</b> values in the <span class="ui">Inspector</span>, in particular the Position. That's the camera's position. Try changing it:
+            <ol>
+              <li>Move the camera with the move tool (drag the arrows), or</li>
+              <li>Type values into <code>Transform.Position</code> x/y/z.</li>
+            </ol>
+          </li>
+        </ul>
+        <figure>
+          <img src="images/camera-inspector.png" width="724" height="648" alt="Hierarchy and Inspector windows with Main Camera selected">
+          <figcaption>Main Camera selected in the Hierarchy, with its Transform and Camera components in the Inspector.</figcaption>
+        </figure>
+
+        <h4>Initial camera settings</h4>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:170px">Setting</th><th>Value</th></tr>
+            <tr><td>Position</td><td><code>(0, 0, -10)</code></td></tr>
+            <tr><td>Rotation</td><td><code>(0, 0, 0)</code></td></tr>
+            <tr><td>Projection</td><td><b>Orthographic</b></td></tr>
+            <tr><td>Size</td><td><b>100</b>: half the world's vertical size, from the middle of the screen to the <b>top</b> of the Game window</td></tr>
+            <tr><td>Clipping Planes</td><td>Near: <code>0.3</code> is good. Far: <b>1000</b></td></tr>
+          </table>
+        </div>
+        <div class="callout info">
+          <span class="title">Now, our world</span>
+          <ul style="margin:4px 0 0">
+            <li>±100 in height (so the total vertical size is actually 200)</li>
+            <li>Left/right is X (<code>transform.right</code> is the unit X vector)</li>
+            <li>Up/down is Y (<code>transform.up</code> is the unit Y vector)</li>
+            <li><code>transform.forward</code> is the Z axis direction</li>
+          </ul>
+        </div>
+        <div class="callout tip">
+          <span class="title">Zoom to the game camera (or any selected object)</span>
+          Select <b>Main Camera</b> in the <span class="ui">Hierarchy</span> window, then choose <span class="path">GameObject › Align View to Selected</span>, or simply double-click the object in the Hierarchy. Remember: middle mouse scroll to zoom.
+        </div>
+
+        <h4 id="ex1-sprites">Textures (a fancy name for images)</h4>
+        <ul>
+          <li>Drag any image into the <span class="ui">Project</span> folder. Note: this <i>copies</i> the image into the project folder.</li>
+          <li>I created the <b>Textures</b> subfolder and dragged <b>GreenUp</b> into it.</li>
+          <li>Select the <b>GreenUp</b> texture by clicking on it in the <b>Textures</b> subfolder and examine the <span class="ui">Inspector</span> window.</li>
+          <li>Make sure <b>Texture Type</b> is set to <b>Sprite (2D and UI)</b>.</li>
+          <li>Note the <b>Pixels Per Unit</b> setting. E.g., a 1000×500 image with Pixels Per Unit of 100 appears as a 10×5 object.</li>
+        </ul>
+
+        <h4>2D sprite objects</h4>
+        <ul>
+          <li>Most (if not all) of the objects we work with will be Sprite (2D and UI) objects. The “Arrow” is a 2D sprite.</li>
+          <li>Create one with <span class="path">GameObject › 2D Object › Sprite</span>.</li>
+          <li>Drag the texture from <code>Project/Assets/Textures</code> onto <span class="path">SpriteRenderer › Sprite</span>.</li>
+          <li>Make the arrow 10×10 (otherwise you can't see it; 1×1 is hard to see). Note: the z size is always 1.</li>
+          <li>Alternatively, simply drag the GreenUp texture into the Scene window.</li>
+        </ul>
+
+        <h4>Size of the visible world (the Game window)</h4>
+        <ul>
+          <li><b>What is the height of the Game window?</b>
+            <ul>
+              <li>No! Not in pixels, but in object coordinates (world coordinates).</li>
+              <li>Try changing the GreenArrow's <code>Transform.Position.y</code> to 100. What do you see, and why?</li>
+            </ul>
+          </li>
+          <li><b>What is the width of the Game window?</b> Try resizing the Game window and watch the camera boundary change!
+            <ul>
+              <li>How can we find out?</li>
+              <li>We need the Game window's pixel resolution to compute the aspect ratio!</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4 id="ex1-modes">Editor vs Play mode</h4>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:130px">Mode</th><th>What it is</th></tr>
+            <tr><td class="ui">Editor</td><td>Typical editing</td></tr>
+            <tr><td class="ui">Play</td><td>When the game is running inside the editor</td></tr>
+          </table>
+        </div>
+        <div class="callout tip"><span class="title">Nice</span>You can keep making changes through the editor while in Play mode.</div>
+        <div class="callout danger"><span class="title">Warning</span>All changes are <b><i>lost</i></b> when you exit Play mode!</div>
+        <div class="callout info">
+          <span class="title">Recommendation</span>
+          Set up a reminder for yourself: in <span class="path">Edit › Preferences › Colors</span>, set the <b>Playmode tint</b>.
+        </div>
+        <figure>
+          <img src="images/playmode-tint.png" width="611" height="230" alt="Unity Preferences window, Colors page, with Playmode tint set to red">
+          <figcaption>Preferences › Colors › Playmode tint.</figcaption>
+        </figure>
+
+        <h4 id="ex1-build">Build your game</h4>
+        <p>Make sure you know how to build:</p>
+        <ul>
+          <li>To a <a href="1.1.BasicSimpleProject/EXE/Module-1-Ex1-EXE.zip">PC EXE</a> that you can download, unzip, and run by double-clicking the EXE.</li>
+          <li>To <a href="WebGL-Builds/1.1/index.html">WebGL</a>, which runs in your browser.
+            <ul>
+              <li>Building WebGL takes a <b>long time</b>.</li>
+              <li>Make sure you learn and practice how to host your own Unity WebGL game.</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="callout warn">Be sure to read the <b>WebGL Configuration</b> section at the bottom of the <a href="../UnityHelp.html#webgl-config">Unity help page</a>, or you may run into build errors.</div>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>Open a Unity scene</li>
+            <li>Set up a 2D camera and the size of the visible world</li>
+            <li>Create new textures for 2D sprite objects</li>
+            <li>Manipulate 2D sprite objects through the editor</li>
+            <li>Key editor windows:
+              <ul>
+                <li><b>Game:</b> what's visible through the Main Camera</li>
+                <li><b>Scene:</b> interactive editor window</li>
+                <li><b>Hierarchy:</b> list of all objects in the scene</li>
+                <li><b>Inspector:</b> details of the currently selected object</li>
+                <li><b>Project:</b> convenient view into the file system for working with resources</li>
+                <li><b>Console:</b> error and status messages (handy settings: <i>Clear on Play</i> and <i>Collapse</i>)</li>
+              </ul>
+            </li>
+            <li>Editor vs Play mode: Play mode changes are <b>not</b> saved!</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex1-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>The Main Camera is at <code>(0, 0, -10)</code> with Near <code>0.3</code> and Far <code>1000</code>. You move GreenUp to <code>(0, 0, -20)</code>. Can you see it in the Game window? Why or why not?
+              <details><summary>Show answer</summary><p>No. The camera looks toward +z, so it only sees objects between z = -9.7 (0.3 in front of it) and z = 990 (1000 in front of it). At z = -20, GreenUp is <i>behind</i> the camera. The same object at z = 0, or even z = 500, would be visible.</p></details>
+            </li>
+            <li>You zoom in the <span class="ui">Scene</span> window until GreenUp fills the view, then press Play. Does GreenUp also fill the <span class="ui">Game</span> window?
+              <details><summary>Show answer</summary><p>No. The Scene window has its own editor camera, which only you use while editing. The Game window always shows what the Main Camera sees, so zooming the Scene window changes nothing for the player.</p></details>
+            </li>
+            <li>After building to a PC EXE, a classmate emails you only <code>1.1.BasicSimpleProject.exe</code>. It won't run. What's missing?
+              <details><summary>Show answer</summary><p>The rest of the build folder: the <code>1.1.BasicSimpleProject_Data</code> folder (the game's scenes and assets), <code>UnityPlayer.dll</code>, and the other files beside the EXE. The EXE is only a small launcher, which is why the build is shared as a zip of the whole folder.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ECS -->
+    <section id="ecs">
+      <h2>Entity-Component-System (ECS) and Unity</h2>
+      <p>A conceptual understanding of the Unity engine: every object in a scene is an <b>entity</b> built from <b>components</b>, and Unity's <b>systems</b> do the work of running them.</p>
+      <div class="ecs">
+        <div><b>Entity</b><span>→ GameObject</span></div>
+        <div><b>Component</b><span>→ Components, e.g., Transform, Camera, Sprite Renderer, your script</span></div>
+        <div><b>System</b><span>→ Unity's engine: the loops that run every component (scripting, rendering, physics)</span></div>
+      </div>
+
+      <h4 id="ecs-map">The three ideas in the editor and in code</h4>
+      <div class="tbl" style="overflow-x:auto">
+        <table>
+          <tr><th style="width:110px">ECS idea</th><th>In the editor</th><th>In code</th><th>In example 1.2</th></tr>
+          <tr><td class="ui">Entity</td><td>An object in the <span class="ui">Hierarchy</span></td><td><code>GameObject</code>; <code>gameObject</code> inside a script</td><td>GreenUp</td></tr>
+          <tr><td class="ui">Component</td><td>Each block in the <span class="ui">Inspector</span></td><td><code>Transform</code>, <code>SpriteRenderer</code>, any <code>MonoBehaviour</code> you write</td><td>Transform, SpriteRenderer, GreenArrowBehavior</td></tr>
+          <tr><td class="ui">System</td><td>Not visible: it's the engine</td><td>Unity calling <code>Awake()</code>, <code>Start()</code>, <code>Update()</code>; the renderer; physics</td><td>Unity calls <code>GreenArrowBehavior.Update()</code> every frame; the Camera draws GreenUp's SpriteRenderer</td></tr>
+        </table>
+      </div>
+
+      <h4 id="ecs-entity">What an entity is made of</h4>
+      <div class="ecs-objects" role="img" aria-label="Two GameObjects: Main Camera holds a Transform and a Camera component; GreenUp holds a Transform, a SpriteRenderer and the GreenArrowBehavior script">
+        <div class="go">
+          <div class="go-name">Main Camera <small>GameObject</small></div>
+          <div class="comps">
+            <span class="comp">Transform <em>where</em></span>
+            <span class="comp">Camera <em>what's visible</em></span>
+          </div>
+        </div>
+        <div class="go">
+          <div class="go-name">GreenUp <small>GameObject</small></div>
+          <div class="comps">
+            <span class="comp">Transform <em>where</em></span>
+            <span class="comp">SpriteRenderer <em>how it looks</em></span>
+            <span class="comp script">GreenArrowBehavior <em>your script: what it does</em></span>
+          </div>
+        </div>
+      </div>
+      <ul>
+        <li>A GameObject on its own does nothing. It's a named container; everything it <i>is</i> and <i>does</i> comes from its components.</li>
+        <li>Every GameObject has a <b>Transform</b>. The other components decide what kind of object it is: a Camera component makes a camera, a SpriteRenderer makes something visible.</li>
+        <li>Your script is just one more component. That's why you attach it with <span class="path">Add Component</span>, and why it can reach its neighbors with <code>GetComponent&lt;T&gt;()</code>.</li>
+      </ul>
+
+      <h4 id="ecs-systems">Who calls your code</h4>
+      <div class="ecs-loop" role="img" aria-label="When you press Play, Unity calls Awake on every component, then Start on every component. Then, every frame, the scripting system calls Update on every script and the rendering system has each Camera draw every SpriteRenderer.">
+        <div><small>Press Play</small><span>▶ The scene loads</span></div>
+        <div><small>Once</small><span><code>Awake()</code> on every component, then <code>Start()</code> on every component</span></div>
+        <div class="frame">
+          <small>↻ Every frame</small>
+          <div class="sys"><b>Scripting</b>Calls <code>Update()</code> on every script, e.g., <code>GreenArrowBehavior.Update()</code></div>
+          <div class="sys"><b>Rendering</b>Each Camera draws every SpriteRenderer it can see</div>
+          <div class="sys"><b>Physics 2D (Module 2.6)</b>Moves Rigidbody2Ds and reports collisions</div>
+        </div>
+      </div>
+      <ul>
+        <li>You never call <code>Update()</code> yourself. Unity's systems find every component of a given kind and call it for you.</li>
+        <li><code>Awake()</code> of <i>all</i> objects runs before <code>Start()</code> of <i>any</i> object, so <code>Awake()</code> is the place to set up what other scripts will need in their <code>Start()</code>.</li>
+        <li>Don't write a constructor for a <code>MonoBehaviour</code>. Unity creates the component itself; put your setup in <code>Awake()</code> or <code>Start()</code>.</li>
+      </ul>
+
+      <h4 id="ecs-try">Try it: build behavior by adding components</h4>
+      <p>Open example 1.2, press Play, and select GreenUp in the <span class="ui">Hierarchy</span>:</p>
+      <ol class="steps">
+        <li>In the <span class="ui">Inspector</span>, remove (or untick) GreenUp's <b>Sprite Renderer</b>. GreenUp disappears, but hold <kbd>W</kbd>: its Transform Position still changes. The script and the Transform are still there; only the "how it looks" component is gone.</li>
+        <li>Add a component: <span class="path">Add Component › Physics 2D › Rigidbody 2D</span>. GreenUp starts to fall. You added a new behavior, gravity, without writing any code.</li>
+        <li>Stop the game. Both changes are undone, because Play-mode changes aren't saved.</li>
+      </ol>
+
+      <div class="callout info">
+        <span class="title">Unity has two "ECS" designs</span>
+        This class uses Unity's GameObject + component model, where your scripts hold both data and behavior. If you search for "Unity ECS", you'll also find Unity's <b>Entities</b> package (part of DOTS): a different design where components hold only data and separate <i>systems</i> hold all the logic. We don't use it in this class.
+      </div>
+
+      <div class="review" id="ecs-review">
+        <span class="title">Check your understanding</span>
+        <ol>
+          <li>Select GreenUp in example 1.2. In ECS terms, what is the entity, what are the components, and what plays the role of the system?
+            <details><summary>Show answer</summary><p>The entity is the GreenUp GameObject (its line in the Hierarchy). The components are the blocks in its Inspector: Transform, Sprite Renderer and GreenArrowBehavior. The system is Unity's engine: the scripting loop that calls <code>GreenArrowBehavior.Update()</code> every frame, and the renderer that has the Main Camera draw GreenUp's Sprite Renderer.</p></details>
+          </li>
+          <li>You choose <span class="path">GameObject › Create Empty</span> and press Play. What do you see in the Game window, and which components does the new object have?
+            <details><summary>Show answer</summary><p>Nothing new appears: the object has only a <b>Transform</b> (a position, rotation and scale), and nothing that draws it. Add a Sprite Renderer and give it a sprite, and it becomes visible. Its look and behavior come entirely from the components you add.</p></details>
+          </li>
+          <li>Instead, you remove GreenUp's <b>GreenArrowBehavior</b> (keeping the Sprite Renderer) and press Play. What changes?
+            <details><summary>Show answer</summary><p>GreenUp is still drawn exactly where it was, but <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> do nothing. The Sprite Renderer still gives it a look; the component that gave it behavior is gone. This is the opposite of the "Try it" step that removes the Sprite Renderer.</p></details>
+          </li>
+          <li>You wrote a new script with an <code>Update()</code> function, but it never runs. Your code doesn't call <code>Update()</code> anywhere. Name two likely reasons.
+            <details><summary>Show answer</summary><p>Unity's systems only call <code>Update()</code> on script components that exist in the running scene, so check: (1) the script was never attached to a GameObject (it's only a file in the Project window); (2) the GameObject is inactive or the component is unticked in the Inspector; (3) the project has a compile error (see the Console), so the new code never loaded. Calling <code>Update()</code> yourself is never the fix.</p></details>
+          </li>
+          <li>A classmate sets up their script with a constructor, <code>public GreenArrowBehavior() { ... }</code>. Why is that a bad idea, and where should the setup go?
+            <details><summary>Show answer</summary><p>Unity creates components itself, at times you don't control (including in the editor, and before the Inspector's values are filled in), so a constructor can run unexpectedly or have its work overwritten. Put setup in <code>Awake()</code> (for the object itself) or <code>Start()</code> (when it needs other objects to be ready).</p></details>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- EXAMPLE 1.2 -->
+    <section id="ex2">
+      <div class="card">
+        <div class="example-head">
+          <div class="example-num">1.2</div>
+          <div>
+            <h3>Scripts on GameObjects</h3>
+            <div class="sub">…and keyboard input</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/1.2/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+
+        <h4 id="ex2-add">Adding a script to an object</h4>
+        <ul>
+          <li><span class="ui">Inspector</span> window: <b>Add Component</b>, or</li>
+          <li>Drag a script file onto the Inspector.</li>
+          <li>Programming model: Entity-Component-System. A script is an instantiated <code>MonoBehaviour</code> object, stored as a component on a GameObject.</li>
+        </ul>
+
+        <h4 id="ex2-mono">MonoBehaviour objects</h4>
+        <ul>
+          <li><code>Awake()</code> / <code>Start()</code>: initialize your object. <code>Awake()</code> is guaranteed to be called before any <code>Start()</code>.</li>
+          <li><code>Update()</code>: called once per frame.</li>
+        </ul>
+
+        <h4 id="ex2-script">GreenUp has a GreenArrowBehavior script component</h4>
+        <ul>
+          <li>Script file: <code>Project/Assets/GreenArrowBehavior.cs</code></li>
+          <li>Double-click it to open your IDE and examine the file.</li>
+        </ul>
+
+        <h4 id="ex2-views">Scene vs Game windows</h4>
+        <ul>
+          <li><span class="ui">Scene</span> window: for editing</li>
+          <li><span class="ui">Game</span> window: what your player will see</li>
+        </ul>
+
+        <h4 id="ex2-run">Run the game (the ▶ button at the top center of the editor)</h4>
+        <ul>
+          <li>The script uses <code>using UnityEngine.InputSystem;</code></li>
+          <li><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> move the green arrow around.
+            <ul>
+              <li>Verify that the top of the screen is <code>y = 100</code>: with GreenUp selected, run and examine the Inspector.</li>
+              <li>What is the width of the world, and why?</li>
+            </ul>
+          </li>
+          <li>Changes made while the game is running are <b><i>not</i></b> saved!
+            <ul>
+              <li>With the game running, select GreenUp and delete it!</li>
+              <li>Quit the game and see the object return.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4 id="ex2-units">Units of the world</h4>
+        <ul>
+          <li>Independent of pixels!</li>
+          <li>Defined by the camera's Size.</li>
+          <li>How do we estimate “speed” (displacement per unit time)?</li>
+        </ul>
+
+        <div class="callout info"><span class="title">Debugging</span>See the <b><i>Debugging</i></b> section on the <a href="../UnityHelp.html#debugging">Unity help page</a>.</div>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>How to add scripts (behaviors) to GameObjects</li>
+            <li>ECS and the Unity architecture</li>
+            <li>Scripts
+              <ul>
+                <li>Programming model (ECS): an instantiated MonoBehaviour attached to a GameObject as a component</li>
+                <li>Runtime protocol: <code>Awake()</code> of all objects is called, then <code>Start()</code> of all objects, then one <code>Update()</code> per frame</li>
+              </ul>
+            </li>
+            <li>In the editor: changes made while the game is running are <b>not saved!</b></li>
+          </ul>
+        </div>
+        <div class="callout danger">
+          <span class="title">*** Note this ***</span>
+          Don't waste time editing your game while it's running! You will waste time on this, and you will learn!
+        </div>
+
+        <div class="review" id="ex2-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>In the editor, you rotate GreenUp by 90 degrees (Rotation z = <code>90</code>) so the arrow points left. You press Play and hold <kbd>W</kbd>. Which way does it move: up the screen, or in the direction the arrow points?
+              <details><summary>Show answer</summary><p>Up the screen. <code>GreenArrowBehavior</code> adds <code>kDelta</code> to <code>p.y</code>, the y value of <code>transform.localPosition</code>, which ignores the object's rotation. Moving in the direction the arrow points needs <code>transform.up</code>, which you'll use in Module 2.</p></details>
+            </li>
+            <li>You remove <code>GreenArrowBehavior</code> from GreenUp and attach it to the <b>Main Camera</b> instead. You press Play and hold <kbd>W</kbd>. What do you see in the Game window?
+              <details><summary>Show answer</summary><p>GreenUp appears to move <i>down</i>. The script now moves the Main Camera up, and the Game window shows what the camera sees, so everything in the world slides down the screen. A script is a component: it works on whichever GameObject it's attached to.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELF EXERCISE -->
+    <section id="ex3">
+      <div class="card">
+        <div class="example-head">
+          <div class="example-num">✎</div>
+          <div>
+            <h3>In-class self-exercise</h3>
+            <div class="sub">Practice what we learned today</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="Self_Exercise/Self-PracticeEX1.htm">Open the exercise →</a>
+          <a class="pill" href="WebGL-Builds/Self-EX/index.html">▶ Play the solution (WebGL)</a>
+        </div>
+        <ul>
+          <li>Follow the instructions and practice what we learned today.</li>
+          <li>My solution is at the end of the document.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer id="credits">
+      <b>Image credits:</b> All clip art used in this class's examples comes from the <i>Microsoft Office Free Clip Art Library</i>. These images were found many years ago, and the website they were downloaded from no longer exists. One source that seems to include some of them is <a href="https://clipart-library.com/microsoft-cliparts.html">clipart-library.com/microsoft-cliparts.html ↗</a>. It isn't the original site, but it does seem to include some of the art I used.
+      <p style="margin:12px 0 0"><a href="../Module-2/index.html">Module 2 →</a></p>
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Highlight the current section in the sidebar
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a[href^="#"]'));
+    var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function update() {
+      var y = window.scrollY + 80, idx = 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top + window.scrollY <= y) idx = i; });
+      // A section hidden inside a collapsed example group highlights the example's own link instead
+      var current = links[idx], group = current.closest('details');
+      if (group && !group.open) current = group.querySelector('summary a');
+      links.forEach(function (a) { a.classList.toggle('active', a === current); });
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    document.querySelectorAll('nav.toc details').forEach(function (d) { d.addEventListener('toggle', update); });
+    update();
+  })();
+</script>
+</body>
+</html>

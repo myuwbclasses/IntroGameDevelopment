@@ -5,7 +5,7 @@ using TMPro;
 
 public class NewLevelGameManager : MonoBehaviour
 {
-    public TMP_Text GameStateEcho = null;
+    public TMP_Text mGameStateEcho = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +15,6 @@ public class NewLevelGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GameStateEcho.text = "New Level: " + GameState.sGameState.EchoGameState();
+        mGameStateEcho.text = "New Level: " + GameState.sGameState.EchoGameState();
     }
 }

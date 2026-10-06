@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 5 · Unity Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #f1f3f7;
+    --text: #1d2330;
+    --muted: #5b6475;
+    --border: #e2e6ee;
+    --accent: #2f6fdf;
+    --accent-soft: #e8f0fd;
+    --green: #1f9d55;
+    --green-soft: #e7f6ee;
+    --amber: #b7791f;
+    --amber-soft: #fdf5e6;
+    --red: #c53030;
+    --red-soft: #fdecec;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 2px 8px rgba(16,24,40,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117;
+      --surface: #161b24;
+      --surface-2: #1d2430;
+      --text: #e6e9ef;
+      --muted: #9aa4b5;
+      --border: #2a3240;
+      --accent: #6aa0ff;
+      --accent-soft: #1b2a45;
+      --green: #4ccb86;
+      --green-soft: #15291f;
+      --amber: #e2b04a;
+      --amber-soft: #2c2415;
+      --red: #f07171;
+      --red-soft: #2e1a1c;
+      --code-bg: #0a0d13;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, kbd, .path {
+    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    font-size: .86em;
+  }
+  code { background: var(--surface-2); border: 1px solid var(--border); padding: .08em .4em; border-radius: 5px; }
+  kbd {
+    background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+    padding: .05em .45em; border-radius: 5px; white-space: nowrap;
+  }
+  .path { background: var(--accent-soft); color: var(--accent); padding: .08em .45em; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .ui { font-weight: 600; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 40px; padding: 0 24px; }
+  nav.toc { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; padding: 36px 0; }
+  nav.toc .label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 12px; }
+  nav.toc a { display: block; padding: 6px 12px; border-radius: 8px; color: var(--muted); font-size: 14px; border-left: 2px solid transparent; }
+  nav.toc a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+  nav.toc a.active { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+  nav.toc a.sub { padding-left: 26px; font-size: 13.5px; }
+  /* Collapsible example groups: click the arrow to show/hide an example's sections */
+  nav.toc details > summary { display: flex; align-items: center; list-style: none; cursor: pointer; border-radius: 8px; }
+  nav.toc details > summary::-webkit-details-marker { display: none; }
+  nav.toc details > summary a { flex: 1; min-width: 0; }
+  nav.toc details > summary::after { content: "›"; flex: none; width: 24px; text-align: center; color: var(--muted); font-size: 16px; line-height: 1; transition: transform .15s; }
+  nav.toc details[open] > summary::after { transform: rotate(90deg); }
+  nav.toc details > summary:hover::after { color: var(--text); }
+  nav.toc details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  main { padding: 36px 0 80px; min-width: 0; }
+
+  /* Hero */
+  header.hero {
+    background: linear-gradient(135deg, #2f6fdf 0%, #6a4fd8 100%);
+    color: #fff; border-radius: 18px; padding: 36px 36px 32px; margin-bottom: 32px;
+    position: relative; overflow: hidden;
+  }
+  header.hero::after {
+    content: ""; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px;
+    border-radius: 50%; background: rgba(255,255,255,.08);
+  }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+  header.hero h1 { font-size: 36px; line-height: 1.2; margin: 6px 0 14px; letter-spacing: -.02em; }
+  .hero-links { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.16); color: #fff; border: 1px solid rgba(255,255,255,.28);
+    padding: 7px 14px; border-radius: 999px; font-size: 14px; font-weight: 500;
+  }
+  .btn:hover { background: rgba(255,255,255,.26); text-decoration: none; }
+
+  /* Sections */
+  section { margin-bottom: 44px; }
+  h2 { font-size: 24px; letter-spacing: -.01em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  h4 { font-size: 15.5px; margin: 20px 0 6px; color: var(--text); }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li > ul, li > ol { margin: 4px 0 6px; }
+  ul ul { list-style: circle; }
+  ul ul ul { list-style: square; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+
+  /* Coverage grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  .topic { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .topic h4 { margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+  .topic .ico { width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 15px; }
+  .topic ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); }
+
+  /* Folder chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); }
+  .chip.keep { background: var(--green-soft); border-color: transparent; color: var(--green); }
+  .chip.skip { background: var(--red-soft); border-color: transparent; color: var(--red); text-decoration: line-through; text-decoration-thickness: 1px; }
+
+  /* Callouts */
+  .callout { border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; border-left: 4px solid; font-size: 15px; }
+  .callout > :last-child { margin-bottom: 0; }
+  .callout .title { font-weight: 600; display: block; margin-bottom: 4px; }
+  .callout.info { background: var(--accent-soft); border-color: var(--accent); }
+  .callout.tip { background: var(--green-soft); border-color: var(--green); }
+  .callout.warn { background: var(--amber-soft); border-color: var(--amber); }
+  .callout.danger { background: var(--red-soft); border-color: var(--red); }
+  .callout.learned { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--green); }
+  .callout.learned .title { color: var(--green); }
+
+  /* Review questions */
+  .review { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; font-size: 15px; }
+  .review .title { font-weight: 600; display: block; margin-bottom: 4px; color: var(--accent); }
+  .review ol { margin: 4px 0 0; padding-left: 22px; }
+  .review ol > li { margin: 10px 0; }
+  .review details { margin-top: 6px; }
+  .review summary { cursor: pointer; color: var(--accent); font-size: 14px; font-weight: 500; }
+  .review details p { margin: 6px 0 0; padding: 8px 12px; background: var(--surface-2); border-radius: 8px; }
+
+  /* Example headers */
+  .example-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .example-num { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; flex: none; }
+  .example-head h3 { margin: 0; font-size: 21px; }
+  .example-head .sub { color: var(--muted); font-size: 14px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 6px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .pill:hover { text-decoration: none; filter: brightness(.97); }
+
+  /* Figures */
+  figure { margin: 16px 0; }
+  figure img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; box-shadow: var(--shadow); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  img.inline { vertical-align: middle; border-radius: 6px; border: 1px solid var(--border); height: 44px; margin-left: 6px; }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; background: var(--surface-2); }
+  tr:last-child td { border-bottom: none; }
+  .tbl { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .tbl table { margin: 0; }
+
+  /* Steps */
+  ol.steps { counter-reset: s; list-style: none; padding-left: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding-left: 38px; margin: 10px 0; }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface-2); border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+    display: grid; place-items: center; color: var(--muted);
+  }
+
+  /* ECS diagram */
+  .ecs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
+  .ecs div { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+  .ecs b { display: block; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .ecs span { font-size: 14.5px; color: var(--muted); }
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: "JetBrains Mono", monospace; font-size: 13.5px; margin: 8px 0; }
+  .flow span { background: var(--surface-2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+  .flow i { color: var(--muted); font-style: normal; }
+
+  footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 40px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding: 0 16px; }
+    nav.toc { display: none; }
+    header.hero { padding: 28px 22px; }
+    header.hero h1 { font-size: 28px; }
+    .card { padding: 18px; }
+    .ecs { grid-template-columns: 1fr; }
+  }
+
+  code { overflow-wrap: anywhere; }
+  pre.code code { overflow-wrap: normal; }
+  pre.code { max-width: 100%; background: var(--code-bg); color: var(--code-text); padding: 12px 16px; border-radius: 10px; overflow-x: auto; font-size: 13.5px; margin: 8px 0 12px; }
+  pre.code code { background: none; border: none; padding: 0; color: inherit; }
+  .pill.muted { background: var(--surface-2); color: var(--muted); cursor: default; }
+  .procon { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+  .procon > div { border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; background: var(--surface); font-size: 15px; }
+  .procon b { display: block; margin-bottom: 4px; }
+  .procon .pro b { color: var(--green); } .procon .con b { color: var(--red); }
+  figure.inline-fig { max-width: 420px; }
+  .hero-sub { position: relative; z-index: 1; margin: 0 0 18px; max-width: 640px; opacity: .92; font-size: 16.5px; }
+  .start-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+  .start-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); color: var(--text); }
+  .start-card:hover { text-decoration: none; border-color: var(--accent); }
+  .start-card .ico { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 16px; margin-bottom: 10px; }
+  .start-card b { display: block; margin-bottom: 4px; }
+  .start-card span:last-child { font-size: 14.5px; color: var(--muted); }
+  .module { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .module-head { display: flex; gap: 14px; align-items: flex-start; }
+  .module-head h3 { margin: 2px 0 2px; font-size: 20px; }
+  .module-head h3 a { color: var(--text); }
+  .module-head .sub { color: var(--muted); font-size: 14.5px; }
+  .ex-list { list-style: none; padding: 0; margin: 14px 0 4px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 6px 16px; }
+  .ex-list li { margin: 0; }
+  .ex-list a { display: flex; gap: 10px; align-items: baseline; padding: 6px 10px; border-radius: 8px; color: var(--text); font-size: 15px; }
+  .ex-list a:hover { background: var(--surface-2); text-decoration: none; }
+  .ex-list a span { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--accent); min-width: 28px; }
+  .pill.selfex { background: var(--amber-soft); color: var(--amber); }
+  @media (max-width: 600px) { .module { padding: 18px; } }
+  .time { display: inline-block; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); margin-left: 10px; vertical-align: middle; letter-spacing: .02em; }
+  .step-title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .sprites { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 12px 0 6px; }
+  .sprite { display: block; text-align: center; border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px 10px; background: var(--surface-2); color: var(--text); }
+  .sprite:hover { text-decoration: none; border-color: var(--accent); }
+  .sprite img { height: 56px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto 8px; }
+  .sprite b { display: block; font-size: 14px; }
+  .sprite span { font-size: 12.5px; color: var(--muted); }
+  .task { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin: 22px 0 6px; }
+  .task:first-of-type { margin-top: 6px; }
+  @media (max-width: 600px) { .sprites { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .procon { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Module 5</div>
+    <a href="#coverage">Coverage</a>
+    <details>
+      <summary title="Show or hide the sections of 5.1"><a href="#ex1">5.1 Platformers</a></summary>
+      <a href="#ex1-scene-setup" class="sub">Scene setup</a>
+      <a href="#ex1-heromovement" class="sub">HeroMovement</a>
+      <a href="#ex1-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 5.2"><a href="#ex2">5.2 Coroutines</a></summary>
+      <a href="#ex2-scene-setup" class="sub">Scene setup</a>
+      <a href="#ex2-whitemagic" class="sub">WhiteMagic</a>
+      <a href="#ex2-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 5.3"><a href="#ex3">5.3 Scriptable Objects</a></summary>
+      <a href="#ex3-scene-setup" class="sub">Scene setup</a>
+      <a href="#ex3-colorsforblocks" class="sub">ColorsForBlocks</a>
+      <a href="#ex3-how-to-use" class="sub">How to use</a>
+      <a href="#ex3-colorblock-cs" class="sub">ColorBlock.cs</a>
+      <a href="#ex3-dynamicblock-cs" class="sub">DynamicBlock.cs</a>
+      <a href="#ex3-review" class="sub">Check your understanding</a>
+    </details>
+    <a href="#particles">Particle Systems</a>
+    <a href="Module-5-Summary.pptx">⬇ Summary slides (.pptx)</a>
+    <div class="label" style="margin-top:24px">References</div>
+    <a href="../index.html">Class notes home</a>
+    <a href="../Module-1/index.html">Module 1</a>
+    <a href="../Module-2/index.html">Module 2</a>
+    <a href="../Module-3/index.html">Module 3</a>
+    <a href="../Module-4/index.html">Module 4</a>
+    <a href="index.html" aria-current="page" style="color:var(--text);font-weight:600">Module 5 (this page)</a>
+    <a href="../UnityHelp.html">Unity help</a>
+
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Module 5 · Examples</div>
+      <h1>Unity-Specific Tools</h1>
+      <div class="hero-links">
+        <a class="btn" href="https://github.com/myuwbclasses/IntroGameDevelopment">GitHub repository ↗</a>
+        <a class="btn" href="../UnityHelp.html">Unity help</a>
+      </div>
+    </header>
+
+    <!-- COVERAGE -->
+    <section id="coverage">
+      <h2>Coverage</h2>
+      <div class="grid">
+        <div class="topic">
+          <h4><span class="ico">🛠</span>Unity skills</h4>
+          <ul>
+            <li><b>Platformer support:</b> Rigidbody2D (Dynamic)</li>
+            <li><b>Coroutines:</b> near-term, fixed-count periodic actions</li>
+            <li><b>Scriptable Objects:</b> a templated graphical interface to data</li>
+            <li><b>Particle Systems:</b> the beginning of creating effects</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">💡</span>Concepts</h4>
+          <ul>
+            <li>Nothing much here: mostly how to use Unity to accomplish specific tasks.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="examples">
+      <h2>Examples for Module 5</h2>
+
+      <!-- 5.1 -->
+      <div class="card" id="ex1">
+        <div class="example-head">
+          <div class="example-num">5.1</div>
+          <div><h3>Support for Platformers</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/5.1/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <div class="tbl" style="margin-top:6px">
+            <table>
+              <tr><td style="width:70px"><kbd>D</kbd></td><td><i>Slides</i> toward the right. <b>Watch out:</b> moving right is only possible on ThePlatform (the upper brown platform) or in the air; you <b>cannot</b> move right on TheFloor (the black platform). Awkward to control and no fun, but it makes the point that different (types of) platforms can have different behaviors.</td></tr>
+              <tr><td><kbd>A</kbd></td><td>Moves left</td></tr>
+              <tr><td><kbd>W</kbd></td><td>Strange: seemingly wants to jump</td></tr>
+              <tr><td><kbd>Space</kbd></td><td>Flies upward</td></tr>
+            </table>
+          </div>
+          <p style="margin:10px 0 4px">Make sure to look at the Console printout, and tell “Collision” apart from “Trigger”!!</p>
+          <ul style="margin:0">
+            <li><b>Brown</b> (ThePlatform) / <b>Black</b> (TheFloor) / <b>Orange</b> (StationaryObstacle): simple platforms</li>
+            <li><b>White</b> (Collide-And-Overlap): only detects collision (allows overlap)</li>
+            <li><b>Pink</b> (Collide-And-Push): detects and maintains collision (no overlapping)</li>
+          </ul>
+        </div>
+
+        <h4 id="ex1-scene-setup">Scene setup</h4>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:170px">Object</th><th>BoxCollider2D</th><th>Rigidbody2D</th></tr>
+            <tr><td class="ui">Hero</td>
+              <td>Is Trigger <b>off</b>: it's not just for detecting collisions, it's more. Try switching it on and watch the hero free-fall. (When on, you only want to know there's a collision.)</td>
+              <td>The <i>active</i> party in collisions: this object collides with others.
+                <ul style="margin:4px 0 0">
+                  <li>Body Type: <b>Dynamic</b> (things move under gravity now)</li>
+                  <li>Constraints: Freeze Rotation Z (the object will <i>not</i> rotate as a result of collisions)</li>
+                </ul></td></tr>
+            <tr><td class="ui">Platforms<br>(brown/black/orange)</td><td>Yes</td><td><b>None:</b> they're not active colliders. Other active objects (with a Rigidbody2D) are expected to collide with them.</td></tr>
+            <tr><td class="ui">Collide-and-Overlap<br>(white)</td><td>Is Trigger <b>on</b> (only for detecting collisions). That's why the Hero can detect colliding with it, and can overlap it.</td><td>None</td></tr>
+            <tr><td class="ui">Collide-and-Push<br>(pink)</td><td>Is Trigger <b>off</b></td><td><b>Dynamic:</b> you can push the box.<br><b>Kinematic:</b> the box stays stationary.</td></tr>
+          </table>
+        </div>
+        <p>The Hero also has the <b>HeroMovement</b> script, described next.</p>
+
+        <h4 id="ex1-heromovement"><code>HeroMovement.cs</code></h4>
+        <ul>
+          <li><code>mHeroPhysics</code>: a reference to the Rigidbody2D component.</li>
+          <li><code>[SerializeField]</code>: notice this attribute; it allows access to private data from the editor.</li>
+          <li><code>Update()</code>:
+            <ul>
+              <li><kbd>A</kbd>/<kbd>W</kbd>: try to change the position directly. Notice <kbd>W</kbd> doesn't work well at all; it fights with the physics after the first y-movement!
+                <div class="callout warn"><span class="title">Lesson</span>When Dynamic is on, changing the position directly may not work. (Moving right seems to work because physics isn't operating while the Hero rests on a platform.)</div>
+              </li>
+              <li><kbd>Space</kbd>: changes the traveling velocity (it goes back to zero because of gravity).</li>
+              <li><kbd>D</kbd>: only allows rightward movement when touching the brown platform, or not touching anything (in the Default layer).</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:200px">Callback</th><th>When it's called</th></tr>
+            <tr><td><code>OnCollisionEnter/Stay/Exit</code></td><td>Collision with objects whose Collider's Is Trigger is <b>off</b>. Default: collide and stay (e.g., standing on a platform), unless the other object has a Dynamic Rigidbody2D, in which case it's pushed.</td></tr>
+            <tr><td><code>OnTriggerEnter/Stay/Exit</code></td><td>The objects will overlap: detects a collision with no behavior assumptions.</td></tr>
+          </table>
+        </div>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>How to build a platformer with Collider2D and Rigidbody2D</li>
+            <li><b>Collider2D Is Trigger:</b> on = only triggers, and objects overlap; off = triggers, and with a Dynamic Rigidbody2D, pushes the object</li>
+            <li><b>Rigidbody2D Body Type:</b> Dynamic for simulating gravitational physics; Kinematic for stationary</li>
+            <li><b>Constraints:</b> freeze the relevant rotations in the physics simulation</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex1-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>In the air, you hold <kbd>D</kbd> and <kbd>Space</kbd> together. Does the hero fly up and to the right? Look at the order of the checks in <code>HeroMovement.Update()</code>.
+              <details><summary>Show answer</summary><p>No, it flies straight up. <kbd>D</kbd> sets <code>linearVelocity = (mSpeed, 0)</code>, but the <kbd>Space</kbd> check comes later in the same <code>Update()</code> and sets <code>linearVelocity = (0, mSpeed)</code>, replacing the whole velocity. The last assignment wins, so the sideways part is lost.</p></details>
+            </li>
+            <li>The hero's Rigidbody2D has <b>Freeze Rotation Z</b> checked. What would you see without it, when the hero runs into the orange StationaryObstacle?
+              <details><summary>Show answer</summary><p>The hero would tip over and start tumbling. A collision pushes on the edge of the hero's box, which makes a Dynamic body rotate. Freezing the z rotation keeps the physics from turning the hero, so it stays upright.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 5.2 -->
+      <div class="card" id="ex2">
+        <div class="example-head">
+          <div class="example-num">5.2</div>
+          <div>
+            <h3>Coroutines</h3>
+            <div class="sub">Short-term periodic actions, usually a fixed number of them</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/5.2/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <p>Same scene and controls as above; the only interesting thing is the <b>white block</b>.</p>
+        <div class="callout info"><span class="title">Two changes from 5.1</span><kbd>D</kbd> now works everywhere: the 5.1 rule (move right only on ThePlatform or in the air) was removed. The Hero also no longer logs its collisions and triggers, so the Console shows only the white block's messages.</div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          Move the Hero into the white block from the left or right, and watch the block change color:
+          <ul style="margin:4px 0 0">
+            <li><b>From the right:</b> the white block blinks yellow/magenta</li>
+            <li><b>From the left:</b> the white block goes through a series of color changes</li>
+          </ul>
+        </div>
+
+        <h4 id="ex2-scene-setup">Scene setup</h4>
+        <p>Identical to the above. Recall that the white block:</p>
+        <ul>
+          <li>does <b>not</b> have a Rigidbody2D (it can't actively collide with another object), and</li>
+          <li>does have a Collider2D with Is Trigger on, so it can report collisions (through the <code>OnTrigger</code> functions).</li>
+        </ul>
+
+        <h4 id="ex2-whitemagic"><code>WhiteMagic.cs</code> on the white block</h4>
+        <ul>
+          <li><code>mColorChanging</code>: of data type <b><i>Coroutine</i></b>; when not <code>null</code>, the white block is in color-changing mode.</li>
+          <li><code>OnTriggerEnter</code>: tries to enter color-changing mode.</li>
+          <li><code>OnTriggerExit</code>: tries to exit color-changing mode.</li>
+          <li><code>ColorChangeFromLeft/Right()</code>: note the <b><code>yield return</code></b> statement. This is where the function yields execution until later.</li>
+          <li><code>EnterColorChangeMode()</code>:
+            <ul>
+              <li><code>rightFunc</code>: of data type <b><i>IEnumerator</i></b>, which can hold the address of a function.</li>
+              <li>Calls <code>StartCoroutine()</code> to start either the left or the right color-changing mode.</li>
+            </ul>
+          </li>
+          <li><code>ExitColorChangeMode()</code>:
+            <ul>
+              <li><code>StopCoroutine(</code><i>an argument of data type Coroutine</i><code>)</code>: you can have <i>many</i> coroutines running and choose a specific one to stop.</li>
+              <li><code>StopAllCoroutines()</code>: stops every single coroutine.</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="callout danger">
+          <span class="title">Watch out</span>
+          Coroutines run <b><i>synchronously</i></b> (e.g., after the <code>Update()</code> calls of all components). This is powerful and can be confusing, and, very importantly, it is <b>very</b> challenging to debug! Use with care; don't misuse it.
+        </div>
+        <p>Reference: <a href="https://docs.unity3d.com/6000.3/Documentation/Manual/Coroutines.html">Unity Manual: Coroutines ↗</a></p>
+
+        <div class="review" id="ex2-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li><code>ChangeRate</code> is 0.5 seconds and the color sequence has 7 colors. You move the Hero into the white block from the left and keep it there. How long until the block turns white again?
+              <details><summary>Show answer</summary><p>About 3.5 seconds. <code>ColorChangeFromLeft()</code> shows each of the 7 colors, then waits 0.5 seconds (<code>yield return new WaitForSeconds(ChangeRate)</code>) before the next one, so 7 × 0.5 = 3.5 seconds. Then it calls <code>ExitColorChangeMode()</code>, which restores white. If the Hero leaves earlier, <code>OnTriggerExit2D()</code> stops it right away.</p></details>
+            </li>
+            <li>You replace <code>yield return new WaitForSeconds(ChangeRate);</code> with <code>yield return null;</code>. What do you see now?
+              <details><summary>Show answer</summary><p>Just a brief flicker. <code>yield return null</code> resumes the coroutine on the very next frame, so all 7 colors go by in 7 frames, about a tenth of a second at 60 fps.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 5.3 -->
+      <div class="card" id="ex3">
+        <div class="example-head">
+          <div class="example-num">5.3</div>
+          <div>
+            <h3>Scriptable Objects</h3>
+            <div class="sub">A templated graphical interface to data</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/5.3/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <kbd>D</kbd> <i>slides</i> right, <kbd>A</kbd> moves left, <kbd>Space</kbd> flies upward. Pay attention to the colors:
+          <ul style="margin:4px 0 0">
+            <li><b>White/Black/Red block:</b> collide from the right and it blinks between two colors; collide from the left and it goes through a series of color changes.</li>
+            <li><b>Pink/Orange:</b> on collision, spawns an egg at the Hero's location that behaves like a Red block.</li>
+          </ul>
+        </div>
+
+        <h4 id="ex3-scene-setup">Scene setup</h4>
+        <p>Similar to the above. Take note of the <b>Resources</b> folder:</p>
+        <ul>
+          <li>a Sprite: Egg</li>
+          <li>the <b>ColorBlocks</b> folder: three ColorBlocks (these are ScriptableObjects, discussed next)</li>
+        </ul>
+
+        <h4 id="ex3-colorsforblocks"><code>ScriptableObject/ColorsForBlocks</code></h4>
+        <div class="callout tip"><span class="title">Think</span>A <b>MonoBehaviour</b> is for modifying behavior; a <b>ScriptableObject</b> is for providing data to the behavior.</div>
+        <p>How it works (see <code>ColorsForBlocks.cs</code>):</p>
+        <ol class="steps">
+          <li>Create a new C# class that subclasses <code>ScriptableObject</code>.</li>
+          <li>Take note of <code>[CreateAssetMenu()]</code>:
+            <ul>
+              <li><code>fileName</code>: the default file name</li>
+              <li><code>menuName</code>: what shows in the Create menu</li>
+            </ul>
+            <div class="callout warn"><span class="title">Warning</span>If you change these argument strings, you'll probably have to restart Unity.</div>
+          </li>
+          <li>Now code any data you want to provide; in this case, the colors for the WhiteMagic behavior from the previous example. Notice it only provides data: <b><i>no behavior</i></b> and <b><i>no modification of the data</i></b>.</li>
+        </ol>
+
+        <h4 id="ex3-how-to-use">How to use: ColorsForBlocks is like a Sprite</h4>
+        <p>In the Assets folder, you can now create an instance of ColorsForBlocks: right-click in the Project window, then <span class="path">Create › Create colors for Blocks</span> (the name set by <code>[CreateAssetMenu(menuName = ...)]</code>)!</p>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:120px"></th><th>Egg (a Sprite)</th><th>RedBlock (a ColorsForBlocks)</th></tr>
+            <tr><td class="ui">Create</td><td>Drag in an image to create a new Sprite, and rename it Egg</td><td>Right-click › <span class="path">Create › Create colors for Blocks</span>, and rename it RedBlock</td></tr>
+            <tr><td class="ui">Use</td><td>Drag onto any GameObject's SpriteRenderer to give it a look</td><td>Drag onto any ColorBlock to provide its colors for color-changing</td></tr>
+            <tr><td class="ui">Change</td><td>Change the image, and <b>all</b> GameObjects referring to Egg change appearance</td><td>Change RedBlock's colors, and <b>all</b> ColorBlocks referring to RedBlock get the new colors</td></tr>
+          </table>
+        </div>
+        <p>The three <code>Resources/ColorBlocks</code> are three instances of ColorsForBlocks with different color values: data for the ColorBlock script.</p>
+
+        <h4 id="ex3-colorblock-cs"><code>ColorBlock.cs</code></h4>
+        <p>This was the <code>WhiteMagic.cs</code> script. Instead of defining the color data in code, it now has a reference to a <b>ColorsForBlocks</b>:</p>
+        <div class="procon">
+          <div><b>ColorBlock</b>defines the behavior, without the actual color data. Like a <b>SpriteRenderer</b>, which defines how to show an image on a GameObject without the actual image.</div>
+          <div><b>ColorsForBlocks</b>defines the data. Like a <b>Sprite</b>, which defines the image.</div>
+        </div>
+        <div class="callout info">
+          <span class="title">Notice</span>
+          BlackBlock, WhiteBlock and RedBlock define very different colors. The ColorBlock-White/-Red/-Black objects all have the same ColorBlock component, but with different ColorsForBlocks, so they have the same behavior with different data: they all blink, in different colors.
+        </div>
+
+        <h4 id="ex3-dynamicblock-cs"><code>DynamicBlock.cs</code></h4>
+        <ul>
+          <li>Shows/verifies how to create a ColorBlock from scratch.</li>
+          <li>The pink/orange blocks have this component.</li>
+        </ul>
+
+        <div class="review" id="ex3-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>While the game is running, you select the <b>RedBlock</b> asset in <code>Resources/ColorBlocks</code> and change its colors. Then you stop the game. Are the new colors still there?
+              <details><summary>Show answer</summary><p>Yes. RedBlock is an asset, not part of the scene, so the “Play mode changes aren't saved” rule doesn't apply: edits to a ScriptableObject asset during Play mode stay. Every ColorBlock that refers to RedBlock, including the eggs the pink and orange blocks spawn, uses the new colors right away, too.</p></details>
+            </li>
+            <li><code>DynamicBlock</code> calls <code>AddComponent&lt;ColorBlock&gt;()</code>, then sets <code>mColorMagic</code> on the next line. <code>ColorBlock.Start()</code> reads <code>mColorMagic</code>. Why isn't it <code>null</code> there? When <i>would</i> it be?
+              <details><summary>Show answer</summary><p>A newly added component's <code>Start()</code> doesn't run during <code>AddComponent()</code>; it runs later, just before the component's first <code>Update()</code>. By then the next line has set <code>mColorMagic</code>. <code>Awake()</code>, though, runs immediately inside <code>AddComponent()</code>, so if ColorBlock read <code>mColorMagic</code> in <code>Awake()</code>, it would still be <code>null</code>.</p></details>
+            </li>
+          </ol>
+        </div>
+
+        <h4>References</h4>
+        <ul>
+          <li><a href="https://www.youtube.com/watch?v=PVOVIxNxxeQ">Overview of the ideas behind ScriptableObjects ↗</a></li>
+          <li><a href="https://www.youtube.com/watch?v=aPXvoWVabPY">A step-by-step tutorial ↗</a></li>
+        </ul>
+      </div>
+
+      <!-- PARTICLES -->
+      <div class="card" id="particles">
+        <div class="example-head">
+          <div class="example-num">✦</div>
+          <div><h3>Particle Systems</h3></div>
+        </div>
+        <ul style="margin-bottom:0">
+          <li>Take a look at the Unity Manual: <a href="https://docs.unity3d.com/6000.3/Documentation/Manual/ParticleSystems.html">Particle systems ↗</a></li>
+          <li>Focus on the <b>Built-in Particle System</b>.</li>
+          <li>Imagine a collection of points following a pseudo-random function.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <a href="../Module-4/index.html">← Module 4</a>
+    </footer>
+  </main>
+
+</div>
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a[href^="#"]'));
+    var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function update() {
+      var y = window.scrollY + 80, idx = 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top + window.scrollY <= y) idx = i; });
+      // A section hidden inside a collapsed example group highlights the example's own link instead
+      var current = links[idx], group = current.closest('details');
+      if (group && !group.open) current = group.querySelector('summary a');
+      links.forEach(function (a) { a.classList.toggle('active', a === current); });
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    document.querySelectorAll('nav.toc details').forEach(function (d) { d.addEventListener('toggle', update); });
+    update();
+  })();
+</script>
+</body>
+</html>

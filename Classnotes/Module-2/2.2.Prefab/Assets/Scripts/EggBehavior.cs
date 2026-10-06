@@ -5,7 +5,7 @@ using UnityEngine;
 public class EggBehavior : MonoBehaviour
 {
     private const float kEggSpeed = 40f;
-    private const int kLifeTime = 300; // Alife for this number of cycles
+    private const int kLifeTime = 300; // Alive for this number of updates (frames)
     private int mLifeCount = 0; 
     // Start is called before the first frame update
     void Start()

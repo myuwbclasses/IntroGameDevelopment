@@ -1156,7 +1156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mTheCamera: {fileID: 692051648}
   WorldBoundRegion: 0.8
-  kHeroSpeed: 20
+  mHeroSpeed: 20
 --- !u!1 &1517005727
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,7 +1358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mRefPoint: {fileID: 1068935664}
   mTheCamera: {fileID: 692051648}
-  mFreg: {fileID: 37369946}
+  mFreq: {fileID: 37369946}
   mDuration: {fileID: 101285348}
   mDX: {fileID: 877660294}
   mDY: {fileID: 809297451}

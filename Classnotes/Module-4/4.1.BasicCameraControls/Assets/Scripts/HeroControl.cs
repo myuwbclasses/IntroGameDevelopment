@@ -5,8 +5,7 @@ public class HeroControl : MonoBehaviour {
 
     public CameraSupport mTheCamera;
     public float WorldBoundRegion = 0.8f;
-	public float kHeroSpeed = 40f;
-	private float kHeroRotateSpeed = 90f/2f; // 90-degrees in 2 seconds
+	public float mHeroSpeed = 40f;
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +21,7 @@ public class HeroControl : MonoBehaviour {
 		if ((Keyboard.current.sKey.isPressed) || Keyboard.current.downArrowKey.isPressed)
 			movement -= 1f;
 		transform.position += movement * transform.up * 
-									(kHeroSpeed * Time.smoothDeltaTime);
+									(mHeroSpeed * Time.smoothDeltaTime);
 		
 		movement = 0f;
 		if ((Keyboard.current.dKey.isPressed) || Keyboard.current.rightArrowKey.isPressed)
@@ -30,7 +29,7 @@ public class HeroControl : MonoBehaviour {
 		if ((Keyboard.current.aKey.isPressed) || Keyboard.current.leftArrowKey.isPressed)
 			movement -= 1f;		
         transform.position += movement * transform.right *
-                                    (kHeroSpeed * Time.smoothDeltaTime);
+                                    (mHeroSpeed * Time.smoothDeltaTime);
         #endregion
 
         #region Testing the Camera Support: Push and Collision Bound

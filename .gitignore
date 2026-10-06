@@ -69,3 +69,11 @@ crashlytics-build.properties
 # local to delete folder
 zToDelete/
 
+# Claude working document
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+Claude outputs/
+
+# Personal writing-style skill (private, do not commit)
+.claude/skills/my-writing-style/

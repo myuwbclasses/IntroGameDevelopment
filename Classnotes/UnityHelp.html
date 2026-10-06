@@ -1,1837 +1,372 @@
-<html xmlns:v="urn:schemas-microsoft-com:vml"
-xmlns:o="urn:schemas-microsoft-com:office:office"
-xmlns:w="urn:schemas-microsoft-com:office:word"
-xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
-xmlns="http://www.w3.org/TR/REC-html40">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
-<meta name=ProgId content=Word.Document>
-<meta name=Generator content="Microsoft Word 15">
-<meta name=Originator content="Microsoft Word 15">
-<link rel=File-List href="UnityHelp_files/filelist.xml">
-<link rel=Edit-Time-Data href="UnityHelp_files/editdata.mso">
-<!--[if !mso]>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Class Notes · Unity Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-v\:* {behavior:url(#default#VML);}
-o\:* {behavior:url(#default#VML);}
-w\:* {behavior:url(#default#VML);}
-.shape {behavior:url(#default#VML);}
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #f1f3f7;
+    --text: #1d2330;
+    --muted: #5b6475;
+    --border: #e2e6ee;
+    --accent: #2f6fdf;
+    --accent-soft: #e8f0fd;
+    --green: #1f9d55;
+    --green-soft: #e7f6ee;
+    --amber: #b7791f;
+    --amber-soft: #fdf5e6;
+    --red: #c53030;
+    --red-soft: #fdecec;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 2px 8px rgba(16,24,40,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117;
+      --surface: #161b24;
+      --surface-2: #1d2430;
+      --text: #e6e9ef;
+      --muted: #9aa4b5;
+      --border: #2a3240;
+      --accent: #6aa0ff;
+      --accent-soft: #1b2a45;
+      --green: #4ccb86;
+      --green-soft: #15291f;
+      --amber: #e2b04a;
+      --amber-soft: #2c2415;
+      --red: #f07171;
+      --red-soft: #2e1a1c;
+      --code-bg: #0a0d13;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, kbd, .path {
+    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    font-size: .86em;
+  }
+  code { background: var(--surface-2); border: 1px solid var(--border); padding: .08em .4em; border-radius: 5px; }
+  kbd {
+    background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+    padding: .05em .45em; border-radius: 5px; white-space: nowrap;
+  }
+  .path { background: var(--accent-soft); color: var(--accent); padding: .08em .45em; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .ui { font-weight: 600; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 40px; padding: 0 24px; }
+  nav.toc { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; padding: 36px 0; }
+  nav.toc .label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 12px; }
+  nav.toc a { display: block; padding: 6px 12px; border-radius: 8px; color: var(--muted); font-size: 14px; border-left: 2px solid transparent; }
+  nav.toc a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+  nav.toc a.active { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+  nav.toc a.sub { padding-left: 26px; font-size: 13.5px; }
+  main { padding: 36px 0 80px; min-width: 0; }
+
+  /* Hero */
+  header.hero {
+    background: linear-gradient(135deg, #2f6fdf 0%, #6a4fd8 100%);
+    color: #fff; border-radius: 18px; padding: 36px 36px 32px; margin-bottom: 32px;
+    position: relative; overflow: hidden;
+  }
+  header.hero::after {
+    content: ""; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px;
+    border-radius: 50%; background: rgba(255,255,255,.08);
+  }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+  header.hero h1 { font-size: 36px; line-height: 1.2; margin: 6px 0 14px; letter-spacing: -.02em; }
+  .hero-links { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.16); color: #fff; border: 1px solid rgba(255,255,255,.28);
+    padding: 7px 14px; border-radius: 999px; font-size: 14px; font-weight: 500;
+  }
+  .btn:hover { background: rgba(255,255,255,.26); text-decoration: none; }
+
+  /* Sections */
+  section { margin-bottom: 44px; }
+  h2 { font-size: 24px; letter-spacing: -.01em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  h4 { font-size: 15.5px; margin: 20px 0 6px; color: var(--text); }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li > ul, li > ol { margin: 4px 0 6px; }
+  ul ul { list-style: circle; }
+  ul ul ul { list-style: square; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+
+  /* Coverage grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  .topic { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .topic h4 { margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+  .topic .ico { width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 15px; }
+  .topic ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); }
+
+  /* Folder chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); }
+  .chip.keep { background: var(--green-soft); border-color: transparent; color: var(--green); }
+  .chip.skip { background: var(--red-soft); border-color: transparent; color: var(--red); text-decoration: line-through; text-decoration-thickness: 1px; }
+
+  /* Callouts */
+  .callout { border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; border-left: 4px solid; font-size: 15px; }
+  .callout > :last-child { margin-bottom: 0; }
+  .callout .title { font-weight: 600; display: block; margin-bottom: 4px; }
+  .callout.info { background: var(--accent-soft); border-color: var(--accent); }
+  .callout.tip { background: var(--green-soft); border-color: var(--green); }
+  .callout.warn { background: var(--amber-soft); border-color: var(--amber); }
+  .callout.danger { background: var(--red-soft); border-color: var(--red); }
+  .callout.learned { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--green); }
+  .callout.learned .title { color: var(--green); }
+
+  /* Example headers */
+  .example-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .example-num { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; flex: none; }
+  .example-head h3 { margin: 0; font-size: 21px; }
+  .example-head .sub { color: var(--muted); font-size: 14px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 6px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .pill:hover { text-decoration: none; filter: brightness(.97); }
+
+  /* Figures */
+  figure { margin: 16px 0; }
+  figure img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; box-shadow: var(--shadow); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  img.inline { vertical-align: middle; border-radius: 6px; border: 1px solid var(--border); height: 44px; margin-left: 6px; }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; background: var(--surface-2); }
+  tr:last-child td { border-bottom: none; }
+  .tbl { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .tbl table { margin: 0; }
+
+  /* Steps */
+  ol.steps { counter-reset: s; list-style: none; padding-left: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding-left: 38px; margin: 10px 0; }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface-2); border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+    display: grid; place-items: center; color: var(--muted);
+  }
+
+  /* ECS diagram */
+  .ecs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
+  .ecs div { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+  .ecs b { display: block; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .ecs span { font-size: 14.5px; color: var(--muted); }
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: "JetBrains Mono", monospace; font-size: 13.5px; margin: 8px 0; }
+  .flow span { background: var(--surface-2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+  .flow i { color: var(--muted); font-style: normal; }
+
+  footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 40px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding: 0 16px; }
+    nav.toc { display: none; }
+    header.hero { padding: 28px 22px; }
+    header.hero h1 { font-size: 28px; }
+    .card { padding: 18px; }
+    .ecs { grid-template-columns: 1fr; }
+  }
+
+  .version { font-family: "JetBrains Mono", monospace; font-size: 15px; font-weight: 500; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); padding: 3px 10px; border-radius: 8px; }
+  .hero p { position: relative; z-index: 1; margin: 0 0 16px; opacity: .92; }
+  .modules { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 10px 0 4px; }
+  .modules .topic p { font-size: 14.5px; color: var(--muted); margin: 0; }
+  .qa { border-top: 1px solid var(--border); padding-top: 18px; margin-top: 18px; }
+  .qa:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  .qa h3 { margin: 0 0 8px; font-size: 17px; }
+  .links li { margin: 6px 0; }
+  .links .ext::after { content: " ↗"; font-size: .85em; }
 </style>
-<![endif]--><!--[if gte mso 9]><xml>
- <o:DocumentProperties>
-  <o:Author>ksung</o:Author>
-  <o:LastAuthor>Kelvin Sung</o:LastAuthor>
-  <o:Revision>5</o:Revision>
-  <o:TotalTime>6</o:TotalTime>
-  <o:Created>2026-03-19T14:09:00Z</o:Created>
-  <o:LastSaved>2026-03-19T14:12:00Z</o:LastSaved>
-  <o:Pages>1</o:Pages>
-  <o:Words>594</o:Words>
-  <o:Characters>3378</o:Characters>
-  <o:Lines>96</o:Lines>
-  <o:Paragraphs>59</o:Paragraphs>
-  <o:CharactersWithSpaces>3913</o:CharactersWithSpaces>
-  <o:Version>16.00</o:Version>
- </o:DocumentProperties>
- <o:OfficeDocumentSettings>
-  <o:RelyOnVML/>
-  <o:AllowPNG/>
- </o:OfficeDocumentSettings>
-</xml><![endif]-->
-<link rel=themeData href="UnityHelp_files/themedata.thmx">
-<link rel=colorSchemeMapping href="UnityHelp_files/colorschememapping.xml">
-<!--[if gte mso 9]><xml>
- <w:WordDocument>
-  <w:Zoom>190</w:Zoom>
-  <w:SpellingState>Clean</w:SpellingState>
-  <w:TrackMoves>false</w:TrackMoves>
-  <w:TrackFormatting/>
-  <w:PunctuationKerning/>
-  <w:ValidateAgainstSchemas/>
-  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
-  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
-  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
-  <w:DoNotPromoteQF/>
-  <w:LidThemeOther>EN-US</w:LidThemeOther>
-  <w:LidThemeAsian>ZH-CN</w:LidThemeAsian>
-  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
-  <w:Compatibility>
-   <w:BreakWrappedTables/>
-   <w:SnapToGridInCell/>
-   <w:WrapTextWithPunct/>
-   <w:UseAsianBreakRules/>
-   <w:DontGrowAutofit/>
-   <w:SplitPgBreakAndParaMark/>
-   <w:EnableOpenTypeKerning/>
-   <w:DontFlipMirrorIndents/>
-   <w:OverrideTableStyleHps/>
-   <w:UseFELayout/>
-  </w:Compatibility>
-  <m:mathPr>
-   <m:mathFont m:val="Cambria Math"/>
-   <m:brkBin m:val="before"/>
-   <m:brkBinSub m:val="&#45;-"/>
-   <m:smallFrac m:val="off"/>
-   <m:dispDef/>
-   <m:lMargin m:val="0"/>
-   <m:rMargin m:val="0"/>
-   <m:defJc m:val="centerGroup"/>
-   <m:wrapIndent m:val="1440"/>
-   <m:intLim m:val="subSup"/>
-   <m:naryLim m:val="undOvr"/>
-  </m:mathPr></w:WordDocument>
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
-  DefSemiHidden="false" DefQFormat="false" DefPriority="99"
-  LatentStyleCount="376">
-  <w:LsdException Locked="false" Priority="0" QFormat="true" Name="Normal"/>
-  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 1"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 2"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 3"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 4"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 5"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 6"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 7"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 8"/>
-  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="heading 9"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 6"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 7"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 8"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index 9"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 1"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 2"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 3"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 4"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 5"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 6"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 7"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 8"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" Name="toc 9"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Normal Indent"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="footnote text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="annotation text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="header"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="footer"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="index heading"/>
-  <w:LsdException Locked="false" Priority="35" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="caption"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="table of figures"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="envelope address"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="envelope return"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="footnote reference"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="annotation reference"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="line number"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="page number"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="endnote reference"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="endnote text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="table of authorities"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="macro"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="toa heading"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Bullet 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Number 5"/>
-  <w:LsdException Locked="false" Priority="10" QFormat="true" Name="Title"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Closing"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Signature"/>
-  <w:LsdException Locked="false" Priority="1" SemiHidden="true"
-   UnhideWhenUsed="true" Name="Default Paragraph Font"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text Indent"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="List Continue 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Message Header"/>
-  <w:LsdException Locked="false" Priority="11" QFormat="true" Name="Subtitle"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Salutation"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Date"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text First Indent"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text First Indent 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Note Heading"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text Indent 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Body Text Indent 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Block Text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Hyperlink"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="FollowedHyperlink"/>
-  <w:LsdException Locked="false" Priority="22" QFormat="true" Name="Strong"/>
-  <w:LsdException Locked="false" Priority="20" QFormat="true" Name="Emphasis"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Document Map"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Plain Text"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="E-mail Signature"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Top of Form"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Bottom of Form"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Normal (Web)"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Acronym"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Address"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Cite"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Code"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Definition"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Keyboard"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Preformatted"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Sample"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Typewriter"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="HTML Variable"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Normal Table"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="annotation subject"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="No List"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Outline List 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Outline List 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Outline List 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Simple 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Simple 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Simple 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Classic 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Classic 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Classic 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Classic 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Colorful 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Colorful 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Colorful 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Columns 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 6"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 7"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Grid 8"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 4"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 5"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 6"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 7"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table List 8"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table 3D effects 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table 3D effects 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table 3D effects 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Contemporary"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Elegant"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Professional"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Subtle 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Subtle 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Web 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Web 2"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Web 3"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Balloon Text"/>
-  <w:LsdException Locked="false" Priority="39" Name="Table Grid"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Table Theme"/>
-  <w:LsdException Locked="false" SemiHidden="true" Name="Placeholder Text"/>
-  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
-  <w:LsdException Locked="false" SemiHidden="true" Name="Revision"/>
-  <w:LsdException Locked="false" Priority="34" QFormat="true"
-   Name="List Paragraph"/>
-  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
-  <w:LsdException Locked="false" Priority="30" QFormat="true"
-   Name="Intense Quote"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
-  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
-  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
-  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
-  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
-  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
-  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
-  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
-  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
-  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
-  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
-  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
-  <w:LsdException Locked="false" Priority="19" QFormat="true"
-   Name="Subtle Emphasis"/>
-  <w:LsdException Locked="false" Priority="21" QFormat="true"
-   Name="Intense Emphasis"/>
-  <w:LsdException Locked="false" Priority="31" QFormat="true"
-   Name="Subtle Reference"/>
-  <w:LsdException Locked="false" Priority="32" QFormat="true"
-   Name="Intense Reference"/>
-  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
-  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
-   UnhideWhenUsed="true" Name="Bibliography"/>
-  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
-   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
-  <w:LsdException Locked="false" Priority="41" Name="Plain Table 1"/>
-  <w:LsdException Locked="false" Priority="42" Name="Plain Table 2"/>
-  <w:LsdException Locked="false" Priority="43" Name="Plain Table 3"/>
-  <w:LsdException Locked="false" Priority="44" Name="Plain Table 4"/>
-  <w:LsdException Locked="false" Priority="45" Name="Plain Table 5"/>
-  <w:LsdException Locked="false" Priority="40" Name="Grid Table Light"/>
-  <w:LsdException Locked="false" Priority="46" Name="Grid Table 1 Light"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark"/>
-  <w:LsdException Locked="false" Priority="51" Name="Grid Table 6 Colorful"/>
-  <w:LsdException Locked="false" Priority="52" Name="Grid Table 7 Colorful"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 1"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 1"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 1"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 1"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 1"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 1"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 2"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 2"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 2"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 2"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 2"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 2"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 3"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 3"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 3"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 3"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 3"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 3"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 4"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 4"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 4"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 4"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 4"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 4"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 5"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 5"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 5"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 5"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 5"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 5"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="Grid Table 1 Light Accent 6"/>
-  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 6"/>
-  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 6"/>
-  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 6"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="Grid Table 6 Colorful Accent 6"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="Grid Table 7 Colorful Accent 6"/>
-  <w:LsdException Locked="false" Priority="46" Name="List Table 1 Light"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark"/>
-  <w:LsdException Locked="false" Priority="51" Name="List Table 6 Colorful"/>
-  <w:LsdException Locked="false" Priority="52" Name="List Table 7 Colorful"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 1"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 1"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 1"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 1"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 1"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 1"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 1"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 2"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 2"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 2"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 2"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 2"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 2"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 2"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 3"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 3"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 3"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 3"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 3"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 3"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 3"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 4"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 4"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 4"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 4"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 4"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 4"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 4"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 5"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 5"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 5"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 5"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 5"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 5"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 5"/>
-  <w:LsdException Locked="false" Priority="46"
-   Name="List Table 1 Light Accent 6"/>
-  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 6"/>
-  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 6"/>
-  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 6"/>
-  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 6"/>
-  <w:LsdException Locked="false" Priority="51"
-   Name="List Table 6 Colorful Accent 6"/>
-  <w:LsdException Locked="false" Priority="52"
-   Name="List Table 7 Colorful Accent 6"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Mention"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Smart Hyperlink"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Hashtag"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Unresolved Mention"/>
-  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
-   Name="Smart Link"/>
- </w:LatentStyles>
-</xml><![endif]-->
-<style>
-<!--
- /* Font Definitions */
- @font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;
-	mso-font-charset:0;
-	mso-generic-font-family:roman;
-	mso-font-pitch:variable;
-	mso-font-signature:-536869121 1107305727 33554432 0 415 0;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;
-	mso-font-alt:\7B49\7EBF;
-	mso-font-charset:134;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:-1610612033 953122042 22 0 262159 0;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;
-	mso-font-charset:0;
-	mso-generic-font-family:swiss;
-	mso-font-pitch:variable;
-	mso-font-signature:-469750017 -1040178053 9 0 511 0;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;
-	mso-font-charset:0;
-	mso-generic-font-family:modern;
-	mso-font-pitch:fixed;
-	mso-font-signature:-536869121 64767 1 0 415 0;}
-@font-face
-	{font-family:"\@DengXian";
-	panose-1:2 1 6 0 3 1 1 1 1 1;
-	mso-font-charset:134;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:-1610612033 953122042 22 0 262159 0;}
- /* Style Definitions */
- p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{mso-style-unhide:no;
-	mso-style-qformat:yes;
-	mso-style-parent:"";
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:8.0pt;
-	margin-left:0in;
-	line-height:105%;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-ascii-theme-font:minor-latin;
-	mso-fareast-font-family:DengXian;
-	mso-fareast-theme-font:minor-fareast;
-	mso-hansi-font-family:Calibri;
-	mso-hansi-theme-font:minor-latin;
-	mso-bidi-font-family:"Times New Roman";
-	mso-bidi-theme-font:minor-bidi;}
-h1
-	{mso-style-priority:9;
-	mso-style-unhide:no;
-	mso-style-qformat:yes;
-	mso-style-link:"Heading 1 Char";
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	mso-pagination:widow-orphan;
-	mso-outline-level:1;
-	font-size:24.0pt;
-	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:"Times New Roman";
-	font-weight:bold;}
-h3
-	{mso-style-noshow:yes;
-	mso-style-priority:9;
-	mso-style-qformat:yes;
-	mso-style-link:"Heading 3 Char";
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	mso-pagination:widow-orphan;
-	mso-outline-level:3;
-	font-size:13.5pt;
-	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:"Times New Roman";
-	font-weight:bold;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;
-	text-underline:single;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-noshow:yes;
-	mso-style-priority:99;
-	color:#954F72;
-	mso-themecolor:followedhyperlink;
-	text-decoration:underline;
-	text-underline:single;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	mso-pagination:widow-orphan;
-	font-size:10.5pt;
-	font-family:Consolas;
-	mso-fareast-font-family:DengXian;
-	mso-fareast-theme-font:minor-fareast;
-	mso-bidi-font-family:"Times New Roman";
-	mso-bidi-theme-font:minor-bidi;}
-p
-	{mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	mso-pagination:widow-orphan;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:"Times New Roman";}
-p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
-	{mso-style-priority:34;
-	mso-style-unhide:no;
-	mso-style-qformat:yes;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:8.0pt;
-	margin-left:.5in;
-	mso-add-space:auto;
-	line-height:105%;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-ascii-theme-font:minor-latin;
-	mso-fareast-font-family:DengXian;
-	mso-fareast-theme-font:minor-fareast;
-	mso-hansi-font-family:Calibri;
-	mso-hansi-theme-font:minor-latin;
-	mso-bidi-font-family:"Times New Roman";
-	mso-bidi-theme-font:minor-bidi;}
-p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
-	{mso-style-priority:34;
-	mso-style-unhide:no;
-	mso-style-qformat:yes;
-	mso-style-type:export-only;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:0in;
-	margin-left:.5in;
-	mso-add-space:auto;
-	line-height:105%;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-ascii-theme-font:minor-latin;
-	mso-fareast-font-family:DengXian;
-	mso-fareast-theme-font:minor-fareast;
-	mso-hansi-font-family:Calibri;
-	mso-hansi-theme-font:minor-latin;
-	mso-bidi-font-family:"Times New Roman";
-	mso-bidi-theme-font:minor-bidi;}
-p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
-	{mso-style-priority:34;
-	mso-style-unhide:no;
-	mso-style-qformat:yes;
-	mso-style-type:export-only;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:0in;
-	margin-left:.5in;
-	mso-add-space:auto;
-	line-height:105%;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-ascii-theme-font:minor-latin;
-	mso-fareast-font-family:DengXian;
-	mso-fareast-theme-font:minor-fareast;
-	mso-hansi-font-family:Calibri;
-	mso-hansi-theme-font:minor-latin;
-	mso-bidi-font-family:"Times New Roman";
-	mso-bidi-theme-font:minor-bidi;}
-p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
-	{mso-style-priority:34;
-	mso-style-unhide:no;
-	mso-style-qformat:yes;
-	mso-style-type:export-only;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:8.0pt;
-	margin-left:.5in;
-	mso-add-space:auto;
-	line-height:105%;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-ascii-theme-font:minor-latin;
-	mso-fareast-font-family:DengXian;
-	mso-fareast-theme-font:minor-fareast;
-	mso-hansi-font-family:Calibri;
-	mso-hansi-theme-font:minor-latin;
-	mso-bidi-font-family:"Times New Roman";
-	mso-bidi-theme-font:minor-bidi;}
-span.Heading1Char
-	{mso-style-name:"Heading 1 Char";
-	mso-style-priority:9;
-	mso-style-unhide:no;
-	mso-style-locked:yes;
-	mso-style-link:"Heading 1";
-	mso-ansi-font-size:24.0pt;
-	mso-bidi-font-size:24.0pt;
-	font-family:"Times New Roman",serif;
-	mso-ascii-font-family:"Times New Roman";
-	mso-fareast-font-family:"Times New Roman";
-	mso-hansi-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-font-kerning:18.0pt;
-	font-weight:bold;}
-span.Heading3Char
-	{mso-style-name:"Heading 3 Char";
-	mso-style-noshow:yes;
-	mso-style-priority:9;
-	mso-style-unhide:no;
-	mso-style-locked:yes;
-	mso-style-link:"Heading 3";
-	mso-ansi-font-size:13.5pt;
-	mso-bidi-font-size:13.5pt;
-	font-family:"Times New Roman",serif;
-	mso-ascii-font-family:"Times New Roman";
-	mso-fareast-font-family:"Times New Roman";
-	mso-hansi-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	font-weight:bold;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-style-unhide:no;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	mso-pagination:widow-orphan;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;
-	mso-fareast-font-family:"Times New Roman";}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-style-unhide:no;
-	mso-style-locked:yes;
-	mso-style-link:"Plain Text";
-	mso-ansi-font-size:10.5pt;
-	mso-bidi-font-size:10.5pt;
-	font-family:Consolas;
-	mso-ascii-font-family:Consolas;
-	mso-hansi-font-family:Consolas;}
-span.SpellE
-	{mso-style-name:"";
-	mso-spl-e:yes;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	mso-default-props:yes;
-	font-size:10.0pt;
-	mso-ansi-font-size:10.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-ascii-theme-font:minor-latin;
-	mso-fareast-font-family:DengXian;
-	mso-fareast-theme-font:minor-fareast;
-	mso-hansi-font-family:Calibri;
-	mso-hansi-theme-font:minor-latin;
-	mso-bidi-font-family:"Times New Roman";
-	mso-bidi-theme-font:minor-bidi;
-	mso-font-kerning:0pt;
-	mso-ligatures:none;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 75.1pt 1.0in 75.05pt;
-	mso-header-margin:.5in;
-	mso-footer-margin:.5in;
-	mso-paper-source:0;}
-div.WordSection1
-	{page:WordSection1;}
- /* List Definitions */
- @list l0
-	{mso-list-id:22246215;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-1694978636 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:"Courier New";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Symbol;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:"Courier New";}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Symbol;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:"Courier New";}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:875195970;
-	mso-list-type:hybrid;
-	mso-list-template-ids:1906501672 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:"Courier New";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Symbol;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:"Courier New";}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Symbol;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:"Courier New";}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Wingdings;}
-@list l2
-	{mso-list-id:1230924611;
-	mso-list-type:hybrid;
-	mso-list-template-ids:2048961378 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
-@list l2:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Symbol;}
-@list l2:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:"Courier New";}
-@list l2:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Wingdings;}
-@list l2:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Symbol;}
-@list l2:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:"Courier New";}
-@list l2:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Wingdings;}
-@list l2:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Symbol;}
-@list l2:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:"Courier New";}
-@list l2:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	font-family:Wingdings;}
-@list l3
-	{mso-list-id:1442650842;
-	mso-list-template-ids:-909759904;}
-@list l3:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l3:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l3:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4
-	{mso-list-id:1457139104;
-	mso-list-template-ids:711871326;}
-@list l4:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l4:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l4:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5
-	{mso-list-id:1798715445;
-	mso-list-template-ids:749396220;}
-@list l5:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l5:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l5:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6
-	{mso-list-id:2028940014;
-	mso-list-template-ids:1943806608;}
-@list l6:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l6:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l6:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
--->
-</style>
-<!--[if gte mso 10]>
-<style>
- /* Style Definitions */
- table.MsoNormalTable
-	{mso-style-name:"Table Normal";
-	mso-tstyle-rowband-size:0;
-	mso-tstyle-colband-size:0;
-	mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-style-parent:"";
-	mso-padding-alt:0in 5.4pt 0in 5.4pt;
-	mso-para-margin:0in;
-	mso-pagination:widow-orphan;
-	font-size:10.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-ascii-theme-font:minor-latin;
-	mso-hansi-font-family:Calibri;
-	mso-hansi-theme-font:minor-latin;
-	mso-bidi-font-family:"Times New Roman";
-	mso-bidi-theme-font:minor-bidi;}
-</style>
-<![endif]--><!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext="edit" spidmax="1026"/>
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <o:shapelayout v:ext="edit">
-  <o:idmap v:ext="edit" data="1"/>
- </o:shapelayout></xml><![endif]-->
 </head>
+<body>
+<div class="layout">
 
-<body lang=EN-US link=blue vlink="#954F72" style='tab-interval:.5in;word-wrap:
-break-word'>
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Unity help</div>
+    <a href="#install">Download &amp; installation</a>
+    <a href="#warning">Do not upgrade</a>
+    <a href="#debugging">Debugging</a>
+    <a href="#learning">Begin working with Unity</a>
+    <a href="#problems">Problems Q&amp;A</a>
+    <a href="#webgl-config" class="sub">WebGL build configuration</a>
+    <a href="#intellisense" class="sub">Missing IntelliSense</a>
+    <a href="#ui-missing" class="sub">UI option missing</a>
+    <div class="label" style="margin-top:24px">References</div>
+    <a href="index.html">Class notes home</a>
+    <a href="Module-1/index.html">Module 1</a>
+    <a href="Module-2/index.html">Module 2</a>
+    <a href="Module-3/index.html">Module 3</a>
+    <a href="Module-4/index.html">Module 4</a>
+    <a href="Module-5/index.html">Module 5</a>
+  </nav>
 
-<div class=WordSection1>
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Class notes · Unity help</div>
+      <h1>Unity Help</h1>
+      <p>All examples in class use Unity <span class="version">6000.3.11f1</span> (LTS: Long Term Support release).</p>
+      <div class="hero-links">
+        <a class="btn" href="https://unity.com/releases/editor/whats-new/6000.3.11f1">Unity 6000.3.11f1 ↗</a>
+        <a class="btn" href="https://docs.unity3d.com/6000.3/Documentation/Manual/index.html">Unity 6.3 Manual ↗</a>
+      </div>
+    </header>
 
-<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
-line-height:normal;mso-outline-level:1'><b><span style='font-size:24.0pt;
-font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman";
-color:black;mso-font-kerning:18.0pt'>Unity Help Page<o:p></o:p></span></b></p>
+    <!-- INSTALL -->
+    <section id="install">
+      <h2>Download &amp; installation</h2>
+      <div class="card">
+        <h4 style="margin-top:0">Unity version</h4>
+        <p>Use Unity <code>6000.3.11f1</code> (an LTS, Long Term Support, release). All examples in class are based on it, so installing exactly this version avoids surprises.</p>
 
-<p class=MsoNormal style='margin-bottom:0in;line-height:normal;mso-outline-level:
-3'><b><span style='font-size:13.5pt;font-family:"Times New Roman",serif;
-mso-fareast-font-family:"Times New Roman";color:black'>Download/Installation<o:p></o:p></span></b></p>
+        <h4>Download and install</h4>
+        <p>Go to the <a href="https://unity.com/releases/editor/whats-new/6000.3.11f1">Unity 6000.3.11f1 release page ↗</a> and click <b>Install</b> to install it through Unity Hub. Other versions are in the <a href="https://unity.com/releases/editor/archive">Unity download archive ↗</a>. In China, use the <a href="https://unity.cn/release-notes/full/6000/6000.3.11f1">6000.3.11f1 page on unity.cn ↗</a> instead, and install the same version.</p>
 
-<ul type=disc>
- <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-     auto;line-height:normal;mso-list:l5 level1 lfo1;tab-stops:list .5in'><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>Unity version: work with the latest, all examples in
-     class are based on&nbsp;<b>6000.3.11f1</b>&nbsp;(LTS: Long Term Support
-     releases):<o:p></o:p></span></li>
- <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-     auto;line-height:normal;mso-list:l5 level1 lfo1;tab-stops:list .5in'><span
-     class=SpellE><span style='font-size:13.5pt;font-family:"Times New Roman",serif;
-     mso-fareast-font-family:"Times New Roman"'>Download+Install</span></span><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>: follow this link&nbsp;</span><span style='color:windowtext'><a
-     href="https://unity3d.com/unity/qa/lts-releases"><span style='font-size:
-     13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>https://unity3d.com/unity/qa/lts-releases</span></a></span><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>&nbsp;, scroll down to find our version and install. In
-     China, here is a better link&nbsp;</span><span style='color:windowtext'><a
-     href="https://unity.cn/releases/lts/"><span style='font-size:13.5pt;
-     font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>https://unity.cn/releases/lts/</span></a></span><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>, any LTS version should be good, e.g., 1.8.4.<o:p></o:p></span></li>
- <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-     auto;line-height:normal;mso-list:l5 level1 lfo1;tab-stops:list .5in'><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>Modules to install:<o:p></o:p></span></li>
- <ul type=circle>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l5 level2 lfo1;tab-stops:list 1.0in'><b><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>IDE</span></b><span style='font-size:13.5pt;
-      font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>:
-      I will be using&nbsp;</span><span style='color:windowtext'><a
-      href="https://code.visualstudio.com/"><span style='font-size:13.5pt;
-      font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>Visual
-      Studio Code (VSC)</span></a></span><span style='font-size:13.5pt;
-      font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>.
-      You are free to use anything IDE you like, the default IDE for Unity is
-      Microsoft Visual Studio Community, which works very well also.<o:p></o:p></span></li>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l5 level2 lfo1;tab-stops:list 1.0in'><b><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>WebGL Build Support</span></b><span style='font-size:
-      13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>:
-      Please make sure to install this module for our playtesting (for part-2
-      of this class will be based on WebGL builds. Additionally, if you are
-      running on a Mac, please also install&nbsp;<b>Windows Build Support</b>&nbsp;such
-      that you can build for PC EXE and the TA can run your assignment
-      submissions.<o:p></o:p></span></li>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l5 level2 lfo1;tab-stops:list 1.0in'><b><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>Documentation</span></b><span style='font-size:13.5pt;
-      font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>:
-      I would advise installing this as well.<o:p></o:p></span></li>
- </ul>
-</ul>
+        <h4>Modules to install</h4>
+        <div class="modules">
+          <div class="topic">
+            <h4><span class="ico">⌨</span>IDE</h4>
+            <p>I'll be using <a href="https://code.visualstudio.com/">Visual Studio Code</a> (VSC). You're free to use any IDE you like. Unity's default, Microsoft Visual Studio Community, also works very well.</p>
+          </div>
+          <div class="topic">
+            <h4><span class="ico">🌐</span>WebGL Build Support</h4>
+            <p>Required: Part 2 of this class, including playtesting, is based on WebGL builds.</p>
+          </div>
+          <div class="topic">
+            <h4><span class="ico">⊞</span>Windows Build Support</h4>
+            <p><b>Mac users:</b> please also install this so you can build a PC EXE that the TA can run for your assignment submissions.</p>
+          </div>
+          <div class="topic">
+            <h4><span class="ico">📖</span>Documentation</h4>
+            <p>I'd advise installing this as well.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<p class=MsoNormal style='mso-margin-top-alt:auto;margin-bottom:0in;line-height:
-normal;mso-outline-level:3'><b><span style='font-size:13.5pt;font-family:"Times New Roman",serif;
-mso-fareast-font-family:"Times New Roman";color:black'><br>
-Debugging<o:p></o:p></span></b></p>
+    <!-- WARNING -->
+    <section id="warning">
+      <div class="callout danger" style="font-size:16px; padding:18px 22px">
+        <span class="title" style="font-size:18px">!! WARNING !!</span>
+        Do <b>not</b> attempt to upgrade Unity during this class, <b>for any reason</b>. Once it's downloaded and working, do <b>not</b> follow new releases!
+      </div>
+    </section>
 
-<ul type=disc>
- <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-     auto;line-height:normal;mso-list:l4 level1 lfo2;tab-stops:list .5in'><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>Here is&nbsp;</span><span style='color:windowtext'><a
-     href="https://docs.unity3d.com/Manual/ManagedCodeDebugging.html"><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>the official documentation on debugging with C#</span></a></span><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>.<o:p></o:p></span></li>
- <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-     auto;line-height:normal;mso-list:l4 level1 lfo2;tab-stops:list .5in'><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>VSC&nbsp;</span><span style='color:windowtext'><a
-     href="https://forum.unity.com/threads/how-to-debug-unity-with-vscode-in-2022.1325217/"><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>Debugger from Unity</span></a></span><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>&nbsp;has been deprecated. I use <span class=SpellE>Debug.Log</span>()
-     (like <span class=SpellE>cout</span>) for debugging.<o:p></o:p></span></li>
-</ul>
+    <!-- DEBUGGING -->
+    <section id="debugging">
+      <h2>Debugging</h2>
+      <div class="card">
+        <ul style="margin:0">
+          <li>Here is <a href="https://docs.unity3d.com/6000.3/Documentation/Manual/managed-code-debugging.html">the official documentation on debugging C# ↗</a>.</li>
+          <li>The old VSC <a href="https://discussions.unity.com/t/how-to-debug-unity-with-vscode-in-2022/891741">Debugger for Unity ↗</a> has been deprecated; Microsoft's <a href="https://code.visualstudio.com/docs/other/unity">Unity extension for VS Code ↗</a> replaces it. I use <code>Debug.Log()</code> (like <code>cout</code>) for debugging.</li>
+        </ul>
+      </div>
+    </section>
 
-<p class=MsoNormal style='margin-bottom:0in;line-height:normal;mso-outline-level:
-3'><b><span style='font-size:13.5pt;font-family:"Times New Roman",serif;
-mso-fareast-font-family:"Times New Roman";color:black'><br>
-Begin working with Unity<o:p></o:p></span></b></p>
+    <!-- LEARNING -->
+    <section id="learning">
+      <h2>Begin working with Unity</h2>
+      <div class="card">
+        <p>Tutorials to go over yourself, after (or before) class:</p>
+        <ul class="links">
+          <li><a class="ext" href="https://learn.unity.com/tutorial/get-started-with-the-unity-hub">Get started with the Unity Hub</a></li>
+          <li><a class="ext" href="https://learn.unity.com/tutorials">Unity Learn tutorials</a>: under the <b>Level</b> tab, select <i>Foundational</i> and <i>Beginner</i> and watch the tutorial videos.</li>
+          <li><a class="ext" href="https://docs.unity3d.com/6000.3/Documentation/Manual/index.html">Unity 6.3 Manual</a>
+            <ul>
+              <li><a class="ext" href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/index.html">Scripting reference</a></li>
+              <li><a class="ext" href="https://docs.unity3d.com/6000.3/Documentation/Manual/SL-Reference.html">Shader reference</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
 
-<p class=MsoNormal style='margin-bottom:0in;line-height:normal'><span
-style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-"Times New Roman";color:black'>Tutorials, go over this yourself after (or
-before) class:<o:p></o:p></span></p>
+    <!-- PROBLEMS -->
+    <section id="problems">
+      <h2>Problems Q&amp;A</h2>
+      <div class="card">
 
-<ul style='margin-top:0in' type=disc>
- <li class=MsoNormal style='color:black;mso-margin-bottom-alt:auto;line-height:
-     normal;mso-list:l3 level1 lfo3;tab-stops:list .5in'><span
-     style='color:windowtext'><a
-     href="https://learn.unity.com/tutorial/get-started-with-the-unity-hub"><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>Get started with Unity Hub</span></a></span><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'><o:p></o:p></span></li>
- <li class=MsoNormal style='color:black;mso-margin-bottom-alt:auto;line-height:
-     normal;mso-list:l3 level1 lfo3;tab-stops:list .5in'><span
-     style='color:windowtext'><a href="https://learn.unity.com/tutorials"><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>https://learn.unity.com/tutorials</span></a></span><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>&nbsp;under the&nbsp;<b>Level</b>&nbsp;tab,
-     select&nbsp;<i>Foundational</i>&nbsp;and&nbsp;<i>Beginner</i>&nbsp;and
-     take a view of the tutorial videos.<o:p></o:p></span></li>
- <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-     auto;line-height:normal;mso-list:l3 level1 lfo3;tab-stops:list .5in'><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>Documentations:&nbsp;</span><span style='color:windowtext'><a
-     href="https://docs.unity3d.com/Manual/index.html"><span style='font-size:
-     13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>https://docs.unity3d.com/Manual/index.html</span></a></span><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'><o:p></o:p></span></li>
- <ul type=circle>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l3 level2 lfo3;tab-stops:list 1.0in'><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>Scripting:&nbsp;</span><span style='color:windowtext'><a
-      href="https://docs.unity3d.com/ScriptReference/"><span style='font-size:
-      13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>https://docs.unity3d.com/ScriptReference/</span></a></span><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'><o:p></o:p></span></li>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l3 level2 lfo3;tab-stops:list 1.0in'><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>Shader:&nbsp;</span><span style='color:windowtext'><a
-      href="https://docs.unity3d.com/Manual/SL-Reference.html"><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>https://docs.unity3d.com/Manual/SL-Reference.html</span></a></span><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>&nbsp;<o:p></o:p></span></li>
- </ul>
-</ul>
+        <div class="qa" id="webgl-config">
+          <h3>WebGL build configuration</h3>
+          <p>When you try to run your WebGL build, you may get an error like this:</p>
+          <figure>
+            <img src="UnityHelp_files/image001.png" width="737" height="525" alt="Browser showing a red error: Unable to load file Build/YourProject.framework.js.br! Check that the file exists on the remote server." style="max-width:min(100%, 520px)">
+            <figcaption>The “Unable to load file … framework.js.br” error.</figcaption>
+          </figure>
+          <p>This setting solved the problem for me (see <a href="https://discussions.unity.com/t/solved-webgl-build-error-unable-to-parse-build-file-name-framework-js-br/839192">this discussion ↗</a>; Unity's <a href="https://docs.unity3d.com/6000.3/Documentation/Manual/webgl-deploying.html">Deploy a Web application ↗</a> page explains the compression options). Before building:</p>
+          <ol class="steps">
+            <li>Open <span class="path">File › Build Profiles</span>, select <b><i>Web</i></b>, and click <b><i>Player Settings</i></b>. (Older Unity versions call this window Build Settings.)</li>
+            <li>Click <b><i>Player</i></b>, and under <b><i>Publishing Settings</i></b> find <b><i>Compression Format</i></b>.</li>
+            <li>Set it to <b><i>Disabled</i></b>.</li>
+          </ol>
+          <figure>
+            <img src="UnityHelp_files/image002.png" width="1237" height="540" alt="Unity Player settings, WebGL tab, Publishing Settings with Compression Format set to Disabled">
+            <figcaption>Player › Publishing Settings › Compression Format: Disabled.</figcaption>
+          </figure>
+        </div>
 
-<p class=MsoNormal style='mso-margin-top-alt:auto;margin-bottom:0in;line-height:
-normal;mso-outline-level:3'><b><span style='font-size:13.5pt;font-family:"Times New Roman",serif;
-mso-fareast-font-family:"Times New Roman";color:black'><br>
-!!WARNING!!<o:p></o:p></span></b></p>
+        <div class="qa" id="intellisense">
+          <h3>Missing Unity API IntelliSense</h3>
+          <p>A few things may be wrong:</p>
+          <ul>
+            <li><b>Check the installed packages:</b> open <span class="path">Window › Package Manager</span>. Under <b>Packages: Unity Registry</b>, scroll down and make sure <b>Visual Studio Editor</b> is installed. It supports both Visual Studio and VS Code. (The older “Visual Studio Code Editor” package is deprecated; you don't need it.)</li>
+            <li><b>Visual Studio Code:</b> if you use VSC, make sure to install the <a href="https://code.visualstudio.com/docs/other/unity">Unity extension from Microsoft ↗</a>, and follow through with updating the Package Manager.</li>
+            <li><b>Default editor setting:</b> in <span class="path">Edit › Preferences › External Tools › External Script Editor</span>, make sure this is set to your IDE.</li>
+            <li><b>First time opening the project:</b> choose <span class="path">Assets › Open C# Project</span>.</li>
+          </ul>
+        </div>
 
-<p class=MsoNormal style='margin-bottom:0in;line-height:normal'><span
-style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-"Times New Roman";color:black'>DO NOT attempt to upgrade your Unity during this
-class, FOR ANY REASON. Once downloaded, once working, DO NOT follow new
-releases!!<o:p></o:p></span></p>
+        <div class="qa" id="ui-missing">
+          <h3>UI option missing from the Create menu</h3>
+          <p>You need to add the <code>UnityEngine.UI</code> package: open <span class="path">Window › Package Manager</span>, choose <b>Packages: Unity Registry</b>, and search for <b>Unity UI</b>. Once it's installed, the UI items appear in the Create menu under <span class="path">UI (Canvas)</span>.</p>
+        </div>
 
-<div style='mso-element:para-border-div;border:none;border-bottom:double windowtext 2.25pt;
-padding:0in 0in 1.0pt 0in'>
+      </div>
+    </section>
 
-<p class=MsoNormal style='mso-margin-bottom-alt:auto;line-height:normal;
-border:none;mso-border-bottom-alt:double windowtext 2.25pt;padding:0in;
-mso-padding-alt:0in 0in 1.0pt 0in'><span style='font-size:13.5pt;font-family:
-"Times New Roman",serif;mso-fareast-font-family:"Times New Roman";color:black'><o:p>&nbsp;</o:p></span></p>
-
+    <footer>
+      Class notes: <a href="Module-1/index.html">Module 1</a> · <a href="Module-2/index.html">Module 2</a> · <a href="Module-3/index.html">Module 3</a> · <a href="Module-4/index.html">Module 4</a> · <a href="Module-5/index.html">Module 5</a>
+    </footer>
+  </main>
 </div>
 
-<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
-line-height:normal;mso-outline-level:3'><b><span style='font-size:16.0pt;
-font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman";
-color:red;background:yellow;mso-highlight:yellow'>Problems Q&amp;A</span></b><b><span
-style='font-size:16.0pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-"Times New Roman";color:red'><o:p></o:p></span></b></p>
-
-<ul style='margin-top:0in' type=disc>
- <li class=MsoNormal style='color:black;mso-margin-bottom-alt:auto;line-height:
-     normal;mso-list:l6 level1 lfo4;tab-stops:list .5in'><b style='mso-bidi-font-weight:
-     normal'><span style='font-size:13.5pt;font-family:"Times New Roman",serif;
-     mso-fareast-font-family:"Times New Roman";color:red'>WebGL</span></b><b
-     style='mso-bidi-font-weight:normal'><span style='font-size:13.5pt;
-     font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>
-     </span></b><span style='font-size:13.5pt;font-family:"Times New Roman",serif;
-     mso-fareast-font-family:"Times New Roman"'>build configuration<o:p></o:p></span></li>
- <ul type=circle>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l6 level2 lfo4;tab-stops:list 1.0in'><span
-      style='mso-fareast-font-family:"Times New Roman";color:windowtext'>When
-      trying to run your web-GL build, if you encounter <a
-      href="UnityHelp_files/image001.png">an error<span style='mso-fareast-font-family:
-      DengXian;mso-fareast-theme-font:minor-fareast'> that looks like this screenshot</span></a></span>.<o:p></o:p></li>
- </ul>
-</ul>
-
-<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
-margin-left:1.0in;line-height:normal'><a href="UnityHelp_files/image001.png"><span
-style='color:black;mso-no-proof:yes;text-decoration:none;text-underline:none'><v:shapetype
- id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
- path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
- <v:stroke joinstyle="miter"/>
- <v:formulas>
-  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
-  <v:f eqn="sum @0 1 0"/>
-  <v:f eqn="sum 0 0 @1"/>
-  <v:f eqn="prod @2 1 2"/>
-  <v:f eqn="prod @3 21600 pixelWidth"/>
-  <v:f eqn="prod @3 21600 pixelHeight"/>
-  <v:f eqn="sum @0 0 1"/>
-  <v:f eqn="prod @6 1 2"/>
-  <v:f eqn="prod @7 21600 pixelWidth"/>
-  <v:f eqn="sum @8 21600 0"/>
-  <v:f eqn="prod @7 21600 pixelHeight"/>
-  <v:f eqn="sum @10 21600 0"/>
- </v:formulas>
- <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
- <o:lock v:ext="edit" aspectratio="t"/>
-</v:shapetype><v:shape id="Picture_x0020_1" o:spid="_x0000_i1026" type="#_x0000_t75"
- href="UnityHelp_files/image001.png" style='width:241.5pt;height:171.75pt;
- visibility:visible;mso-wrap-style:square' o:button="t">
- <v:fill o:detectmouseclick="t"/>
- <v:imagedata src="UnityHelp_files/image001.png" o:title=""/>
-</v:shape></span></a><span style='color:black'><o:p></o:p></span></p>
-
-<ul type=disc>
- <ul type=circle>
-  <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l6 level2 lfo4;tab-stops:list 1.0in'>This
-      new setting solved the problem form me. Take a look at <a
-      href="https://forum.unity.com/threads/solved-webgl-build-error-unable-to-parse-build-file-name-framework-js-br.1102759/">this
-      discussion</a>. Before building, click <b><i>Player Settings</i> </b>on
-      the pop-up window, click on <b><i>Player </i></b>and under <b><i>Publishing
-      Settings</i></b><i> </i>look for <b><i>Compression Format</i></b>, set
-      this to <b><i>Disabled</i></b> <a href="UnityHelp_files/image002.png">as
-      indicated in this screenshot</a>.<br>
-      <a href="UnityHelp_files/image002.png"><span style='color:windowtext;
-      mso-no-proof:yes;text-decoration:none;text-underline:none'><v:shape id="Picture_x0020_4"
-       o:spid="_x0000_i1025" type="#_x0000_t75"
-       href="UnityHelp_files/image002.png" style='width:404.25pt;height:177pt;
-       visibility:visible;mso-wrap-style:square' o:button="t">
-       <v:fill o:detectmouseclick="t"/>
-       <v:imagedata src="UnityHelp_files/image002.png" o:title=""/>
-      </v:shape></span></a><br style='mso-special-character:line-break'>
-      <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-      <![endif]></li>
- </ul>
- <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-     auto;line-height:normal;mso-list:l6 level1 lfo4;tab-stops:list .5in'><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>Missing </span><b style='mso-bidi-font-weight:normal'><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman";color:red'>Unity API <span class=SpellE>Intellicence</span></span></b><span
-     style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-     "Times New Roman"'>: there may be a few things that are wrong:<o:p></o:p></span></li>
- <ul type=circle>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l6 level2 lfo4;tab-stops:list 1.0in'><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>Check for Package installed: <o:p></o:p></span></li>
-  <ul type=square>
-   <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;line-height:normal;mso-list:l6 level3 lfo4;tab-stops:list 1.5in'><span
-       style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-       "Times New Roman"'>Windows-&gt;Package Manager<span
-       style='mso-spacerun:yes'>� </span><o:p></o:p></span></li>
-   <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-       auto;line-height:normal;mso-list:l6 level3 lfo4;tab-stops:list 1.5in'><span
-       style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-       "Times New Roman"'>Under Packages: look under �Unity Registry�, then
-       scroll down to install<o:p></o:p></span></li>
-   <ul type=square>
-    <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-        auto;line-height:normal;mso-list:l6 level4 lfo4;tab-stops:list 2.0in'><b><span
-        style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-        "Times New Roman"'>BOTH:</span></b><span style='font-size:13.5pt;
-        font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>
-        �Visual Studio Editor� and �Visual Studio Code Editor�<o:p></o:p></span></li>
-   </ul>
-  </ul>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l6 level2 lfo4;tab-stops:list 1.0in'><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>Visual Studio Code: if you are using VSC, make sure to
-      install the </span><span style='color:windowtext'><a
-      href="https://code.visualstudio.com/docs/other/unity"><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>Unity extension from Microsoft</span></a></span><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>. Make sure to follow through with updating the
-      Package Manager.<o:p></o:p></span></li>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l6 level2 lfo4;tab-stops:list 1.0in'><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>Default editor setting:
-      Edit-&gt;Preferences-&gt;External Tools-&gt;External Script Editor, make
-      sure this is set to your default IDE.<o:p></o:p></span></li>
-  <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-      auto;line-height:normal;mso-list:l6 level2 lfo4;tab-stops:list 1.0in'><span
-      style='font-size:13.5pt;font-family:"Times New Roman",serif;mso-fareast-font-family:
-      "Times New Roman"'>First time opening the project: Assets-&gt;Open C#
-      Project<br style='mso-special-character:line-break'>
-      <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
-      <![endif]><o:p></o:p></span></li>
- </ul>
- <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
-     auto;line-height:normal;mso-list:l6 level1 lfo4;tab-stops:list .5in'><b
-     style='mso-bidi-font-weight:normal'><span style='font-size:13.5pt;
-     font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman";
-     color:red'>UI option missing</span></b><span style='font-size:13.5pt;
-     font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>
-     from create menu: You need to add the <span class=SpellE>UnityEngine.UI</span>
-     package (Windows-&gt;<span class=SpellE>PackageManager</span> [Packages:
-     Unity Registry], search for&nbsp;<b>Unity UI</b><o:p></o:p></span></li>
-</ul>
-
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
-
-</div>
-
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a[href^="#"]'));
+    var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function update() {
+      var y = window.scrollY + 80, idx = 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top + window.scrollY <= y) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+</script>
 </body>
-
 </html>

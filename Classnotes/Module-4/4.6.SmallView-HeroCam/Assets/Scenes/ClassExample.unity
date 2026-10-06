@@ -1214,7 +1214,7 @@ MonoBehaviour:
   mTheCamera: {fileID: 692051648}
   mHeroCam: {fileID: 387132280}
   WorldBoundRegion: 0.8
-  kHeroSpeed: 40
+  mHeroSpeed: 40
 --- !u!1 &1517005727
 GameObject:
   m_ObjectHideFlags: 0

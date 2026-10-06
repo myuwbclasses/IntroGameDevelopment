@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class WASD_Movement : MonoBehaviour
 {
-    private float kSpeed = 20f;
+    private const float kSpeed = 20f;
     // Start is called before the first frame update
     void Start()
     {

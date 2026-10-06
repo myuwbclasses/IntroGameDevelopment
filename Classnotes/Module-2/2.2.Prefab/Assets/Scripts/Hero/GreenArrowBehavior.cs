@@ -28,7 +28,7 @@ public class GreenArrowBehavior : MonoBehaviour
         // if (Keyboard.current.spaceKey.wasPressedThisFrame)
         if (Keyboard.current.spaceKey.isPressed)
         {
-            GameObject e = Instantiate(Resources.Load("Prefabs/Egg") as GameObject); // Prefab MUST BE locaed in Resources/Prefab folder!
+            GameObject e = Instantiate(Resources.Load("Prefabs/Egg") as GameObject); // Prefab MUST BE located in Resources/Prefabs folder!
             e.transform.localPosition = transform.localPosition;
             Debug.Log("Spawn Eggs:" + e.transform.localPosition);
         }

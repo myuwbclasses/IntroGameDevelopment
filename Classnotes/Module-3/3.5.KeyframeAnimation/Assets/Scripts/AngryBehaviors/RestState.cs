@@ -13,7 +13,7 @@ public class RestState : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (Keyboard.current.iKey.wasPressedThisFrame)
-            animator.SetBool("Begin", true);    
+            animator.SetTrigger("Begin");    
 
         if (Keyboard.current.dKey.wasPressedThisFrame)
             animator.SetBool("Dec", true);    

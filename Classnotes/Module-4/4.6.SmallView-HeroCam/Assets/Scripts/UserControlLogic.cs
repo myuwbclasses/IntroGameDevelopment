@@ -12,13 +12,16 @@ public class UserControlLogic : MonoBehaviour
     public SliderWithEcho mVY = null;
     public SliderWithEcho mVW = null;
     public SliderWithEcho mVH = null;
-    
+
+    private const float kZoomFactor = 1.1f;   // H/J: > 1 zooms out (see more of the world)
+
     // Start is called before the first frame update
     void Start()
     {
         Debug.Assert(mTheCamera != null);
         Debug.Assert(mSmallView != null);
         Debug.Assert(mVX != null);
+        Debug.Assert(mVY != null);
         Debug.Assert(mVW != null);
         Debug.Assert(mVH != null);
     }
@@ -38,17 +41,17 @@ public class UserControlLogic : MonoBehaviour
 
         #region SetViewport
         mSmallView.SetViewportMinPos(mVX.value(), mVY.value());
-        mSmallView.SetViewprotSize(mVW.value(), mVH.value());
+        mSmallView.SetViewportSize(mVW.value(), mVH.value());
         #endregion
     }
 
     private void CheckZoom()
     {
         if (Keyboard.current.hKey.wasPressedThisFrame)
-            mTheCamera.Zoom(mVX.value());
+            mTheCamera.Zoom(kZoomFactor);
 
         if (Keyboard.current.jKey.wasPressedThisFrame)
-            mTheCamera.ZoomTowards(mRefPoint.transform.position, mVX.value());
+            mTheCamera.ZoomTowards(mRefPoint.transform.position, kZoomFactor);
     }
 
     private void CheckPan()

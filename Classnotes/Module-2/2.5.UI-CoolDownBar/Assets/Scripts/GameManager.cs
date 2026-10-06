@@ -4,7 +4,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager sTheGlobalBehavior = null; // Single pattern
+    public static GameManager sTheGlobalBehavior = null; // Singleton pattern
 
     public GreenArrowBehavior mHero = null;  // must set in the editor
 
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
         // Connect up everyone who needs to know about each other
         EggBehavior.SetGreenArrow(mHero);
-        // Notice the symantics: this is a call to class method (NOT instance method)
+        // Notice the semantics: this is a call to class method (NOT instance method)
     }
 
     // Update is called once per frame

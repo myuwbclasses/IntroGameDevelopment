@@ -6,17 +6,20 @@ public class UserControlLogic : MonoBehaviour
     public GameObject mRefPoint = null;
 
     public CameraSupport mTheCamera = null;
-    public SliderWithEcho mFreg = null;
+    public SliderWithEcho mFreq = null;
     public SliderWithEcho mDuration = null;
 
     public SliderWithEcho mDX = null;
     public SliderWithEcho mDY = null;
-    
+
+    private const float kZoomFactor = 1.1f;   // H/J: > 1 zooms out (see more of the world)
+
     // Start is called before the first frame update
     void Start()
     {
         Debug.Assert(mTheCamera != null);
-        Debug.Assert(mFreg != null);
+        Debug.Assert(mFreq != null);
+        Debug.Assert(mDuration != null);
         Debug.Assert(mDX != null);
         Debug.Assert(mDY != null);
     }
@@ -30,7 +33,7 @@ public class UserControlLogic : MonoBehaviour
         // Perform Shake
         if (Keyboard.current.xKey.wasPressedThisFrame)
         {
-            mTheCamera.SetShakeParameters(mFreg.value(), mDuration.value());
+            mTheCamera.SetShakeParameters(mFreq.value(), mDuration.value());
             mTheCamera.ShakeCamera(new Vector2(mDX.value(), mDY.value()));
         }
     }
@@ -38,10 +41,10 @@ public class UserControlLogic : MonoBehaviour
     private void CheckZoom()
     {
         if (Keyboard.current.hKey.wasPressedThisFrame)
-            mTheCamera.Zoom(mFreg.value());
+            mTheCamera.Zoom(kZoomFactor);
 
         if (Keyboard.current.jKey.wasPressedThisFrame)
-            mTheCamera.ZoomTowards(mRefPoint.transform.position, mFreg.value());
+            mTheCamera.ZoomTowards(mRefPoint.transform.position, kZoomFactor);
     }
 
     private void CheckPan()

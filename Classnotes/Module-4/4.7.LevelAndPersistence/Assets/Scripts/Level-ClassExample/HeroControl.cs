@@ -6,15 +6,14 @@ public class HeroControl : MonoBehaviour {
     public CameraSupport mTheCamera;
     public CameraSupport mHeroCam;
     public float WorldBoundRegion = 0.8f;
-	public float kHeroSpeed = 40f;
-	private float kHeroRotateSpeed = 90f/2f; // 90-degrees in 2 seconds
-                                             // Use this for initialization
+	public float mHeroSpeed = 40f;
 
     private TimedLerp mSizeLerp = new TimedLerp(1f, 0.5f);  // controls size change
-    private const float kDeltaSize = 8f;  // Twice my current size
+    private const float kDeltaSize = 8f;  // added to the scale on each Z press
 
 	void Start () {
         Debug.Assert(mTheCamera != null);
+        Debug.Assert(mHeroCam != null);
 	}
 	
 	// Update is called once per frame
@@ -26,7 +25,7 @@ public class HeroControl : MonoBehaviour {
 		if ((Keyboard.current.sKey.isPressed) || Keyboard.current.downArrowKey.isPressed)
 			movement -= 1f;
 		transform.position += movement * transform.up * 
-									(kHeroSpeed * Time.smoothDeltaTime);
+									(mHeroSpeed * Time.smoothDeltaTime);
 		
 		movement = 0f;
 		if ((Keyboard.current.dKey.isPressed) || Keyboard.current.rightArrowKey.isPressed)
@@ -34,7 +33,7 @@ public class HeroControl : MonoBehaviour {
 		if ((Keyboard.current.aKey.isPressed) || Keyboard.current.leftArrowKey.isPressed)
 			movement -= 1f;		
         transform.position += movement * transform.right *
-                                    (kHeroSpeed * Time.smoothDeltaTime);
+                                    (mHeroSpeed * Time.smoothDeltaTime);
         #endregion
 
         mHeroCam.MoveTo(transform.position.x, transform.position.y);

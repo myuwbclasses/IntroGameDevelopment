@@ -660,6 +660,7 @@ RectTransform:
   m_Children:
   - {fileID: 877517389}
   - {fileID: 1951053389}
+  - {fileID: 1517548300}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -713,7 +714,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1292601083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1517548301
 MonoBehaviour:
@@ -850,6 +851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a663e3cad609254a8ad6f6d6d2eddcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mHeroSpeed: 60
   mSpawnRate: {fileID: 1951053390}
 --- !u!850595691 &1723708896
 LightingSettings:
@@ -941,4 +943,3 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1528726902}
   - {fileID: 1292601083}
-  - {fileID: 1517548300}

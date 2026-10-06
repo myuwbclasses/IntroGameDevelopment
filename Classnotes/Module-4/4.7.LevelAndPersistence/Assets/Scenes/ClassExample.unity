@@ -1437,7 +1437,7 @@ MonoBehaviour:
   mTheCamera: {fileID: 692051648}
   mHeroCam: {fileID: 387132280}
   WorldBoundRegion: 0.8
-  kHeroSpeed: 20
+  mHeroSpeed: 20
 --- !u!1 &1309833333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1751,7 +1751,7 @@ MonoBehaviour:
   mVY: {fileID: 101285348}
   mVW: {fileID: 877660294}
   mVH: {fileID: 809297451}
-  GameStateEcho: {fileID: 730929768}
+  mGameStateEcho: {fileID: 730929768}
 --- !u!4 &1591717483
 Transform:
   m_ObjectHideFlags: 0

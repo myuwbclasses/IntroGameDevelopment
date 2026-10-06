@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intro Game Development · Class Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #f1f3f7;
+    --text: #1d2330;
+    --muted: #5b6475;
+    --border: #e2e6ee;
+    --accent: #2f6fdf;
+    --accent-soft: #e8f0fd;
+    --green: #1f9d55;
+    --green-soft: #e7f6ee;
+    --amber: #b7791f;
+    --amber-soft: #fdf5e6;
+    --red: #c53030;
+    --red-soft: #fdecec;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 2px 8px rgba(16,24,40,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117;
+      --surface: #161b24;
+      --surface-2: #1d2430;
+      --text: #e6e9ef;
+      --muted: #9aa4b5;
+      --border: #2a3240;
+      --accent: #6aa0ff;
+      --accent-soft: #1b2a45;
+      --green: #4ccb86;
+      --green-soft: #15291f;
+      --amber: #e2b04a;
+      --amber-soft: #2c2415;
+      --red: #f07171;
+      --red-soft: #2e1a1c;
+      --code-bg: #0a0d13;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, kbd, .path {
+    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    font-size: .86em;
+  }
+  code { background: var(--surface-2); border: 1px solid var(--border); padding: .08em .4em; border-radius: 5px; }
+  kbd {
+    background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+    padding: .05em .45em; border-radius: 5px; white-space: nowrap;
+  }
+  .path { background: var(--accent-soft); color: var(--accent); padding: .08em .45em; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .ui { font-weight: 600; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 40px; padding: 0 24px; }
+  nav.toc { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; padding: 36px 0; }
+  nav.toc .label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 12px; }
+  nav.toc a { display: block; padding: 6px 12px; border-radius: 8px; color: var(--muted); font-size: 14px; border-left: 2px solid transparent; }
+  nav.toc a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+  nav.toc a.active { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+  nav.toc a.sub { padding-left: 26px; font-size: 13.5px; }
+  main { padding: 36px 0 80px; min-width: 0; }
+
+  /* Hero */
+  header.hero {
+    background: linear-gradient(135deg, #2f6fdf 0%, #6a4fd8 100%);
+    color: #fff; border-radius: 18px; padding: 36px 36px 32px; margin-bottom: 32px;
+    position: relative; overflow: hidden;
+  }
+  header.hero::after {
+    content: ""; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px;
+    border-radius: 50%; background: rgba(255,255,255,.08);
+  }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+  header.hero h1 { font-size: 36px; line-height: 1.2; margin: 6px 0 14px; letter-spacing: -.02em; }
+  .hero-links { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.16); color: #fff; border: 1px solid rgba(255,255,255,.28);
+    padding: 7px 14px; border-radius: 999px; font-size: 14px; font-weight: 500;
+  }
+  .btn:hover { background: rgba(255,255,255,.26); text-decoration: none; }
+
+  /* Sections */
+  section { margin-bottom: 44px; }
+  h2 { font-size: 24px; letter-spacing: -.01em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  h4 { font-size: 15.5px; margin: 20px 0 6px; color: var(--text); }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li > ul, li > ol { margin: 4px 0 6px; }
+  ul ul { list-style: circle; }
+  ul ul ul { list-style: square; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+
+  /* Coverage grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  .topic { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .topic h4 { margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+  .topic .ico { width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 15px; }
+  .topic ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); }
+
+  /* Folder chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); }
+  .chip.keep { background: var(--green-soft); border-color: transparent; color: var(--green); }
+  .chip.skip { background: var(--red-soft); border-color: transparent; color: var(--red); text-decoration: line-through; text-decoration-thickness: 1px; }
+
+  /* Callouts */
+  .callout { border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; border-left: 4px solid; font-size: 15px; }
+  .callout > :last-child { margin-bottom: 0; }
+  .callout .title { font-weight: 600; display: block; margin-bottom: 4px; }
+  .callout.info { background: var(--accent-soft); border-color: var(--accent); }
+  .callout.tip { background: var(--green-soft); border-color: var(--green); }
+  .callout.warn { background: var(--amber-soft); border-color: var(--amber); }
+  .callout.danger { background: var(--red-soft); border-color: var(--red); }
+  .callout.learned { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--green); }
+  .callout.learned .title { color: var(--green); }
+
+  /* Example headers */
+  .example-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .example-num { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; flex: none; }
+  .example-head h3 { margin: 0; font-size: 21px; }
+  .example-head .sub { color: var(--muted); font-size: 14px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 6px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .pill:hover { text-decoration: none; filter: brightness(.97); }
+
+  /* Figures */
+  figure { margin: 16px 0; }
+  figure img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; box-shadow: var(--shadow); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  img.inline { vertical-align: middle; border-radius: 6px; border: 1px solid var(--border); height: 44px; margin-left: 6px; }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; background: var(--surface-2); }
+  tr:last-child td { border-bottom: none; }
+  .tbl { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .tbl table { margin: 0; }
+
+  /* Steps */
+  ol.steps { counter-reset: s; list-style: none; padding-left: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding-left: 38px; margin: 10px 0; }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface-2); border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+    display: grid; place-items: center; color: var(--muted);
+  }
+
+  /* ECS diagram */
+  .ecs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
+  .ecs div { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+  .ecs b { display: block; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .ecs span { font-size: 14.5px; color: var(--muted); }
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: "JetBrains Mono", monospace; font-size: 13.5px; margin: 8px 0; }
+  .flow span { background: var(--surface-2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+  .flow i { color: var(--muted); font-style: normal; }
+
+  footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 40px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding: 0 16px; }
+    nav.toc { display: none; }
+    header.hero { padding: 28px 22px; }
+    header.hero h1 { font-size: 28px; }
+    .card { padding: 18px; }
+    .ecs { grid-template-columns: 1fr; }
+  }
+
+  code { overflow-wrap: anywhere; }
+  pre.code code { overflow-wrap: normal; }
+  pre.code { max-width: 100%; background: var(--code-bg); color: var(--code-text); padding: 12px 16px; border-radius: 10px; overflow-x: auto; font-size: 13.5px; margin: 8px 0 12px; }
+  pre.code code { background: none; border: none; padding: 0; color: inherit; }
+  .pill.muted { background: var(--surface-2); color: var(--muted); cursor: default; }
+  .procon { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+  .procon > div { border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; background: var(--surface); font-size: 15px; }
+  .procon b { display: block; margin-bottom: 4px; }
+  .procon .pro b { color: var(--green); } .procon .con b { color: var(--red); }
+  figure.inline-fig { max-width: 420px; }
+  .hero-sub { position: relative; z-index: 1; margin: 0 0 18px; max-width: 640px; opacity: .92; font-size: 16.5px; }
+  .start-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+  .start-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); color: var(--text); }
+  
+  .start-card .ico { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 16px; margin-bottom: 10px; }
+  .start-card b { display: block; margin-bottom: 4px; }
+  .start-card span:last-child { font-size: 14.5px; color: var(--muted); }
+  .module { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .module-head { display: flex; gap: 14px; align-items: flex-start; }
+  .module-head h3 { margin: 2px 0 2px; font-size: 20px; }
+  .module-head h3 a { color: var(--text); }
+  .module-head .sub { color: var(--muted); font-size: 14.5px; }
+  .ex-list { list-style: none; padding: 0; margin: 14px 0 4px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 6px 16px; }
+  .ex-list li { margin: 0; }
+  .ex-list a { display: flex; gap: 10px; align-items: baseline; padding: 6px 10px; border-radius: 8px; color: var(--text); font-size: 15px; }
+  .ex-list a:hover { background: var(--surface-2); text-decoration: none; }
+  .ex-list a span { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--accent); min-width: 28px; }
+  .pill.selfex { background: var(--amber-soft); color: var(--amber); }
+  @media (max-width: 600px) { .module { padding: 18px; } }
+  .time { display: inline-block; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); margin-left: 10px; vertical-align: middle; letter-spacing: .02em; }
+  .step-title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .sprites { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 12px 0 6px; }
+  .sprite { display: block; text-align: center; border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px 10px; background: var(--surface-2); color: var(--text); }
+  .sprite:hover { text-decoration: none; border-color: var(--accent); }
+  .sprite img { height: 56px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto 8px; }
+  .sprite b { display: block; font-size: 14px; }
+  .sprite span { font-size: 12.5px; color: var(--muted); }
+  .task { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin: 22px 0 6px; }
+  .task:first-of-type { margin-top: 6px; }
+  @media (max-width: 600px) { .sprites { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .procon { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Class notes</div>
+    <a href="#start">Getting started</a>
+    <a href="#m1">Module 1</a>
+    <a href="#m2">Module 2</a>
+    <a href="#m3">Module 3</a>
+    <a href="#m4">Module 4</a>
+    <a href="#m5">Module 5</a>
+    <a href="#exercises">Exercises</a>
+    <a href="#resources">Resources</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Intro Game Development · Unity</div>
+      <h1>Class Notes</h1>
+      <p class="hero-sub">Five modules of worked Unity examples, each with notes, a playable WebGL build and the full Unity project. Start with the Unity help page, then work through the modules in order.</p>
+      <div class="hero-links">
+        <a class="btn" href="Module-1/index.html">Start with Module 1 →</a>
+        <a class="btn" href="UnityHelp.html">Unity help</a>
+        <a class="btn" href="https://github.com/myuwbclasses/IntroGameDevelopment">GitHub repository ↗</a>
+      </div>
+    </header>
+
+    <!-- GETTING STARTED -->
+    <section id="start">
+      <h2>Getting started</h2>
+      <div class="start-grid">
+        <div class="start-card">
+          <span class="ico">⬇</span>
+          <b>Install Unity 6000.3.11f1</b>
+          <span>The version every example uses, plus the modules to install.</span>
+        </div>
+        <div class="start-card">
+          <span class="ico">⚠</span>
+          <b>Don't upgrade mid-class</b>
+          <span>Once Unity is installed and working, stay on that version.</span>
+        </div>
+        <div class="start-card">
+          <span class="ico">?</span>
+          <b>Problems Q&amp;A</b>
+          <span>WebGL build errors, missing IntelliSense, missing UI options.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULES -->
+    <section id="modules">
+      <h2>Modules</h2>
+
+      <article class="module" id="m1">
+        <div class="module-head">
+          <div class="example-num">1</div>
+          <div>
+            <h3><a href="Module-1/index.html">Introduction + Warm Up</a></h3>
+            <div class="sub">GitHub, the Unity editor, 2D camera, sprites, scripts, EXE and WebGL builds</div>
+          </div>
+        </div>
+        <ul class="ex-list">
+          <li><a href="Module-1/index.html#ex1"><span>1.1</span>Basic Simple Project</a></li>
+          <li><a href="Module-1/index.html#ex2"><span>1.2</span>Scripts on GameObjects</a></li>
+        </ul>
+        <div class="actions">
+          <a class="pill" href="Module-1/index.html">Open notes →</a>
+          <a class="pill selfex" href="Module-1/Self_Exercise/Self-PracticeEX1.htm">✎ Self-exercise 1</a>
+        </div>
+      </article>
+
+      <article class="module" id="m2">
+        <div class="module-head">
+          <div class="example-num">2</div>
+          <div>
+            <h3><a href="Module-2/index.html">Object Control, Interaction + User Interface</a></h3>
+            <div class="sub">Components, prefabs, the Game Manager, UI and packages, collisions</div>
+          </div>
+        </div>
+        <ul class="ex-list">
+          <li><a href="Module-2/index.html#ex1"><span>2.1</span>Object Navigation</a></li>
+          <li><a href="Module-2/index.html#ex2"><span>2.2</span>Prefab</a></li>
+          <li><a href="Module-2/index.html#ex3"><span>2.3</span>Game Manager + Simple UI Text</a></li>
+          <li><a href="Module-2/index.html#ex4"><span>2.4</span>User Interface and Packages</a></li>
+          <li><a href="Module-2/index.html#ex5"><span>2.5</span>Cool Down Bar</a></li>
+          <li><a href="Module-2/index.html#ex6"><span>2.6</span>Collision + Color + Texture</a></li>
+        </ul>
+        <div class="actions">
+          <a class="pill" href="Module-2/index.html">Open notes →</a>
+          <a class="pill selfex" href="Module-2/Self-Exercise/Self-PracticeEX2.htm">✎ Self-exercise 2</a>
+        </div>
+      </article>
+
+      <article class="module" id="m3">
+        <div class="module-head">
+          <div class="example-num">3</div>
+          <div>
+            <h3><a href="Module-3/index.html">Autonomous Behaviors and Tilemap</a></h3>
+            <div class="sub">Lerp, finite state machines, randomness, keyframe and sprite animation, tilemaps</div>
+          </div>
+        </div>
+        <ul class="ex-list">
+          <li><a href="Module-3/index.html#ex1"><span>3.1</span>Gradual Rotation and Chasing</a></li>
+          <li><a href="Module-3/index.html#ex2"><span>3.2</span>Autonomous Movement with Randomness</a></li>
+          <li><a href="Module-3/index.html#ex3"><span>3.3</span>Finite State Machine</a></li>
+          <li><a href="Module-3/index.html#ex4"><span>3.4</span>FSM + Randomness</a></li>
+          <li><a href="Module-3/index.html#ex5"><span>3.5</span>Keyframe Animation + FSM</a></li>
+          <li><a href="Module-3/index.html#ex6"><span>3.6</span>Sprite Animation</a></li>
+          <li><a href="Module-3/index.html#ex7"><span>3.7</span>Tile Palettes and Tilemap</a></li>
+        </ul>
+        <div class="actions">
+          <a class="pill" href="Module-3/index.html">Open notes →</a>
+        </div>
+      </article>
+
+      <article class="module" id="m4">
+        <div class="module-head">
+          <div class="example-num">4</div>
+          <div>
+            <h3><a href="Module-4/index.html">All About the Camera, Familiar Functions and Views</a></h3>
+            <div class="sub">Camera control, lerp and shake, orbiting, viewports, scenes and persistence</div>
+          </div>
+        </div>
+        <ul class="ex-list">
+          <li><a href="Module-4/index.html#ex1"><span>4.1</span>Basic Camera Controls</a></li>
+          <li><a href="Module-4/index.html#ex2"><span>4.2</span>Taking a Closer Look at Lerp</a></li>
+          <li><a href="Module-4/index.html#ex3"><span>4.3</span>More Respectful Camera Manipulation</a></li>
+          <li><a href="Module-4/index.html#ex4"><span>4.4</span>Shaking</a></li>
+          <li><a href="Module-4/index.html#ex5"><span>4.5</span>Orbiting</a></li>
+          <li><a href="Module-4/index.html#ex6"><span>4.6</span>Viewport and Hero Cam</a></li>
+          <li><a href="Module-4/index.html#ex7"><span>4.7</span>New Scene + Persistence</a></li>
+        </ul>
+        <div class="actions">
+          <a class="pill" href="Module-4/index.html">Open notes →</a>
+        </div>
+      </article>
+
+      <article class="module" id="m5">
+        <div class="module-head">
+          <div class="example-num">5</div>
+          <div>
+            <h3><a href="Module-5/index.html">Unity-Specific Tools</a></h3>
+            <div class="sub">Platformer physics, coroutines, Scriptable Objects, particle systems</div>
+          </div>
+        </div>
+        <ul class="ex-list">
+          <li><a href="Module-5/index.html#ex1"><span>5.1</span>Support for Platformers</a></li>
+          <li><a href="Module-5/index.html#ex2"><span>5.2</span>Coroutines</a></li>
+          <li><a href="Module-5/index.html#ex3"><span>5.3</span>Scriptable Objects</a></li>
+          <li><a href="Module-5/index.html#particles"><span>✦</span>Particle Systems</a></li>
+        </ul>
+        <div class="actions">
+          <a class="pill" href="Module-5/index.html">Open notes →</a>
+        </div>
+      </article>
+    </section>
+
+    <!-- EXERCISES -->
+    <section id="exercises">
+      <h2>Exercises</h2>
+      <div class="tbl">
+        <table>
+          <tr><th style="width:230px">Exercise</th><th>What it covers</th></tr>
+          <tr><td><a href="../Exercises/EX1/EX1.html">Exercise 1</a></td><td>Fun with the tools and beginning scripting (individual work)</td></tr>
+          <tr><td><a href="../Exercises/EX2/EX2.html">Exercise 2</a></td><td>Objects: creation, deletion and time (individual work)</td></tr>
+          <tr><td><a href="../Exercises/EX3/EX3.html">Exercise 3</a></td><td>Object behaviors and GUI (team work)</td></tr>
+          <tr><td>Final game</td><td>Milestone rubrics: <a href="../Exercises/FinalGame/1.GamePitchRubric.html">1. Game pitch</a> · <a href="../Exercises/FinalGame/2.DigitalPrototypeRubric.html">2. Digital prototype</a> · <a href="../Exercises/FinalGame/3.InitGameDemoRubric.html">3. Initial gem demo</a> · <a href="../Exercises/FinalGame/4.AlphaPlayTestRubric.html">4. Alpha playtest</a> · <a href="../Exercises/FinalGame/5.BetaPlayTestRubric.html">5. Beta playtest</a> · <a href="../Exercises/FinalGame/6.FinalGameRubric.html">6. Final game</a> · <a href="../Exercises/FinalGame/7.FinalGameVideoRubric.html">7. Final game video</a>. Also: <a href="../Exercises/FinalGame/Considerations.html">playtest questions</a> and the <a href="../Exercises/FinalGame/FeedbackTemplate.html">feedback template</a>.</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section id="resources">
+      <h2>Resources</h2>
+      <div class="tbl">
+        <table>
+          <tr><th style="width:230px">Resource</th><th>What it's for</th></tr>
+          <tr><td><a href="UnityHelp.html">Unity help</a></td><td>Installation, debugging, tutorials and troubleshooting</td></tr>
+          <tr><td><a href="Our-Packages/SliderWithEcho.unitypackage">SliderWithEcho.unitypackage</a></td><td>Slider UI with a value echo, used in <a href="Module-2/index.html#ex4">Module 2.4</a></td></tr>
+          <tr><td><a href="Our-Packages/CoolDownBar.unitypackage">CoolDownBar.unitypackage</a></td><td>Cool-down bar UI, used in <a href="Module-2/index.html#ex5">Module 2.5</a></td></tr>
+          <tr><td><a href="https://github.com/myuwbclasses/IntroGameDevelopment">GitHub repository ↗</a></td><td>Fork it to get the source for every example</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      Each module page has a playable WebGL build for its examples. The builds need a web server (for example GitHub Pages); they won't run if you open the files directly from disk.
+    </footer>
+  </main>
+
+</div>
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a[href^="#"]'));
+    var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function update() {
+      var y = window.scrollY + 80, idx = 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top + window.scrollY <= y) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+</script>
+</body>
+</html>

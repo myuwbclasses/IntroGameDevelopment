@@ -21,7 +21,7 @@ public class ArrowBehavior : MonoBehaviour
         Debug.Log("Arrow: Trigger Enter!");
         Animator a = GetComponent<Animator>(); 
         if (a != null) 
-            a.SetBool("Begin", true);
+            a.SetTrigger("Begin");
         
         Animator p = collision.gameObject.GetComponent<Animator>();
         p.SetBool("Dec", true);  // sets Dec to true

@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 388212271}
   - component: {fileID: 388212270}
   m_Layer: 5
-  m_Name: EggCountEcho
+  m_Name: EggStatusEcho
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 795244131}
   - component: {fileID: 795244130}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI-Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

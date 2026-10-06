@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 4 · The Camera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #f1f3f7;
+    --text: #1d2330;
+    --muted: #5b6475;
+    --border: #e2e6ee;
+    --accent: #2f6fdf;
+    --accent-soft: #e8f0fd;
+    --green: #1f9d55;
+    --green-soft: #e7f6ee;
+    --amber: #b7791f;
+    --amber-soft: #fdf5e6;
+    --red: #c53030;
+    --red-soft: #fdecec;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 2px 8px rgba(16,24,40,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117;
+      --surface: #161b24;
+      --surface-2: #1d2430;
+      --text: #e6e9ef;
+      --muted: #9aa4b5;
+      --border: #2a3240;
+      --accent: #6aa0ff;
+      --accent-soft: #1b2a45;
+      --green: #4ccb86;
+      --green-soft: #15291f;
+      --amber: #e2b04a;
+      --amber-soft: #2c2415;
+      --red: #f07171;
+      --red-soft: #2e1a1c;
+      --code-bg: #0a0d13;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, kbd, .path {
+    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    font-size: .86em;
+  }
+  code { background: var(--surface-2); border: 1px solid var(--border); padding: .08em .4em; border-radius: 5px; }
+  kbd {
+    background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+    padding: .05em .45em; border-radius: 5px; white-space: nowrap;
+  }
+  .path { background: var(--accent-soft); color: var(--accent); padding: .08em .45em; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .ui { font-weight: 600; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 40px; padding: 0 24px; }
+  nav.toc { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; padding: 36px 0; }
+  nav.toc .label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 12px; }
+  nav.toc a { display: block; padding: 6px 12px; border-radius: 8px; color: var(--muted); font-size: 14px; border-left: 2px solid transparent; }
+  nav.toc a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+  nav.toc a.active { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+  nav.toc a.sub { padding-left: 26px; font-size: 13.5px; }
+  /* Collapsible example groups: click the arrow to show/hide an example's sections */
+  nav.toc details > summary { display: flex; align-items: center; list-style: none; cursor: pointer; border-radius: 8px; }
+  nav.toc details > summary::-webkit-details-marker { display: none; }
+  nav.toc details > summary a { flex: 1; min-width: 0; }
+  nav.toc details > summary::after { content: "›"; flex: none; width: 24px; text-align: center; color: var(--muted); font-size: 16px; line-height: 1; transition: transform .15s; }
+  nav.toc details[open] > summary::after { transform: rotate(90deg); }
+  nav.toc details > summary:hover::after { color: var(--text); }
+  nav.toc details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  main { padding: 36px 0 80px; min-width: 0; }
+
+  /* Hero */
+  header.hero {
+    background: linear-gradient(135deg, #2f6fdf 0%, #6a4fd8 100%);
+    color: #fff; border-radius: 18px; padding: 36px 36px 32px; margin-bottom: 32px;
+    position: relative; overflow: hidden;
+  }
+  header.hero::after {
+    content: ""; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px;
+    border-radius: 50%; background: rgba(255,255,255,.08);
+  }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+  header.hero h1 { font-size: 36px; line-height: 1.2; margin: 6px 0 14px; letter-spacing: -.02em; }
+  .hero-links { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.16); color: #fff; border: 1px solid rgba(255,255,255,.28);
+    padding: 7px 14px; border-radius: 999px; font-size: 14px; font-weight: 500;
+  }
+  .btn:hover { background: rgba(255,255,255,.26); text-decoration: none; }
+
+  /* Sections */
+  section { margin-bottom: 44px; }
+  h2 { font-size: 24px; letter-spacing: -.01em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  h4 { font-size: 15.5px; margin: 20px 0 6px; color: var(--text); }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li > ul, li > ol { margin: 4px 0 6px; }
+  ul ul { list-style: circle; }
+  ul ul ul { list-style: square; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+
+  /* Coverage grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  .topic { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .topic h4 { margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+  .topic .ico { width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 15px; }
+  .topic ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); }
+
+  /* Folder chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); }
+  .chip.keep { background: var(--green-soft); border-color: transparent; color: var(--green); }
+  .chip.skip { background: var(--red-soft); border-color: transparent; color: var(--red); text-decoration: line-through; text-decoration-thickness: 1px; }
+
+  /* Callouts */
+  .callout { border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; border-left: 4px solid; font-size: 15px; }
+  .callout > :last-child { margin-bottom: 0; }
+  .callout .title { font-weight: 600; display: block; margin-bottom: 4px; }
+  .callout.info { background: var(--accent-soft); border-color: var(--accent); }
+  .callout.tip { background: var(--green-soft); border-color: var(--green); }
+  .callout.warn { background: var(--amber-soft); border-color: var(--amber); }
+  .callout.danger { background: var(--red-soft); border-color: var(--red); }
+  .callout.learned { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--green); }
+  .callout.learned .title { color: var(--green); }
+
+  /* Review questions */
+  .review { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; font-size: 15px; }
+  .review .title { font-weight: 600; display: block; margin-bottom: 4px; color: var(--accent); }
+  .review ol { margin: 4px 0 0; padding-left: 22px; }
+  .review ol > li { margin: 10px 0; }
+  .review details { margin-top: 6px; }
+  .review summary { cursor: pointer; color: var(--accent); font-size: 14px; font-weight: 500; }
+  .review details p { margin: 6px 0 0; padding: 8px 12px; background: var(--surface-2); border-radius: 8px; }
+
+  /* Example headers */
+  .example-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .example-num { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; flex: none; }
+  .example-head h3 { margin: 0; font-size: 21px; }
+  .example-head .sub { color: var(--muted); font-size: 14px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 6px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .pill:hover { text-decoration: none; filter: brightness(.97); }
+
+  /* Figures */
+  figure { margin: 16px 0; }
+  figure img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; box-shadow: var(--shadow); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  img.inline { vertical-align: middle; border-radius: 6px; border: 1px solid var(--border); height: 44px; margin-left: 6px; }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; background: var(--surface-2); }
+  tr:last-child td { border-bottom: none; }
+  .tbl { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .tbl table { margin: 0; }
+
+  /* Steps */
+  ol.steps { counter-reset: s; list-style: none; padding-left: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding-left: 38px; margin: 10px 0; }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface-2); border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+    display: grid; place-items: center; color: var(--muted);
+  }
+
+  /* ECS diagram */
+  .ecs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
+  .ecs div { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+  .ecs b { display: block; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .ecs span { font-size: 14.5px; color: var(--muted); }
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: "JetBrains Mono", monospace; font-size: 13.5px; margin: 8px 0; }
+  .flow span { background: var(--surface-2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+  .flow i { color: var(--muted); font-style: normal; }
+
+  footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 40px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding: 0 16px; }
+    nav.toc { display: none; }
+    header.hero { padding: 28px 22px; }
+    header.hero h1 { font-size: 28px; }
+    .card { padding: 18px; }
+    .ecs { grid-template-columns: 1fr; }
+  }
+
+  code { overflow-wrap: anywhere; }
+  pre.code code { overflow-wrap: normal; }
+  pre.code { max-width: 100%; background: var(--code-bg); color: var(--code-text); padding: 12px 16px; border-radius: 10px; overflow-x: auto; font-size: 13.5px; margin: 8px 0 12px; }
+  pre.code code { background: none; border: none; padding: 0; color: inherit; }
+  .pill.muted { background: var(--surface-2); color: var(--muted); cursor: default; }
+  .procon { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+  .procon > div { border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; background: var(--surface); font-size: 15px; }
+  .procon b { display: block; margin-bottom: 4px; }
+  .procon .pro b { color: var(--green); } .procon .con b { color: var(--red); }
+  figure.inline-fig { max-width: 420px; }
+  .hero-sub { position: relative; z-index: 1; margin: 0 0 18px; max-width: 640px; opacity: .92; font-size: 16.5px; }
+  .start-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+  .start-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); color: var(--text); }
+  .start-card:hover { text-decoration: none; border-color: var(--accent); }
+  .start-card .ico { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 16px; margin-bottom: 10px; }
+  .start-card b { display: block; margin-bottom: 4px; }
+  .start-card span:last-child { font-size: 14.5px; color: var(--muted); }
+  .module { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .module-head { display: flex; gap: 14px; align-items: flex-start; }
+  .module-head h3 { margin: 2px 0 2px; font-size: 20px; }
+  .module-head h3 a { color: var(--text); }
+  .module-head .sub { color: var(--muted); font-size: 14.5px; }
+  .ex-list { list-style: none; padding: 0; margin: 14px 0 4px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 6px 16px; }
+  .ex-list li { margin: 0; }
+  .ex-list a { display: flex; gap: 10px; align-items: baseline; padding: 6px 10px; border-radius: 8px; color: var(--text); font-size: 15px; }
+  .ex-list a:hover { background: var(--surface-2); text-decoration: none; }
+  .ex-list a span { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--accent); min-width: 28px; }
+  .pill.selfex { background: var(--amber-soft); color: var(--amber); }
+  @media (max-width: 600px) { .module { padding: 18px; } }
+  .time { display: inline-block; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); margin-left: 10px; vertical-align: middle; letter-spacing: .02em; }
+  .step-title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .sprites { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 12px 0 6px; }
+  .sprite { display: block; text-align: center; border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px 10px; background: var(--surface-2); color: var(--text); }
+  .sprite:hover { text-decoration: none; border-color: var(--accent); }
+  .sprite img { height: 56px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto 8px; }
+  .sprite b { display: block; font-size: 14px; }
+  .sprite span { font-size: 12.5px; color: var(--muted); }
+  .task { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin: 22px 0 6px; }
+  .task:first-of-type { margin-top: 6px; }
+  @media (max-width: 600px) { .sprites { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .procon { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Module 4</div>
+    <a href="#coverage">Coverage</a>
+    <details>
+      <summary title="Show or hide the sections of 4.1"><a href="#ex1">4.1 Basic camera controls</a></summary>
+      <a href="#ex1-scene-setup" class="sub">Scene setup</a>
+      <a href="#ex1-camerasupport" class="sub">CameraSupport</a>
+      <a href="#ex1-usercontrollogic" class="sub">UserControlLogic</a>
+      <a href="#ex1-camera-folder" class="sub">Camera folder</a>
+      <a href="#ex1-testing" class="sub">Testing</a>
+      <a href="#ex1-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 4.2"><a href="#ex2">4.2 A closer look at Lerp</a></summary>
+      <a href="#ex2-the-timedlerp-class" class="sub">The TimedLerp class</a>
+      <a href="#ex2-lerp-over-time" class="sub">Lerp over time</a>
+      <a href="#ex2-herocontrol" class="sub">HeroControl</a>
+      <a href="#ex2-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 4.3"><a href="#ex3">4.3 Respectful camera manipulation</a></summary>
+      <a href="#ex3-camerasupport" class="sub">CameraSupport</a>
+      <a href="#ex3-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 4.4"><a href="#ex4">4.4 Shaking</a></summary>
+      <a href="#ex4-shakeposition" class="sub">ShakePosition</a>
+      <a href="#ex4-damped-harmonic" class="sub">Damped harmonic</a>
+      <a href="#ex4-with-the-random-calls" class="sub">With the random calls</a>
+      <a href="#ex4-camerasupport-manipulate" class="sub">CameraSupport_Manipulate</a>
+      <a href="#ex4-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 4.5"><a href="#ex5">4.5 Orbiting</a></summary>
+      <a href="#ex5-scene" class="sub">Scene</a>
+      <a href="#ex5-orbitcontrol-cs" class="sub">OrbitControl.cs</a>
+      <a href="#ex5-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 4.6"><a href="#ex6">4.6 Viewport + hero cam</a></summary>
+      <a href="#ex6-two-cameras-one-background" class="sub">Two cameras, one background</a>
+      <a href="#ex6-scripts" class="sub">Scripts</a>
+      <a href="#ex6-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 4.7"><a href="#ex7">4.7 New scene + persistence</a></summary>
+      <a href="#ex7-unity-details" class="sub">Unity details</a>
+      <a href="#ex7-singleton-persistence" class="sub">Singleton persistence</a>
+      <a href="#ex7-organization" class="sub">Organization</a>
+      <a href="#ex7-review" class="sub">Check your understanding</a>
+    </details>
+    <a href="Module-4-Summary.pptx">⬇ Summary slides (.pptx)</a>
+    <div class="label" style="margin-top:24px">References</div>
+    <a href="../index.html">Class notes home</a>
+    <a href="../Module-1/index.html">Module 1</a>
+    <a href="../Module-2/index.html">Module 2</a>
+    <a href="../Module-3/index.html">Module 3</a>
+    <a href="index.html" aria-current="page" style="color:var(--text);font-weight:600">Module 4 (this page)</a>
+    <a href="../Module-5/index.html">Module 5</a>
+    <a href="../UnityHelp.html">Unity help</a>
+
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Module 4 · Examples</div>
+      <h1>All About the Camera, Familiar Functions and Views</h1>
+      <div class="hero-links">
+        <a class="btn" href="https://github.com/myuwbclasses/IntroGameDevelopment">GitHub repository ↗</a>
+        <a class="btn" href="../UnityHelp.html">Unity help</a>
+      </div>
+    </header>
+
+    <!-- COVERAGE -->
+    <section id="coverage">
+      <h2>Coverage</h2>
+      <div class="grid">
+        <div class="topic">
+          <h4><span class="ico">🛠</span>Unity skills</h4>
+          <ul>
+            <li>Manipulating the camera </li>
+            <li>Working with viewport</li>
+            <li>Changing scenes</li>
+            <li>Information persisting across scenes</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">💡</span>Concepts</h4>
+          <ul>
+            <li>More about the lerp function</li>
+            <li>Camera views and the game world</li>
+            <li>Soft and hard camera movement: lerp and shake</li>
+            <li>Working with familiar functions</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout info" style="margin-top:18px">
+        <span class="title">Credits</span>
+        Original design of the characters in <i>Dye Hard</i>: Nathan Evers. Assets copied from <a href="https://apress.github.io/build-your-own-2d-game-engine-2e/">this book ↗</a>.
+      </div>
+    </section>
+
+    <section id="examples">
+      <h2>Examples for Module 4</h2>
+
+      <!-- 4.1 -->
+      <div class="card" id="ex1">
+        <div class="example-head">
+          <div class="example-num">4.1</div>
+          <div><h3>Basic Camera Controls</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/4.1/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <div class="tbl" style="margin-top:6px">
+            <table>
+              <tr><td style="width:60px"><kbd>N</kbd></td><td>Move the camera <b>by</b> (x, y), from the X/Y slider bars</td></tr>
+              <tr><td><kbd>M</kbd></td><td>Move the camera <b>to</b> (x, y), where Dye is located</td></tr>
+              <tr><td><kbd>H</kbd></td><td>Zoom with respect to the center (zoom factor slider bar)</td></tr>
+              <tr><td><kbd>J</kbd></td><td>Zoom with respect to Dye (zoom factor slider bar)</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <h4 id="ex1-scene-setup">Scene setup</h4>
+        <ul>
+          <li><b>MainCamera:</b> has CameraSupport.</li>
+          <li><b>UI-Canvas:</b> X/Y/Zoom sliders (all connected to UserControlLogic).</li>
+          <li><b>TheWorld:</b> has UserControlLogic (an empty GameObject, for organization).
+            <ul>
+              <li>Background: <code>z = 1</code> (larger than the hero and egg)</li>
+              <li>Hero and Egg</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4 id="ex1-camerasupport">CameraSupport</h4>
+        <ul>
+          <li><code>mTheCamera</code>: reference to the camera</li>
+          <li><code>mWorldBound</code>: the current bounds of the world</li>
+          <li>Behavior: recomputes the world bound only when the camera changes (each move or zoom function calls <code>UpdateWorldWindowBound()</code>); <code>Update()</code> doesn't recompute it every frame</li>
+          <li>Functions:
+            <ul>
+              <li><code>GetWorldBound()</code>: gets the current world bounds</li>
+              <li><code>CollideWorldBound()</code>: collides a bound (of an object) with the world bound and returns the collision status</li>
+              <li><code>ClampToWorldBound()</code></li>
+              <li>Move/Zoom</li>
+              <li><code>PushCameraByPos()</code></li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4 id="ex1-usercontrollogic">UserControlLogic</h4>
+        <p>A central object that receives and parses user input.</p>
+        <ul>
+          <li>Connects to the UI sliders and other GameObjects.</li>
+          <li>Transmits user input to GameObjects to cause changes.</li>
+        </ul>
+
+        <h4 id="ex1-camera-folder">Camera folder</h4>
+        <ul>
+          <li><code>CameraSupport</code>: seen this before; new function <code>ClampToWorldBound()</code>.</li>
+          <li><code>CameraSupport_Manipulate</code>: manipulates the connected camera: <code>MoveBy</code>, <code>MoveTo</code>, <code>Zoom</code> (toward the center), <code>ZoomTowards</code> (a point), <code>PushCameraByPos()</code>.</li>
+        </ul>
+
+        <h4 id="ex1-testing">Testing</h4>
+        <ul>
+          <li><b>HeroControl</b> (on the Hero): <code>CollideWorldBound</code> code, and PushCamera.</li>
+          <li><b>EggBehavior</b>: <code>ClampToWorldBound</code> (always inside).</li>
+        </ul>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>Camera manipulation: simple changes to the camera's transform (position) and <code>orthographicSize</code>. Note the <i>partial class</i> that separates the implementation into logical units.</li>
+            <li>Depth layering: Background at <code>z = 1</code> (behind the Hero and Egg)</li>
+            <li>Unity: slicing a sprite sheet</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex1-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>The camera is at x = 0 and Dye is at x = 10. You call <code>ZoomTowards(DyePosition, 0.5f)</code> (zoom in). Where does the camera end up, and where does Dye appear on screen?
+              <details><summary>Show answer</summary><p>The camera moves to x = 5: <code>delta</code> = (10 − 0) × (0.5 − 1) = −5, and the camera moves by −delta, so +5. Its size halves, so the view is half as wide. Dye was 10 units right of center in a view twice as wide; now Dye is 5 units right of center in a view half as wide, so Dye stays at the same spot on the screen. That's what zooming “toward” a point means.</p></details>
+            </li>
+            <li><code>HeroControl</code> calls <code>PushCameraByPos(transform.position, 0.8f)</code>. How close to the edge of the view can the hero get before the camera starts moving?
+              <details><summary>Show answer</summary><p>To within 10% of the view's width (or height) from each edge. The region <code>0.8</code> shrinks the bound to 80% of the view around its center, leaving a 10% margin on every side. When the hero's position leaves that inner box, the camera is pushed just enough to bring it back to the edge of the inner box.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 4.2 -->
+      <div class="card" id="ex2">
+        <div class="example-head">
+          <div class="example-num">4.2</div>
+          <div><h3>Taking a Closer Look at Lerp</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/4.2/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          Press <kbd>Z</kbd> to see Lerp. Try pressing <kbd>Z</kbd> repeatedly!
+          <ul style="margin:4px 0 0">
+            <li>The hero grows by 8 units (<code>kDeltaSize</code>; in the scene, from a scale of 10 to 18) and tries to lerp back gradually.</li>
+            <li>If you keep increasing the size before it lerps back to the original, there's net growth.</li>
+            <li>This is easy to avoid in HeroControl. How? E.g., ignore the <kbd>Z</kbd> key when <code>LerpIsActive()</code>.</li>
+          </ul>
+        </div>
+
+        <h4 id="ex2-the-timedlerp-class">Examine the <code>TimedLerp</code> class</h4>
+        <ul>
+          <li>Performs a lerp for a fixed duration.</li>
+          <li>The rate is in units of seconds (easier to think about?).</li>
+          <li>Rate and Duration are sliders in the UI-Canvas.</li>
+        </ul>
+
+        <h4 id="ex2-lerp-over-time">What the lerp looks like: hero size over time</h4>
+        <figure>
+          <img src="4.2_HeroSizeLerp.png" alt="Two plots of the hero's size over time after pressing Z. Left: four Rate values with Duration fixed at 1.5 seconds. Right: four Duration values with Rate fixed at 2.">
+          <figcaption>Hero size (<code>localScale</code>) after pressing <kbd>Z</kbd>. Simulated at 60 fps with a starting size of 5 (the scene's hero starts at 10: the curves have the same shape, just 5 units higher). Left: varying Rate (Duration = 1.5 s). Right: varying Duration (Rate = 2).</figcaption>
+        </figure>
+        <ul>
+          <li>At time 0 (<kbd>Z</kbd> pressed): the size jumps up by <code>kDeltaSize</code> (8 units), then lerps back towards the original size.</li>
+          <li>Each update: <code>mCurrent += (mEnd - mCurrent) * (mRate * Time.smoothDeltaTime)</code>
+            <ul>
+              <li>The hero covers a fixed fraction of the <i>remaining</i> distance every frame: large gap, large change; small gap, small change.</li>
+              <li>This is why every curve starts steep and then flattens out (exponential decay).</li>
+            </ul>
+          </li>
+          <li>Rate (left plot): larger rate, faster shrink. With Rate = 10 the hero is back to normal in about 0.5 seconds.</li>
+          <li>Notice: on its own, this lerp never quite reaches the end value!</li>
+          <li>Duration: when time is up, <code>UpdateLerp()</code> simply sets the size to the end value.
+            <ul>
+              <li>Look at Rate = 0.5 (blue, left plot): the hero is still big at 1.5 seconds and <b>snaps</b> back to normal size.</li>
+            </ul>
+          </li>
+          <li>Duration (right plot): all curves follow the same path. Duration only decides <i>when</i> the snap happens, it does not change how fast the hero shrinks.</li>
+          <li>Try: in the running example, set a small Rate with a short Duration and watch for the snap. Then try a large Rate with a long Duration: smooth, no visible snap.</li>
+        </ul>
+
+        <h4 id="ex2-herocontrol">Look at HeroControl</h4>
+        <ul>
+          <li><code>BeginLerp()</code> to begin. You don't always need <code>SetLerpParms()</code> if you know the values.</li>
+          <li><code>LerpIsActive()</code> to receive proper lerp results.</li>
+        </ul>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li><code>TimedLerp</code>: a pretty handy class in general? Note that it is <b>not</b> a MonoBehaviour!
+              <ul><li>So you create it yourself with <code>new</code>, and its constructor runs: <code>HeroControl</code> has <code>new TimedLerp(1f, 0.5f)</code>, which calls <code>TimedLerp(float timeInSeconds, float rate)</code>. For a MonoBehaviour it's the opposite: Unity creates the component, so you don't write a constructor and do your setup in <code>Awake()</code> or <code>Start()</code> instead.</li></ul>
+            </li>
+            <li>On testing: use a separate, trivial test environment, and test all aspects.</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex2-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>Pressing <kbd>Z</kbd> repeatedly makes the hero grow for good. Look at <code>HeroControl</code>: why doesn't it shrink back to the original size?
+              <details><summary>Show answer</summary><p>Each press reads <code>finalScale = transform.localScale</code> as the lerp's end value. If the hero is still enlarged from the last press, that end value is the enlarged size, not the original. Each press then adds 8 more and lerps back only to that larger size, so the growth accumulates.</p></details>
+            </li>
+            <li><code>TimedLerp</code> times itself with <code>Time.realtimeSinceStartup</code>, but moves with <code>Time.smoothDeltaTime</code>. If the game were paused with <code>Time.timeScale = 0</code> during a lerp, what would happen?
+              <details><summary>Show answer</summary><p>The size would stop changing, because <code>Time.smoothDeltaTime</code> drops to 0 when time is paused. But <code>Time.realtimeSinceStartup</code> is real time and keeps running, so once the Duration passes, the hero snaps to the end value while the game is still paused. Using <code>Time.time</code> for the timer would pause it too.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 4.3 -->
+      <div class="card" id="ex3">
+        <div class="example-head">
+          <div class="example-num">4.3</div>
+          <div><h3>More Respectful Camera Manipulation</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/4.3/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          Same keys as <a href="#ex1">4.1</a> (<kbd>N</kbd> <kbd>M</kbd> <kbd>H</kbd> <kbd>J</kbd>), but notice the damping effect!
+        </div>
+        <h4 id="ex3-camerasupport">CameraSupport</h4>
+        <ul>
+          <li>Position lerp and size lerp.</li>
+          <li><code>Update()</code> must check whether lerps are running, and set the camera accordingly.</li>
+        </ul>
+        <div class="callout learned"><span class="title">Learned</span>One simple example of using the <code>TimedLerp</code> class (lerping the camera position and size).</div>
+
+        <div class="review" id="ex3-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>You press <kbd>N</kbd> to move the camera by (20, 0), then press it again before the first move finishes. Does the camera end up 40 units to the right?
+              <details><summary>Show answer</summary><p>No, a bit less. <code>MoveBy()</code> starts a new lerp from the camera's <i>current</i> position to that position + 20. Because the first lerp hadn't finished, the second one starts from somewhere short of +20, so the camera ends up short of +40.</p></details>
+            </li>
+            <li><code>ZoomTowards()</code> starts two lerps, one for the position and one for the size, and both use the same Rate and Duration. Why does that matter?
+              <details><summary>Show answer</summary><p>The point you zoom toward stays put on screen only if the position and the size change together. With the same Rate and Duration, both lerps cover the same fraction of their change every frame, so they stay in step. If one ran faster, the point would drift across the screen during the zoom and then settle back.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 4.4 -->
+      <div class="card" id="ex4">
+        <div class="example-head">
+          <div class="example-num">4.4</div>
+          <div>
+            <h3>Shaking</h3>
+            <div class="sub">…for the camera and more</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/4.4/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <ul style="margin:4px 0 0">
+            <li><kbd>X</kbd>: shake the camera (the boss is coming!). The sliders set the shake's Frequency, Duration and size (DX, DY).</li>
+            <li><kbd>M</kbd>: move the camera to Dye, as before.</li>
+            <li><kbd>N</kbd>: move the camera by a fixed (5, 5): the X/Y sliders from 4.1 now set the shake size instead.</li>
+            <li><kbd>H</kbd> / <kbd>J</kbd>: zoom out by a fixed factor of 1.1, toward the center / toward Dye.</li>
+            <li><kbd>Z</kbd>: grow the hero and lerp it back, as in 4.2.</li>
+          </ul>
+        </div>
+
+        <h4 id="ex4-shakeposition"><code>Utilities/ShakePosition</code></h4>
+        <ul>
+          <li>Samples a damped harmonic function</li>
+          <li>Number of cycles</li>
+          <li>Length of the shake duration</li>
+        </ul>
+
+        <h4 id="ex4-damped-harmonic">What the damped harmonic looks like: offset over time</h4>
+        <figure>
+          <img src="4.4_DampedHarmonic.png" alt="Plots of the damped harmonic offset over time after pressing X. Top: one shake with Frequency 6 and Duration 1 second inside a shrinking envelope. Bottom left: Frequency 3 vs 10. Bottom right: Duration 0.5 vs 2 seconds.">
+          <figcaption>Camera offset after pressing <kbd>X</kbd>, in units of the shake magnitude (DX, DY). Simulated at 60 fps with the random sign flips in <code>UpdateShake()</code> removed. Top: one shake (Frequency = 6, Duration = 1 s). Bottom left: varying Frequency. Bottom right: varying Duration.</figcaption>
+        </figure>
+        <ul>
+          <li>At time 0 (<kbd>X</kbd> pressed): the offset starts at the full shake magnitude.</li>
+          <li>Each update: <code>NextDampedHarmonic()</code> computes <code>frac * frac * Mathf.Cos(t * mOmega)</code>
+            <ul>
+              <li><code>frac = mSecLeft / mDuration</code>: fraction of the shake time left, goes from 1 down to 0.</li>
+              <li>Cos: swings back and forth between +1 and -1 (the harmonic).</li>
+              <li>frac<sup>2</sup>: the envelope (dashed lines), shrinks the swings over time (the damping).</li>
+            </ul>
+          </li>
+          <li>Duration ends: <code>ShakeDone()</code> is true, <code>UpdateShake()</code> returns the original position. Notice: frac<sup>2</sup> is already 0 by then, so there is no visible jump at the end.</li>
+          <li>Frequency (bottom left): larger value, more swings within the same Duration.</li>
+          <li>Duration (bottom right): with Frequency = 6, both shakes have exactly 6 swings, the longer one simply stretches them out.</li>
+          <li>WATCH OUT: Frequency here is NOT cycles per second! Recall that <code>mOmega = (frequency / mDuration) * 2&pi;</code>, so Frequency is the total number of cycles in one shake.</li>
+          <li>Try: in the running example, use a small Frequency with a long Duration (slow wobble), then a large Frequency with a short Duration (a quick, sharp hit).</li>
+        </ul>
+
+        <h4 id="ex4-with-the-random-calls">With the random calls: what the shake actually does</h4>
+        <figure>
+          <img src="4.4_ShakeWithRandom.png" alt="Three plots of the shake with random sign flips. Top: x offset of one run compared with the smooth damped harmonic. Bottom left: x and y offsets of a second run. Bottom right: path of the camera center for the second run, all points on the two diagonals.">
+          <figcaption>The real <code>UpdateShake()</code>, random sign flips included. Frequency = 6, Duration = 1 s, DX = DY, simulated at 60 fps. Top: Run 1, x only. Bottom: Run 2, x and y offsets over time (left) and the camera center path (right).</figcaption>
+        </figure>
+        <ul>
+          <li>Each update, in <code>UpdateShake()</code>:
+            <ul>
+              <li><code>v = NextDampedHarmonic()</code>: the smooth value from the previous plot.</li>
+              <li><code>fx</code>, <code>fy</code>: <code>Random.Range(0f, 1f) &gt; 0.5f</code> flips a coin, the result is either <code>-v</code> or <code>v</code>.</li>
+              <li>Offset: <code>mShakeDelta.x * fx</code> and <code>mShakeDelta.y * fy</code>.</li>
+            </ul>
+          </li>
+          <li>Top plot (Run 1, x only): gray is the smooth v, blue is the actual x offset.
+            <ul>
+              <li>Every frame, the size of the offset is exactly the size of v, only the sign is random.</li>
+              <li>The camera jumps from one side to the other in an unpredictable pattern, but still stays inside the shrinking envelope.</li>
+              <li>Note: only the dots are real (one per frame), the lines simply connect the frames. The camera stays at each dot for the entire frame.</li>
+            </ul>
+          </li>
+          <li>Notice (top plot, 3rd and 4th dots): two frames in a row can look almost the same (-0.29, then -0.28)!
+            <ul>
+              <li>Frequency = 6 in 1 second at 60 fps is exactly 10 frames per cycle, so the frames land evenly on both sides of each zero crossing (v = +0.29, then -0.28).</li>
+              <li>The coin flipped the first one and kept the second one: both ended up on the same side.</li>
+            </ul>
+          </li>
+          <li>Bottom left (Run 2): x and y flip independently, they are often on opposite sides. A different run gives a different pattern every time you press <kbd>X</kbd>.</li>
+          <li>Bottom right (Run 2, camera center path): the dots are colored by time, the camera starts far away (dark) and ends at the original position (red +).</li>
+          <li>WATCH OUT: the camera only moves along the two diagonals!
+            <ul>
+              <li>x and y always have the same size (v), only the signs differ, so |x| = |y| (when DX = DY).</li>
+              <li>With DX &ne; DY: still only two (slanted) lines.</li>
+              <li>Try: how would you change <code>UpdateShake()</code> to shake in all directions? E.g., a separate random size for each axis.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4 id="ex4-camerasupport-manipulate"><code>CameraSupport_Manipulate</code></h4>
+        <ul>
+          <li><code>SetShakeParameters()</code>: passes the Frequency and Duration on to <code>ShakePosition</code></li>
+          <li><code>ShakeCamera()</code>: starts a shake from the camera's current position</li>
+          <li><code>CameraSupport.Update()</code> then calls <code>ShakePosition.UpdateShake()</code> every frame; when the shake is done, the camera returns to its original position</li>
+        </ul>
+
+        <div class="callout learned"><span class="title">Learned</span>Describe the behavior, search for functions, learn them, and sample them appropriately.</div>
+        <div class="callout tip"><span class="title">More advanced camera behaviors</span>Parallax, following: look for existing solutions (try to avoid implementing solutions that are already out there).</div>
+
+        <div class="review" id="ex4-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li><code>CameraSupport</code> creates its shake with <code>new ShakePosition(5, 0.5f)</code>. How many back-and-forth swings per second is that?
+              <details><summary>Show answer</summary><p>10 per second: 5 cycles packed into 0.5 seconds. Frequency here is the total number of cycles in one shake, not cycles per second, so the same Frequency with a shorter Duration shakes faster.</p></details>
+            </li>
+            <li>You press <kbd>M</kbd> (the camera starts lerping to Dye), then <kbd>X</kbd> right away. What does the camera do during and after the shake?
+              <details><summary>Show answer</summary><p>During the shake, it shakes around the spot where it was when you pressed <kbd>X</kbd>, not along the move: in <code>Update()</code>, the lerp sets the position first, then the shake overwrites it with its saved origin plus an offset. The lerp keeps advancing underneath, so when the shake ends, the camera jumps to wherever the lerp has reached.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 4.5 -->
+      <div class="card" id="ex5">
+        <div class="example-head">
+          <div class="example-num">4.5</div>
+          <div>
+            <h3>Orbiting</h3>
+            <div class="sub">A rather unrelated example</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/4.5/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          The egg orbits around the hero. There's no UI support; you must make changes in the editor. Try:
+          <ul style="margin:4px 0 0">
+            <li>Select the Hero in the editor and move it around (the egg follows).</li>
+            <li>Select the Egg and change its Orbit Radius and Orbit Speed.</li>
+          </ul>
+        </div>
+        <h4 id="ex5-scene">Scene</h4>
+        <ul>
+          <li>The Egg is the satellite.</li>
+          <li><span class="path">OrbitControl › HostXform</span> points to the Hero's transform.</li>
+        </ul>
+        <h4 id="ex5-orbitcontrol-cs"><code>OrbitControl.cs</code> on the Egg (it can be on any object)</h4>
+        <p>Literally 3 lines of code!</p>
+        <div class="callout learned"><span class="title">Learned</span>Nice to know quaternions 😊</div>
+
+        <div class="review" id="ex5-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>With the default Orbit Speed of <code>360 / 10</code>, how long does one orbit take? What happens to the orbit if you rotate the Hero by 90 degrees?
+              <details><summary>Show answer</summary><p>10 seconds (36 degrees per second). Rotating the Hero changes nothing: <code>OrbitControl</code> uses only the Hero's <i>position</i>, plus the Egg's own <code>transform.right</code>, so the Hero's rotation never enters the calculation.</p></details>
+            </li>
+            <li>Watch the Egg closely: it turns as it orbits. Why?
+              <details><summary>Show answer</summary><p>The orbit works by rotating the Egg itself a little every frame, then placing it at <code>host + OrbitRadius × transform.right</code>. Its own right direction sweeps around the circle, so the Egg turns once per orbit and always faces the same way relative to the Hero, like the Moon facing the Earth.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 4.6 -->
+      <div class="card" id="ex6">
+        <div class="example-head">
+          <div class="example-num">4.6</div>
+          <div><h3>Viewport and Hero Cam</h3></div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/4.6/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          <ul style="margin:4px 0 0">
+            <li>A small camera (HeroCam) follows the hero. The four sliders set the small view's Viewport Rect: X, Y, W and H.</li>
+            <li>Same keys as <a href="#ex4">4.4</a>: <kbd>M</kbd>, <kbd>N</kbd> (fixed (5, 5)), <kbd>H</kbd>/<kbd>J</kbd> (zoom out by 1.1) and <kbd>Z</kbd>. <kbd>X</kbd> shakes the main camera with a fixed size of (3, 3), since the sliders now control the viewport.</li>
+          </ul>
+        </div>
+
+        <h4 id="ex6-two-cameras-one-background">Two cameras, one background</h4>
+        <p>The Background is at <code>z = 30</code>.</p>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:150px">Setting</th><th>Main Camera</th><th>Small cam (HeroCam)</th></tr>
+            <tr><td>Position z</td><td><code>-10</code></td><td><code>-10</code></td></tr>
+            <tr><td>Far</td><td><code>50</code></td><td><code>30</code></td></tr>
+            <tr><td>Background</td><td>40 units away, so it <b>can</b> see the background</td><td>40 units away, so it <b>can't</b> see the background and shows a constant background color</td></tr>
+            <tr><td>Projection</td><td>Orthographic</td><td>Orthographic</td></tr>
+            <tr><td>Depth</td><td><code>-1</code></td><td><code>0</code>: anything greater than the Main Camera's <code>-1</code> (the bigger the number, the more in front)</td></tr>
+          </table>
+        </div>
+        <p>To make the small cam, create a new Camera, and check out its <b>Viewport Rect</b> setting.</p>
+
+        <h4 id="ex6-scripts">Scripts</h4>
+        <ul>
+          <li><b>CameraSupport:</b> <code>SetViewportMinPos(x, y)</code>, <code>SetViewportSize(w, h)</code></li>
+          <li><b>UserControlLogic</b> (testing): sliders connected to the HeroCam change the small view's viewport settings.</li>
+          <li><b>HeroControl:</b> changes the small view's camera position.</li>
+        </ul>
+
+        <div class="callout tip">
+          <span class="title">Questions</span>
+          <ul style="margin:4px 0 0">
+            <li>What does it mean to zoom in the small view?</li>
+            <li>What does the small view's <code>orthographicSize</code> mean?</li>
+          </ul>
+        </div>
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>What a viewport is, and its settings</li>
+            <li>How to work with the Unity viewport</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex6-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>The Background is at z = 30, 40 units in front of both cameras. What's the smallest Far value that lets HeroCam show the Background?
+              <details><summary>Show answer</summary><p>Anything over 40. HeroCam's Far is 30, so the Background, 40 units away, is beyond what it draws and it shows its plain background color. The Main Camera's Far is 50, so it draws the Background.</p></details>
+            </li>
+            <li>You set a camera's <b>Viewport Rect</b> to X = 0.75, Y = 0.75, W = 0.25, H = 0.25. Where does its view appear, and how big is it?
+              <details><summary>Show answer</summary><p>In the top-right corner, a quarter of the window's width and a quarter of its height. Viewport Rect values are fractions of the window, measured from the bottom-left corner (0, 0) to the top-right corner (1, 1).</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 4.7 -->
+      <div class="card" id="ex7">
+        <div class="example-head">
+          <div class="example-num">4.7</div>
+          <div>
+            <h3>New Scene</h3>
+            <div class="sub">…and game state that persists across scenes</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/4.7/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          Same as <a href="#ex6">4.6</a>. Perform some hero lerps (<kbd>Z</kbd>) and camera shakes (<kbd>X</kbd>) and watch the text echo count them, then press <kbd>L</kbd> to load a new scene: notice the lerp and shake info persists across scenes.
+        </div>
+
+        <h4 id="ex7-unity-details">Unity details</h4>
+        <ul>
+          <li><code>using UnityEngine.SceneManagement;</code> See <a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/SceneManagement.SceneManager.LoadScene.html"><code>SceneManager.LoadScene</code> ↗</a>.</li>
+        </ul>
+        <div class="callout warn"><span class="title">Must</span>In <span class="path">File › Build Profiles</span> (called Build Settings in older Unity versions), make sure every level to be loaded is in the <b>Scene List</b>.</div>
+
+        <h4 id="ex7-singleton-persistence">Level persistence: singleton pattern</h4>
+        <ul>
+          <li><b>GameState</b> class: printed from UserControlLogic.</li>
+          <li><b>NewLevel</b> level: simply echoes. The values persisted across levels!</li>
+        </ul>
+
+        <h4 id="ex7-organization">Organization</h4>
+        <ul>
+          <li>Level-specific folders:
+            <ul>
+              <li>Level-specific behavior: <code>NewLevelGameManager</code></li>
+              <li>Level-ClassExample: <code>HeroControl</code>, <code>EggBehavior</code> and <code>UserControlLogic</code></li>
+            </ul>
+          </li>
+          <li>Moved Camera into Utilities.</li>
+        </ul>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>All GameObjects are erased when a new scene is loaded.</li>
+            <li>You must take special care (e.g., the singleton pattern) to create and maintain info across scenes.</li>
+            <li>Unity how-to: create/load a scene.</li>
+          </ul>
+        </div>
+        <div class="callout tip">
+          <span class="title">Take a look at</span>
+          <ul style="margin:4px 0 0">
+            <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Object.DontDestroyOnLoad.html"><code>DontDestroyOnLoad()</code> ↗</a></li>
+            <li><a href="https://learn.unity.com/tutorial/implement-data-persistence-between-scenes">Implement data persistence between scenes ↗</a></li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex7-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>Loading NewLevel erases every GameObject, yet the shake and lerp counts survive. Why does <code>GameState</code> survive?
+              <details><summary>Show answer</summary><p><code>GameState</code> isn't a GameObject or a component: it's a plain C# class, and <code>sGameState</code> is a <code>static</code> field. A static field belongs to the class itself and lives for as long as the program runs. Loading a scene destroys GameObjects, but it doesn't touch static data.</p></details>
+            </li>
+            <li>You add a third scene, <b>Boss</b>, and call <code>SceneManager.LoadScene("Boss")</code>, but you forget to add it to the Scene List in <span class="path">File › Build Profiles</span>. What happens?
+              <details><summary>Show answer</summary><p>The scene doesn't load, and Unity logs an error saying the scene couldn't be loaded because it hasn't been added to the build. <code>LoadScene()</code> can only load scenes in the Scene List, even in the editor.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <a href="../Module-3/index.html">← Module 3</a> · <a href="../Module-5/index.html">Module 5 →</a>
+    </footer>
+  </main>
+
+</div>
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a[href^="#"]'));
+    var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function update() {
+      var y = window.scrollY + 80, idx = 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top + window.scrollY <= y) idx = i; });
+      // A section hidden inside a collapsed example group highlights the example's own link instead
+      var current = links[idx], group = current.closest('details');
+      if (group && !group.open) current = group.querySelector('summary a');
+      links.forEach(function (a) { a.classList.toggle('active', a === current); });
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    document.querySelectorAll('nav.toc details').forEach(function (d) { d.addEventListener('toggle', update); });
+    update();
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 2 · Object Control + UI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #f1f3f7;
+    --text: #1d2330;
+    --muted: #5b6475;
+    --border: #e2e6ee;
+    --accent: #2f6fdf;
+    --accent-soft: #e8f0fd;
+    --green: #1f9d55;
+    --green-soft: #e7f6ee;
+    --amber: #b7791f;
+    --amber-soft: #fdf5e6;
+    --red: #c53030;
+    --red-soft: #fdecec;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 2px 8px rgba(16,24,40,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117;
+      --surface: #161b24;
+      --surface-2: #1d2430;
+      --text: #e6e9ef;
+      --muted: #9aa4b5;
+      --border: #2a3240;
+      --accent: #6aa0ff;
+      --accent-soft: #1b2a45;
+      --green: #4ccb86;
+      --green-soft: #15291f;
+      --amber: #e2b04a;
+      --amber-soft: #2c2415;
+      --red: #f07171;
+      --red-soft: #2e1a1c;
+      --code-bg: #0a0d13;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, kbd, .path {
+    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    font-size: .86em;
+  }
+  code { background: var(--surface-2); border: 1px solid var(--border); padding: .08em .4em; border-radius: 5px; }
+  kbd {
+    background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+    padding: .05em .45em; border-radius: 5px; white-space: nowrap;
+  }
+  .path { background: var(--accent-soft); color: var(--accent); padding: .08em .45em; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .ui { font-weight: 600; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 40px; padding: 0 24px; }
+  nav.toc { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; padding: 36px 0; }
+  nav.toc .label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 12px; }
+  nav.toc a { display: block; padding: 6px 12px; border-radius: 8px; color: var(--muted); font-size: 14px; border-left: 2px solid transparent; }
+  nav.toc a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+  nav.toc a.active { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+  nav.toc a.sub { padding-left: 26px; font-size: 13.5px; }
+  /* Collapsible example groups: click the arrow to show/hide an example's sections */
+  nav.toc details > summary { display: flex; align-items: center; list-style: none; cursor: pointer; border-radius: 8px; }
+  nav.toc details > summary::-webkit-details-marker { display: none; }
+  nav.toc details > summary a { flex: 1; min-width: 0; }
+  nav.toc details > summary::after { content: "›"; flex: none; width: 24px; text-align: center; color: var(--muted); font-size: 16px; line-height: 1; transition: transform .15s; }
+  nav.toc details[open] > summary::after { transform: rotate(90deg); }
+  nav.toc details > summary:hover::after { color: var(--text); }
+  nav.toc details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  main { padding: 36px 0 80px; min-width: 0; }
+
+  /* Hero */
+  header.hero {
+    background: linear-gradient(135deg, #2f6fdf 0%, #6a4fd8 100%);
+    color: #fff; border-radius: 18px; padding: 36px 36px 32px; margin-bottom: 32px;
+    position: relative; overflow: hidden;
+  }
+  header.hero::after {
+    content: ""; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px;
+    border-radius: 50%; background: rgba(255,255,255,.08);
+  }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+  header.hero h1 { font-size: 36px; line-height: 1.2; margin: 6px 0 14px; letter-spacing: -.02em; }
+  .hero-links { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.16); color: #fff; border: 1px solid rgba(255,255,255,.28);
+    padding: 7px 14px; border-radius: 999px; font-size: 14px; font-weight: 500;
+  }
+  .btn:hover { background: rgba(255,255,255,.26); text-decoration: none; }
+
+  /* Sections */
+  section { margin-bottom: 44px; }
+  h2 { font-size: 24px; letter-spacing: -.01em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  h4 { font-size: 15.5px; margin: 20px 0 6px; color: var(--text); }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  li > ul, li > ol { margin: 4px 0 6px; }
+  ul ul { list-style: circle; }
+  ul ul ul { list-style: square; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+
+  /* Coverage grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  .topic { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .topic h4 { margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+  .topic .ico { width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 15px; }
+  .topic ul { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--muted); }
+
+  /* Folder chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); }
+  .chip.keep { background: var(--green-soft); border-color: transparent; color: var(--green); }
+  .chip.skip { background: var(--red-soft); border-color: transparent; color: var(--red); text-decoration: line-through; text-decoration-thickness: 1px; }
+
+  /* Callouts */
+  .callout { border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; border-left: 4px solid; font-size: 15px; }
+  .callout > :last-child { margin-bottom: 0; }
+  .callout .title { font-weight: 600; display: block; margin-bottom: 4px; }
+  .callout.info { background: var(--accent-soft); border-color: var(--accent); }
+  .callout.tip { background: var(--green-soft); border-color: var(--green); }
+  .callout.warn { background: var(--amber-soft); border-color: var(--amber); }
+  .callout.danger { background: var(--red-soft); border-color: var(--red); }
+  .callout.learned { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--green); }
+  .callout.learned .title { color: var(--green); }
+
+  /* Review questions */
+  .review { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 14px 18px 14px 16px; margin: 14px 0; font-size: 15px; }
+  .review .title { font-weight: 600; display: block; margin-bottom: 4px; color: var(--accent); }
+  .review ol { margin: 4px 0 0; padding-left: 22px; }
+  .review ol > li { margin: 10px 0; }
+  .review details { margin-top: 6px; }
+  .review summary { cursor: pointer; color: var(--accent); font-size: 14px; font-weight: 500; }
+  .review details p { margin: 6px 0 0; padding: 8px 12px; background: var(--surface-2); border-radius: 8px; }
+
+  /* Example headers */
+  .example-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .example-num { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; flex: none; }
+  .example-head h3 { margin: 0; font-size: 21px; }
+  .example-head .sub { color: var(--muted); font-size: 14px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 6px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .pill:hover { text-decoration: none; filter: brightness(.97); }
+
+  /* Figures */
+  figure { margin: 16px 0; }
+  figure img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; box-shadow: var(--shadow); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  img.inline { vertical-align: middle; border-radius: 6px; border: 1px solid var(--border); height: 44px; margin-left: 6px; }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; background: var(--surface-2); }
+  tr:last-child td { border-bottom: none; }
+  .tbl { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .tbl table { margin: 0; }
+
+  /* Steps */
+  ol.steps { counter-reset: s; list-style: none; padding-left: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding-left: 38px; margin: 10px 0; }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface-2); border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+    display: grid; place-items: center; color: var(--muted);
+  }
+
+  /* ECS diagram */
+  .ecs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
+  .ecs div { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+  .ecs b { display: block; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .ecs span { font-size: 14.5px; color: var(--muted); }
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: "JetBrains Mono", monospace; font-size: 13.5px; margin: 8px 0; }
+  .flow span { background: var(--surface-2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+  .flow i { color: var(--muted); font-style: normal; }
+
+  footer { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 40px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding: 0 16px; }
+    nav.toc { display: none; }
+    header.hero { padding: 28px 22px; }
+    header.hero h1 { font-size: 28px; }
+    .card { padding: 18px; }
+    .ecs { grid-template-columns: 1fr; }
+  }
+
+  code { overflow-wrap: anywhere; }
+  pre.code code { overflow-wrap: normal; }
+  pre.code { max-width: 100%; background: var(--code-bg); color: var(--code-text); padding: 12px 16px; border-radius: 10px; overflow-x: auto; font-size: 13.5px; margin: 8px 0 12px; }
+  pre.code code { background: none; border: none; padding: 0; color: inherit; }
+  .pill.muted { background: var(--surface-2); color: var(--muted); cursor: default; }
+  .procon { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+  .procon > div { border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; background: var(--surface); font-size: 15px; }
+  .procon b { display: block; margin-bottom: 4px; }
+  .procon .pro b { color: var(--green); } .procon .con b { color: var(--red); }
+  figure.inline-fig { max-width: 420px; }
+  .hero-sub { position: relative; z-index: 1; margin: 0 0 18px; max-width: 640px; opacity: .92; font-size: 16.5px; }
+  .start-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+  .start-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); color: var(--text); }
+  .start-card:hover { text-decoration: none; border-color: var(--accent); }
+  .start-card .ico { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 16px; margin-bottom: 10px; }
+  .start-card b { display: block; margin-bottom: 4px; }
+  .start-card span:last-child { font-size: 14.5px; color: var(--muted); }
+  .module { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; box-shadow: var(--shadow); margin-bottom: 18px; }
+  .module-head { display: flex; gap: 14px; align-items: flex-start; }
+  .module-head h3 { margin: 2px 0 2px; font-size: 20px; }
+  .module-head h3 a { color: var(--text); }
+  .module-head .sub { color: var(--muted); font-size: 14.5px; }
+  .ex-list { list-style: none; padding: 0; margin: 14px 0 4px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 6px 16px; }
+  .ex-list li { margin: 0; }
+  .ex-list a { display: flex; gap: 10px; align-items: baseline; padding: 6px 10px; border-radius: 8px; color: var(--text); font-size: 15px; }
+  .ex-list a:hover { background: var(--surface-2); text-decoration: none; }
+  .ex-list a span { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--accent); min-width: 28px; }
+  .pill.selfex { background: var(--amber-soft); color: var(--amber); }
+  @media (max-width: 600px) { .module { padding: 18px; } }
+  .time { display: inline-block; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); margin-left: 10px; vertical-align: middle; letter-spacing: .02em; }
+  .step-title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .sprites { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 12px 0 6px; }
+  .sprite { display: block; text-align: center; border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px 10px; background: var(--surface-2); color: var(--text); }
+  .sprite:hover { text-decoration: none; border-color: var(--accent); }
+  .sprite img { height: 56px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto 8px; }
+  .sprite b { display: block; font-size: 14px; }
+  .sprite span { font-size: 12.5px; color: var(--muted); }
+  .task { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin: 22px 0 6px; }
+  .task:first-of-type { margin-top: 6px; }
+  @media (max-width: 600px) { .sprites { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .procon { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Module 2</div>
+    <a href="#coverage">Coverage</a>
+    <details>
+      <summary title="Show or hide the sections of 2.1"><a href="#ex1">2.1 Object navigation</a></summary>
+      <a href="#ex1-organization" class="sub">Organization</a>
+      <a href="#ex1-greenarrowbehavior" class="sub">GreenArrowBehavior</a>
+      <a href="#ex1-public-variables" class="sub">Public variables</a>
+      <a href="#ex1-speed" class="sub">Speed</a>
+      <a href="#ex1-mouse-position" class="sub">Mouse position</a>
+      <a href="#ex1-event-vs-state" class="sub">Event vs state</a>
+      <a href="#ex1-navigation" class="sub">Navigation</a>
+      <a href="#ex1-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 2.2"><a href="#ex2">2.2 Prefab</a></summary>
+      <a href="#ex2-prefabs" class="sub">Prefabs</a>
+      <a href="#ex2-eggbehavior" class="sub">EggBehavior</a>
+      <a href="#ex2-egg-spawning" class="sub">Egg spawning</a>
+      <a href="#ex2-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 2.3"><a href="#ex3">2.3 Game Manager + simple UI</a></summary>
+      <a href="#ex3-create-ui" class="sub">Create UI</a>
+      <a href="#ex3-textmeshpro-tmp" class="sub">TextMeshPro (TMP)</a>
+      <a href="#ex3-greenarrowbehavior" class="sub">GreenArrowBehavior</a>
+      <a href="#ex3-eggbehavior" class="sub">EggBehavior</a>
+      <a href="#ex3-gamemanager" class="sub">GameManager</a>
+      <a href="#ex3-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 2.4"><a href="#ex4">2.4 UI + packages</a></summary>
+      <a href="#ex4-package-import" class="sub">Package import</a>
+      <a href="#ex4-using-the-imported-package" class="sub">Using the imported package</a>
+      <a href="#ex4-greenarrowbehavior" class="sub">GreenArrowBehavior</a>
+      <a href="#ex4-alternate-implementation" class="sub">Alternate implementation</a>
+      <a href="#ex4-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 2.5"><a href="#ex5">2.5 Cool-down bar</a></summary>
+      <a href="#ex5-package-import" class="sub">Package import</a>
+      <a href="#ex5-using-the-imported-package" class="sub">Using the imported package</a>
+      <a href="#ex5-greenarrowbehavior" class="sub">GreenArrowBehavior</a>
+      <a href="#ex5-review" class="sub">Check your understanding</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of 2.6"><a href="#ex6">2.6 Collision + color + texture</a></summary>
+      <a href="#ex6-how-unity-collision-works" class="sub">How Unity collision works</a>
+      <a href="#ex6-try" class="sub">Try</a>
+      <a href="#ex6-scripts" class="sub">Scripts</a>
+      <a href="#ex6-texture-sprite-loading" class="sub">Texture/sprite loading</a>
+      <a href="#ex6-review" class="sub">Check your understanding</a>
+    </details>
+    <a href="Module-2-Summary.pptx">⬇ Summary slides (.pptx)</a>
+    <a href="#selfex">Self-exercise</a>
+    <div class="label" style="margin-top:24px">References</div>
+    <a href="../index.html">Class notes home</a>
+    <a href="../Module-1/index.html">Module 1</a>
+    <a href="index.html" aria-current="page" style="color:var(--text);font-weight:600">Module 2 (this page)</a>
+    <a href="../Module-3/index.html">Module 3</a>
+    <a href="../Module-4/index.html">Module 4</a>
+    <a href="../Module-5/index.html">Module 5</a>
+    <a href="../UnityHelp.html">Unity help</a>
+
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Module 2 · Examples</div>
+      <h1>Object Control, Interaction + User Interface</h1>
+      <div class="hero-links">
+        <a class="btn" href="https://github.com/myuwbclasses/IntroGameDevelopment">GitHub repository ↗</a>
+        <a class="btn" href="../UnityHelp.html">Unity help</a>
+      </div>
+    </header>
+
+    <!-- COVERAGE -->
+    <section id="coverage">
+      <h2>Coverage</h2>
+      <p>Unity-specific skills you will need, practice, and demonstrate:</p>
+      <div class="grid">
+        <div class="topic">
+          <h4><span class="ico">◆</span>GameObjects &amp; components</h4>
+          <ul>
+            <li>Finding GameObjects and accessing components</li>
+            <li>Accessing variables of components</li>
+            <li>Setting a component reference in the editor</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">⧉</span>Prefabs</h4>
+          <ul>
+            <li>Create a prefab in the editor</li>
+            <li>Create/delete objects at run time</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">↻</span>Transform</h4>
+          <ul>
+            <li>Set positions</li>
+            <li>Set rotation/orientation</li>
+            <li>Object collisions and responses</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">▣</span>User interface</h4>
+          <ul>
+            <li>World position from the mouse</li>
+            <li>Referencing components from variables</li>
+            <li>Game world vs UI coordinate systems</li>
+            <li>UI RectTransform</li>
+            <li>Event vs polling</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">⬇</span>Packages</h4>
+          <ul>
+            <li>Create and import packages</li>
+          </ul>
+        </div>
+        <div class="topic">
+          <h4><span class="ico">📖</span>Useful API reference</h4>
+          <ul>
+            <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject.Find.html"><code>GameObject.Find()</code></a></li>
+            <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject.GetComponent.html"><code>GameObject.GetComponent&lt;T&gt;()</code></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h4 style="margin-top:0">Concepts you will explore and understand</h4>
+        <ul style="margin-bottom:0">
+          <li>Direct object control: driving an object</li>
+          <li>Frame update time vs wall-clock real time</li>
+          <li>System and component re-use</li>
+          <li>Approximating object bounds with colliders</li>
+          <li>Coordinate systems for gameplay and user interactions</li>
+          <li>Event driven vs polling user interactions</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="examples">
+      <h2>Examples for Module 2</h2>
+
+      <!-- 2.1 -->
+      <div class="card" id="ex1">
+        <div class="example-head">
+          <div class="example-num">2.1</div>
+          <div>
+            <h3>Object Navigation</h3>
+            <div class="sub">All in <code>GreenArrowBehavior.cs</code></div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/2.1/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          The green arrow follows the mouse; press <kbd>Space</kbd> to switch to keyboard navigation with <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>. Note the color change between mouse and keyboard mode.
+        </div>
+
+        <h4 id="ex1-organization">Organization</h4>
+        <ul>
+          <li>Created a new folder in Assets, <b>Scripts</b>, to organize the scripts.</li>
+          <li>Subfolders in Scripts (for now): <b>Hero</b> (supports GreenUp).</li>
+        </ul>
+
+        <h4 id="ex1-greenarrowbehavior">GreenArrowBehavior</h4>
+        <ul>
+          <li><kbd>W</kbd> <kbd>S</kbd>: move forward/back along <code>transform.up</code>; <kbd>A</kbd> <kbd>D</kbd>: rotate.</li>
+          <li>Initialization of color in <code>Start()</code>, and checking for errors with <code>Debug.Assert</code>.</li>
+          <li><b><code>Debug.Log</code></b>: prints the current mode; output shows in the Console panel (<span class="path">Window › Panels › Console</span>).</li>
+          <li>Notice the options for getting the reference to the Camera on the Main Camera:
+            <ul>
+              <li><code>mTheCamera</code>: set in the editor</li>
+              <li><code>Camera.main</code></li>
+              <li><code>GameObject.Find("Main Camera").GetComponent&lt;Camera&gt;()</code></li>
+            </ul>
+          </li>
+          <li>How to get a component on this object: <code>GetComponent&lt;SpriteRenderer&gt;().color</code></li>
+        </ul>
+
+        <h4 id="ex1-public-variables">Public variables</h4>
+        <p>Public variables show up in the Inspector, and you can change them at runtime through the editor!</p>
+        <ul>
+          <li><code>mTheCamera</code>: reference to the Camera component on the Main Camera (must be set in the editor)!</li>
+          <li>Mouse vs keyboard control can be toggled.</li>
+          <li>Travel speed and rotation speed can be controlled.</li>
+        </ul>
+        <div class="callout danger"><span class="title">Watch out</span>Changes made at runtime in the editor will <b>not</b> be saved!</div>
+
+        <h4 id="ex1-speed">Speed: distance per unit time</h4>
+        <p><code>Update()</code> is called about 60 times per second!</p>
+        <ul>
+          <li><code>mHeroSpeed</code>: units per second. Unity's <code>Time.smoothDeltaTime</code> converts the frame update period to wall-clock time.
+            <ul><li>Remember, the total height of the world is 200 units. Verify that traveling from top to bottom takes about 10 seconds.</li></ul>
+          </li>
+          <li><code>mHeroRotateSpeed</code>: 45 degrees/second, so a full 360-degree rotation takes about 8 seconds.</li>
+        </ul>
+
+        <h4 id="ex1-mouse-position">Mouse position</h4>
+        <p>The pixel position must be translated into camera space.</p>
+        <ul>
+          <li><b><i>Make sure to zero out the z-component.</i></b></li>
+          <li>The actual position must be transformed by the Camera (Main Camera). Alternate ways to access the Main Camera: <code>Camera.main</code>, and <code>GameObject.Find()</code>.</li>
+        </ul>
+
+        <h4 id="ex1-event-vs-state">Event vs state</h4>
+        <div class="tbl">
+          <table>
+            <tr><th style="width:150px">Kind</th><th>Example</th><th>True when…</th></tr>
+            <tr><td class="ui">Event</td><td>Space bar: <code>wasPressedThisFrame</code></td><td>Only once, in the frame the key goes down</td></tr>
+            <tr><td class="ui">State</td><td>WASD: <code>isPressed</code></td><td>As long as the key is held</td></tr>
+          </table>
+        </div>
+
+        <h4 id="ex1-navigation">Navigation</h4>
+        <p>Move toward the object's own y-direction, which is <code>transform.up</code>:</p>
+        <pre class="code"><code>newPosition = oldPosition + (Speed * Time.smoothDeltaTime * transform.up);</code></pre>
+        <p>Rotate left/right: rotation with respect to the z-axis, or <code>transform.forward</code>:</p>
+        <pre class="code"><code>transform.Rotate(transform.forward, RotateSpeed * Time.smoothDeltaTime);</code></pre>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>Source code (script) organization is important! Strategy: organize using a folder structure.</li>
+            <li>Unity's function-calling sequence: <code>Awake</code> → <code>Start</code> → <code>Update</code> (every frame). Don't write a constructor for a <code>MonoBehaviour</code>; Unity creates the component, so do your setup in <code>Awake()</code> or <code>Start()</code>.</li>
+            <li>Setting a component reference in the editor (<code>mTheCamera</code>)</li>
+            <li>Locating objects: <code>GameObject.Find()</code> finds any object by name, and returns <code>null</code> if not found.</li>
+            <li>Unity components: you can always call <code>gameObject.GetComponent&lt;ComponentClassName&gt;()</code> to access a component on an object.
+              <ul>
+                <li><code>gameObject</code> is a variable that references the hosting GameObject.</li>
+                <li>Returns <code>null</code> if a component of that data type is not found.</li>
+              </ul>
+            </li>
+            <li>Public variables show up in the Inspector window: convenient! But configuring them in the editor while the game is running will <b>not</b> be saved.
+              <ul><li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/SerializeField.html"><code>[SerializeField]</code></a>: note that <code>mHeroRotateSpeed</code> is private and yet visible in the editor.</li></ul>
+            </li>
+            <li>Frame rate vs real-time wall clock: <code>Time.smoothDeltaTime</code></li>
+            <li>Accessing the mouse position (via the camera!)</li>
+            <li>Navigating an object with the keyboard
+              <ul>
+                <li><b>Moving forward:</b> the <code>transform.up</code>/<code>forward</code>/<code>right</code> variables. These directions update as you change the object's orientation.</li>
+                <li><b>Rotating:</b> <code>transform.Rotate</code> changes the <code>transform.up</code> (<code>forward</code>/<code>right</code>) directions!</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex1-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>In mouse mode, <code>GreenArrowBehavior</code> sets <code>p.z = 0f</code> after <code>ScreenToWorldPoint()</code>. What would you see if that line were removed?
+              <details><summary>Show answer</summary><p>The arrow would disappear. <code>ScreenToWorldPoint()</code> of the mouse position returns a point at the camera's own z, -10. An object at z = -10 is closer to the camera than its Near plane (0.3 in front of it), so it isn't drawn. That's why the notes say zeroing z is <i>very important</i>.</p></details>
+            </li>
+            <li>In keyboard mode, you hold <kbd>A</kbd> until the arrow points left, then hold <kbd>W</kbd>. Which way does it move? How is that different from 1.2?
+              <details><summary>Show answer</summary><p>It moves left, the way the arrow points, because <kbd>W</kbd> adds <code>transform.up</code>, and rotating changes <code>transform.up</code>. In 1.2, <kbd>W</kbd> added to the y value, so the arrow always moved up the screen whatever its rotation.</p></details>
+            </li>
+            <li><code>mHeroRotateSpeed</code> is <code>private</code> with <code>[SerializeField]</code>. You can change it in the Inspector, so can another script, such as a GameManager, read or set it too?
+              <details><summary>Show answer</summary><p>No. <code>[SerializeField]</code> only lets the <i>editor</i> show and save a private field. To C# code it's still private, so other scripts can't use it. They'd need it to be <code>public</code>, or a public method that returns or sets it.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 2.2 -->
+      <div class="card" id="ex2">
+        <div class="example-head">
+          <div class="example-num">2.2</div>
+          <div>
+            <h3>Prefab</h3>
+            <div class="sub">Create prefabs in the editor and instantiate them at runtime</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/2.2/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info"><span class="title">Run behavior</span>Press and hold <kbd>Space</kbd> to spawn new eggs.</div>
+
+        <h4 id="ex2-prefabs">Prefab: “programming by example”</h4>
+        <ul>
+          <li>Drag an object (Egg) from the Hierarchy/Scene window into Assets!</li>
+          <li>Created a subfolder to keep the Assets folder organized.</li>
+        </ul>
+        <div class="callout warn"><span class="title">Note</span>The <b>Resources</b> folder name is not optional!! <code>Resources.Load()</code> depends on it!</div>
+
+        <h4 id="ex2-eggbehavior">EggBehavior</h4>
+        <ul>
+          <li>Spawns and travels in the <code>transform.up</code> direction.</li>
+          <li>Kills itself after a fixed number of updates (300 frames).</li>
+        </ul>
+
+        <h4 id="ex2-egg-spawning"><code>GreenArrowBehavior.cs::Update()</code> Egg spawning</h4>
+        <ul>
+          <li>How to load and instantiate from the <b>Resources</b> folder.</li>
+          <li>After instantiating, you can change the new object's values (e.g., <code>localPosition</code>).</li>
+        </ul>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>How to create and use prefabs in the editor:
+              <ul>
+                <li>Drag a GameObject into the Assets folder.</li>
+                <li>Drag a prefab back into the Scene window.</li>
+                <li><b>Warning:</b> changing an instance of a prefab does <b>not</b> change the prefab.</li>
+              </ul>
+            </li>
+            <li>Organization of prefabs: prefabs loaded with <code>Resources.Load()</code> must be in a <b>Resources</b> folder (under Assets).</li>
+            <li>How to instantiate a prefab at run time.</li>
+            <li>How to delete (<code>Destroy</code>) a GameObject.
+              <ul><li><b>Note:</b> as in C++, you create, you delete. If you don't delete, it will be there forever!</li></ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex2-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li><code>EggBehavior</code> moves at <code>kEggSpeed</code> = 40 units per second and destroys itself after <code>kLifeTime</code> = 300 updates. How far does an egg travel at 60 frames per second? At 30?
+              <details><summary>Show answer</summary><p>At 60 fps, 300 updates take 5 seconds, so the egg travels 40 × 5 = 200 units. At 30 fps they take 10 seconds, so it travels 400 units. The speed is per second, but the lifetime is per frame, so the range depends on the frame rate. A lifetime in seconds (counted with <code>Time.smoothDeltaTime</code> or <code>Time.time</code>) would fix it.</p></details>
+            </li>
+            <li>Suppose GreenUp could rotate. A new egg is placed at GreenUp's position, and <code>EggBehavior</code> moves it along <code>transform.up</code>. Would it fly the way GreenUp points?
+              <details><summary>Show answer</summary><p>No. The spawn code sets only the egg's position, so the egg keeps the prefab's rotation and always flies straight up. To fire it the way GreenUp points, also set its direction, e.g., <code>e.transform.up = transform.up;</code> (or copy <code>transform.rotation</code>).</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 2.3 -->
+      <div class="card" id="ex3">
+        <div class="example-head">
+          <div class="example-num">2.3</div>
+          <div>
+            <h3>Game Manager + Simple UI Text</h3>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/2.3/index.html">▶ Play in browser (WebGL)</a>
+        </div>
+        <div class="callout info"><span class="title">Run behavior</span>Press <kbd>Space</kbd> to spawn eggs, and see the egg count echoed on screen.</div>
+
+        <h4 id="ex3-create-ui">Create UI</h4>
+        <ul>
+          <li>Right-click in the <span class="ui">Hierarchy</span> window: <span class="path">UI (Canvas) › Text - TextMeshPro</span> (or <span class="path">GameObject › UI (Canvas) › Text - TextMeshPro</span> from the menu bar). <b>Canvas</b> and <b>EventSystem</b> are created automatically if they're not already there.</li>
+          <li>UI elements <b>must be</b> children of the Canvas; otherwise they won't be visible.</li>
+          <li>Zoom out to see the two spaces: Camera and UI.</li>
+          <li>UI elements are in pixel space (<b>not</b> camera space)! The size of UI space corresponds 1:1 to the Game window.</li>
+          <li>Use the Layers menu to show/hide UI (top menu bar of the Scene Window).</li>
+        </ul>
+        <figure class="inline-fig">
+          <img src="images/ui-layers.png" width="377" height="261" alt="Unity 6.3 Scene view toolbar with the Layers dropdown open, showing visibility toggles for each layer, including UI, next to the Hierarchy window" style="max-width:100%;height:auto">
+          <figcaption>Show or hide the UI layer.</figcaption>
+        </figure>
+
+        <h4 id="ex3-textmeshpro-tmp">UI TextMeshPro (TMP)</h4>
+        <p>Always use TextMeshPro (<span class="path">UI (Canvas) › Text - TextMeshPro</span>), not the old <span class="path">UI (Canvas) › Legacy › Text</span>.</p>
+        <ul>
+          <li>TextMeshPro is built into Unity's UI package, but you'll have to <i>import</i> the TMP Essential Resources (fonts and shaders).</li>
+          <li>The first time you create a TMP Text, you'll see the TMP Importer:</li>
+        </ul>
+        <figure>
+          <img src="images/tmp-importer.png" width="1233" height="405" alt="TMP Importer window with Import TMP Essentials and Import TMP Examples and Extras buttons">
+          <figcaption>Click <b>Import TMP Essentials</b>. I don't import the Examples &amp; Extras; I have no need for those.</figcaption>
+        </figure>
+        <p>In your script, e.g., in <code>GameManager.cs</code>:</p>
+<pre class="code"><code>using TMPro;                              // The library to use
+public TMP_Text mEggCountEcho = null;     // The variable data type to use</code></pre>
+
+        <h4 id="ex3-greenarrowbehavior">GreenArrowBehavior</h4>
+        <ul>
+          <li>Includes an <code>int</code> to keep track of the number of eggs on screen.</li>
+        </ul>
+
+        <h4 id="ex3-eggbehavior">EggBehavior</h4>
+        <ul>
+          <li>Static variable: refers to GreenArrowBehavior. What is a “static” variable?</li>
+          <li>Asks the GameManager (<code>sTheGlobalBehavior</code>) whether the egg is within the camera's bounds.</li>
+          <li>Tells GreenArrowBehavior when an egg is destroyed.</li>
+        </ul>
+
+        <h4 id="ex3-gamemanager">GameManager: central object that coordinates the entire game state</h4>
+        <ul>
+          <li>Hangs off an empty GameObject (GameManager); it can also hang off the MainCamera (always there).</li>
+          <li>Singleton pattern: one instance in the world, “well-known”. A <code>static</code> variable is a <b>global</b> variable!</li>
+          <li>Plays the important role of “central coordinator”:
+            <ul>
+              <li>connects GreenArrowBehavior to EggBehavior</li>
+              <li>central place for echoing the state of the game</li>
+            </ul>
+          </li>
+          <li>Two public variables must be set in the editor before the game starts:
+            <ul>
+              <li>GreenArrowBehavior, and</li>
+              <li>the <code>TMP_Text</code> for echoing egg status (<span class="path">UI-Canvas › EggStatusEcho</span>, a <code>TMP_Text</code> object).</li>
+            </ul>
+          </li>
+          <li><code>IsInCameraBound(Vector3 pt)</code>: Determines if <code>pt</code> is inside the camera bound !</li>
+        </ul>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li><b>GameManager:</b> you need a central coordinator, and often enforce having only one.
+              <ul>
+                <li><code>static</code> declaration in a class</li>
+                <li>Class variables persist for the entire process lifetime, and across levels (scenes).</li>
+              </ul>
+            </li>
+            <li><b>UI:</b> two objects are created automatically:
+              <ul>
+                <li>A <b>Canvas</b>: all UI elements must be children of it (otherwise they won't be visible).</li>
+                <li>An <b>EventSystem</b>: I drag it to be a child of the Canvas, for organization.</li>
+                <li>Default UI layer: to see or not to see.</li>
+              </ul>
+            </li>
+            <li><b>Coordinate systems:</b> you work with two separate groups of objects, GameObjects and UI, in two distinct coordinate systems!
+              <ul>
+                <li>GameObjects: arbitrary units</li>
+                <li>UI: pixels</li>
+              </ul>
+            </li>
+            <li><b>Canvas and placement of GUI elements:</b>
+              <ul>
+                <li>Canvas: <a href="https://www.youtube.com/watch?v=OD-p1eMsyrU">UI Canvas - Unity Official Tutorials ↗</a></li>
+                <li>Rect Transform: <a href="https://www.youtube.com/watch?v=FeheZqu85WI">Rect Transform - Unity Official Tutorials ↗</a></li>
+                <li>UI element positions are <b>not</b> relative to the main camera! They're relative to the Canvas (in pixels!).</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex3-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>In <code>EggBehavior</code>, <code>Destroy(transform.gameObject);</code> comes <i>before</i> <code>sGreenArrow.OneLessEgg();</code>. Does <code>OneLessEgg()</code> still run, and does the egg count stay correct?
+              <details><summary>Show answer</summary><p>Yes to both. <code>Destroy()</code> only marks the object for removal; Unity removes it at the end of the current frame. The rest of <code>Update()</code> keeps running, so <code>OneLessEgg()</code> is called and the count stays correct.</p></details>
+            </li>
+            <li>The GameManager sets <code>sTheGlobalBehavior</code> in <code>Start()</code>. Another script's <code>Start()</code> calls <code>GameManager.sTheGlobalBehavior.IsInCameraBound(...)</code>. Is that safe? What would make it safe?
+              <details><summary>Show answer</summary><p>It isn't guaranteed. Unity doesn't promise which object's <code>Start()</code> runs first, so <code>sTheGlobalBehavior</code> may still be <code>null</code>. Setting it in <code>Awake()</code> instead makes it safe, because every <code>Awake()</code> runs before any <code>Start()</code>. Example 3.2 does exactly this. (Here it works because eggs only use it in <code>Update()</code>.)</p></details>
+            </li>
+            <li><b>EggStatusEcho</b> is anchored to the Canvas's lower-left corner, about (134, 34) pixels in. You make the Game window much bigger. Where does the text appear?
+              <details><summary>Show answer</summary><p>Still about (134, 34) pixels from the lower-left corner. A UI element's position is measured from its anchor, so it keeps its distance from that corner. It doesn't stretch or move toward the middle the way a world object would when the camera's view changes.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 2.4 -->
+      <div class="card" id="ex4">
+        <div class="example-head">
+          <div class="example-num">2.4</div>
+          <div>
+            <h3>User Interface and Packages</h3>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/2.4/index.html">▶ Play in browser (WebGL)</a>
+          <a class="pill" href="../Our-Packages/SliderWithEcho.unitypackage">⬇ SliderWithEcho.unitypackage</a>
+        </div>
+        <div class="callout info"><span class="title">Run behavior</span>Move the green arrow with <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> (it no longer follows the mouse); press and hold <kbd>Space</kbd> to launch eggs at the interval set by the slider bar.</div>
+
+        <h4 id="ex4-package-import">Package import</h4>
+        <ul>
+          <li><span class="path">Assets › Import Package › Custom Package…</span>: select <code>SliderWithEcho.unitypackage</code> (in the <code>Our-Packages</code> folder of the class notes).
+            <ul>
+              <li>Prefab: <code>Resources/Prefabs/SliderWithEcho.prefab</code></li>
+              <li><code>Scripts/UI/SliderWithEcho.cs</code></li>
+            </ul>
+          </li>
+          <li>To create your own package, do the reverse: <span class="path">Assets › Export Package…</span> and select the appropriate components (remember to select the necessary scripts).</li>
+        </ul>
+
+        <h4 id="ex4-using-the-imported-package">UI: using the imported package</h4>
+        <ol class="steps">
+          <li>Your scene must first have a Canvas (create one with <span class="path">UI (Canvas) › Canvas</span>).</li>
+          <li>Drag the <code>SliderWithEcho</code> prefab into the Canvas and align its anchor to the lower-left.</li>
+          <li>Rename it to <b>SpawnRate</b>.</li>
+          <li>Configure it (select SpawnRate and look in the Inspector window):
+            <ul>
+              <li><code>mLabelText</code></li>
+              <li>SliderValue (a Text UI object): customize the text details, e.g., color</li>
+              <li>SliderBar (in the Slider component): set Min Value, Max Value and Init Value</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="callout warn">When adjusting the position of the SliderWithEcho object, don't adjust the children's positions!</div>
+
+        <h4 id="ex4-greenarrowbehavior">GreenArrowBehavior: references a SliderWithEcho</h4>
+        <ul>
+          <li>In the editor, drag the entire SliderWithEcho (SpawnRate) onto the mSpawnRate of the GreenArrowBehavior object.</li>
+          <li>The <code>value()</code> of SpawnRate is how many seconds to wait between spawning new eggs.</li>
+          <li><code>Time.time</code>: the number of seconds elapsed since the beginning of the game.</li>
+        </ul>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>Almost all Unity-specific:
+              <ul>
+                <li><code>Time.time</code>: time (in seconds) since the game began</li>
+                <li>Packages: when importing/exporting a prefab, check all its dependent components</li>
+              </ul>
+            </li>
+            <li>Note the spawn-rate check logic in <code>GreenArrowBehavior::Update()</code>.</li>
+          </ul>
+        </div>
+
+        <h4 id="ex4-alternate-implementation">Alternate implementation</h4>
+        <p><span class="path">SpawnRate › SliderBar</span> has a callback (event handler). You can define a function in GreenArrowBehavior and add it here.</p>
+        <div class="procon">
+          <div class="pro"><b>Pros</b>Receives value changes via events; no need to check in <code>Update()</code>.</div>
+          <div class="con"><b>Cons</b>Implicit references (via event service functions); it can be hard to figure out all the event handlers.</div>
+        </div>
+        <p>I usually poll UI events in the <code>Update()</code> function.</p>
+        <div class="callout tip"><span class="title">Exercise</span>Implement this alternative.</div>
+
+        <div class="review" id="ex4-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>The SpawnRate slider is at <code>0.5</code>. You hold <kbd>Space</kbd> for 3 seconds. About how many eggs appear?
+              <details><summary>Show answer</summary><p>About 6. While <kbd>Space</kbd> is held, <code>Update()</code> spawns an egg only when more than 0.5 seconds have passed since the last one (<code>Time.time - mEggSpawnAt &gt; mSpawnRate.value()</code>), so it's one egg roughly every half second.</p></details>
+            </li>
+            <li>A classmate exports a package with only <code>SliderWithEcho.prefab</code> and forgets <code>SliderWithEcho.cs</code>. You import it into a new project. What goes wrong?
+              <details><summary>Show answer</summary><p>The prefab's script component shows up as <i>missing</i> (“The referenced script… is missing”), so the slider moves but the echo text never updates and nothing can call <code>value()</code>. When exporting, include every script and asset the prefab depends on.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 2.5 -->
+      <div class="card" id="ex5">
+        <div class="example-head">
+          <div class="example-num">2.5</div>
+          <div>
+            <h3>Cool Down Bar</h3>
+            <div class="sub">A simple continuation of the previous example</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="WebGL-Builds/2.5/index.html">▶ Play in browser (WebGL)</a>
+          <a class="pill" href="../Our-Packages/CoolDownBar.unitypackage">⬇ CoolDownBar.unitypackage</a>
+        </div>
+        <div class="callout info"><span class="title">Run behavior</span>Move with <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>; press and hold <kbd>Space</kbd> to launch eggs at the slider-bar interval, and <i>watch</i> the cool-down bar.</div>
+
+        <h4 id="ex5-package-import">Package import</h4>
+        <ul>
+          <li><span class="path">Assets › Import Package › Custom Package…</span>: select <code>CoolDownBar.unitypackage</code> (in the <code>Our-Packages</code> folder of the class notes).
+            <ul>
+              <li>Prefab: <code>Resources/Prefabs/CoolDownBar.prefab</code></li>
+              <li><code>Scripts/UI/CoolDownBar.cs</code></li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4 id="ex5-using-the-imported-package">UI: using the imported package</h4>
+        <ul>
+          <li>Remember: you must have a Canvas (create one with <span class="path">UI (Canvas) › Canvas</span>).</li>
+        </ul>
+
+        <h4 id="ex5-greenarrowbehavior">GreenArrowBehavior: references a SliderWithEcho and a CoolDownBar</h4>
+        <ul>
+          <li>In the editor, connect the CoolDownBar UI to the instance variable.</li>
+          <li>Note: the re-spawn time restriction logic is now hidden.</li>
+        </ul>
+
+        <div class="callout learned"><span class="title">Learned</span>The importance and beauty of OO: CoolDownBar hides the spawn-rate logic from GreenArrowBehavior!</div>
+
+        <div class="review" id="ex5-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>The slider is at <code>1</code>. You fire an egg, then right away drag the slider to <code>0.2</code>. When can you fire again?
+              <details><summary>Show answer</summary><p>Almost immediately: about 0.2 seconds after the first shot. <code>GreenArrowBehavior</code> calls <code>mCoolDown.SetCoolDownLength(mSpawnRate.value())</code> every frame, so the running cool-down uses the new, shorter length, and the bar jumps to match.</p></details>
+            </li>
+            <li>You add a second GreenUp and connect both arrows to the <i>same</i> CoolDownBar. What happens when one of them fires?
+              <details><summary>Show answer</summary><p>The other one has to wait too. Both arrows ask the same CoolDownBar object whether it's <code>ReadyForNext()</code>, so one cool-down is shared. For separate cool-downs, give each arrow its own CoolDownBar.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 2.6 -->
+      <div class="card" id="ex6">
+        <div class="example-head">
+          <div class="example-num">2.6</div>
+          <div>
+            <h3>Collision + Color + Texture</h3>
+          </div>
+        </div>
+        <div class="actions">
+          <span class="pill muted">No WebGL build: objects must be moved in the editor window</span>
+        </div>
+        <div class="callout info">
+          <span class="title">Run behavior</span>
+          Boring! It doesn't even do anything on its own!!
+          <ul style="margin:4px 0 0">
+            <li>You must run, then move objects in the editor so the two overlap.</li>
+            <li>Move either object to collide the two.</li>
+            <li>Wiggle the Plane or GreenUp to see the Plane disappear and regenerate as an Egg.</li>
+            <li>GreenUp moves whatever it touches to the origin.</li>
+          </ul>
+        </div>
+
+        <h4 id="ex6-how-unity-collision-works">How Unity collision works: conceptual model, mechanics and cost</h4>
+        <ul>
+          <li>The GreenUp and the Plane want to collide.
+            <ul>
+              <li><b>Requirements:</b> both must have a Collider2D, and at least one must have a Rigidbody2D.</li>
+              <li>I looked at this: <a href="https://discussions.unity.com/t/how-to-detech-collision-without-rigidbody/81755">How to detect collision without Rigidbody ↗</a></li>
+            </ul>
+          </li>
+          <li><b>Note:</b> this is <b>not</b> physics, just collision detection. We'll look at Unity physics a little later.</li>
+          <li>In this example, the GreenUp has a Rigidbody and the Plane does not:
+            <ul>
+              <li>two GreenUps can collide</li>
+              <li>a GreenUp can collide with a Plane</li>
+              <li>two Planes <b>cannot</b> collide</li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="tbl">
+          <table>
+            <tr><th style="width:120px">Object</th><th>Setup</th></tr>
+            <tr><td class="ui">GreenUp</td><td>The object that wants to handle the collision.
+              <ul style="margin:4px 0 0">
+                <li>Add a BoxCollider2D (any Collider2D works) and check <b>Is Trigger</b>: trigger-related functions on this object will be called.</li>
+                <li>Add a Rigidbody2D (in Physics2D) with Body Type <b>Kinematic</b>.</li>
+              </ul></td></tr>
+            <tr><td class="ui">Plane</td><td>
+              <ul style="margin:0">
+                <li>Add a BoxCollider2D (or any Collider2D, e.g., a CapsuleCollider2D).</li>
+                <li>If the Plane has a script with properly defined <code>OnTriggerEnter2D</code>/<code>Stay2D</code>/<code>Exit2D</code>
+                  functions, these functions will also be called
+                  whether the collider's <b>Is Trigger</b> is enabled or otherwise.</li>
+              </ul></td></tr>
+          </table>
+        </div>
+
+        <h4 id="ex6-try">Try</h4>
+        <ul>
+          <li>Toggle on/off the Plane's collider's <b>Is Trigger</b>
+            (its script's <code>OnTrigger…2D</code> functions will be called in both cases).</li>
+          <li>When should <b>Is Trigger</b> be on? Only the “actively colliding objects” need it.
+            <div class="callout tip">
+              <span class="title">Example</span>
+              My car is driving down the road, and I want it to collide
+              with all the objects in the world.
+              My car is the “actively colliding object”, so its <b>Is Trigger</b>
+              should be on. The rest of the objects aren't actively colliding with
+              anything, so I shouldn't switch on their <b>Is Trigger</b>. It's all about performance!
+            </div>
+          </li>
+        </ul>
+
+        <h4 id="ex6-scripts">Scripts</h4>
+        <ul>
+          <li>GreenUp (<code>Arrow.cs</code>): <code>OnTriggerEnter2D()</code> and <code>OnTriggerStay2D()</code></li>
+          <li>Plane (<code>PlaneBehavior.cs</code>): <code>OnTriggerEnter2D()</code> and <code>OnTriggerStay2D()</code> → call <code>UpdateColor()</code></li>
+          <li>In Unity, the <code>OnTrigger…2D()</code> functions are distinct from the <code>OnCollision…2D()</code> functions, although both report when two objects intersect:
+            <ul>
+              <li><code>OnTriggerEnter2D/Stay2D/Exit2D()</code>: tells you two objects have touched, and you decide what to do.</li>
+              <li><code>OnCollisionEnter2D/Stay2D/Exit2D()</code>: defines what happens and how to respond after the two objects intersect. We'll learn about this in Module 5.</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="callout info"><span class="title">Notice</span><code>OnTriggerStay2D()</code> is called while the two objects overlap, but only while the Rigidbody2D is awake. Once nothing moves, the Rigidbody2D falls asleep and the calls stop; moving either object wakes it, and the calls resume.</div>
+
+        <h4 id="ex6-texture-sprite-loading">Texture/sprite loading</h4>
+        <ul>
+          <li>See <a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Resources.Load.html"><code>Resources.Load()</code> ↗</a>.</li>
+          <li>Notice <code>GetComponent&lt;aComponent&gt;()</code>: look in the editor's Inspector window; every component can be accessed!</li>
+          <li>SpriteRenderer: color + sprite, adjustable in the UI or from a script.</li>
+        </ul>
+
+        <div class="callout danger"><span class="title">Watch out!</span>If ObjA collides with ObjB and ObjC at the same time (e.g., ObjB and ObjC perfectly overlap), <code>ObjA.OnTriggerEnter2D()</code> will be called twice!</div>
+
+        <div class="callout learned">
+          <span class="title">Learned</span>
+          <ul style="margin:4px 0 0">
+            <li>How to enable and work with Unity 2D collisions, and receive the collision function calls to respond</li>
+            <li>How to change the color/transparency of an object at run time</li>
+            <li>How to change the texture of an object at run time</li>
+          </ul>
+        </div>
+
+        <div class="review" id="ex6-review">
+          <span class="title">Check your understanding</span>
+          <ol>
+            <li>You remove the Rigidbody2D from GreenUp, keeping both colliders. You run and drag GreenUp onto the Plane. What happens?
+              <details><summary>Show answer</summary><p>Nothing: no <code>OnTrigger…2D()</code> function is called on either object. A collision needs at least one Rigidbody2D, and GreenUp's was the only one.</p></details>
+            </li>
+            <li>The Plane's collider has <b>Is Trigger</b> off; only GreenUp's is on. When they touch, does <code>PlaneBehavior.OnTriggerEnter2D()</code> run?
+              <details><summary>Show answer</summary><p>Yes. When either collider in a touching pair is a trigger, Unity sends the trigger messages to the scripts on <i>both</i> objects. So the Plane fades even though its own Is Trigger is off.</p></details>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELF EXERCISE -->
+    <section id="selfex">
+      <div class="card">
+        <div class="example-head">
+          <div class="example-num">✎</div>
+          <div>
+            <h3>In-class self-exercise 2</h3>
+            <div class="sub">Practice some of the above coverage</div>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="pill" href="Self-Exercise/Self-PracticeEX2.htm">Open the exercise →</a>
+          <a class="pill" href="WebGL-Builds/Self-EX/index.html">▶ Play the solution (WebGL)</a>
+        </div>
+        <p style="margin-bottom:0">Once again, my solution is available at the end of the document.</p>
+      </div>
+    </section>
+
+    <footer>
+      <a href="../Module-1/index.html">← Module 1</a> · <a href="../Module-3/index.html">Module 3 →</a>
+    </footer>
+  </main>
+
+</div>
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a[href^="#"]'));
+    var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function update() {
+      var y = window.scrollY + 80, idx = 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top + window.scrollY <= y) idx = i; });
+      // A section hidden inside a collapsed example group highlights the example's own link instead
+      var current = links[idx], group = current.closest('details');
+      if (group && !group.open) current = group.querySelector('summary a');
+      links.forEach(function (a) { a.classList.toggle('active', a === current); });
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    document.querySelectorAll('nav.toc details').forEach(function (d) { d.addEventListener('toggle', update); });
+    update();
+  })();
+</script>
+</body>
+</html>
