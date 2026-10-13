@@ -297,7 +297,7 @@
           <h4><span class="ico">⎇</span>GitHub</h4>
           <ul>
             <li>Branch / fork</li>
-            <li>The only four folders a Unity project needs</li>
+            <li>The only three folders a Unity project needs</li>
           </ul>
         </div>
         <div class="topic">
@@ -326,15 +326,15 @@
       </div>
 
       <div class="card" style="margin-top:18px">
-        <h4 style="margin-top:0">To save a Unity project, you only need these four folders</h4>
+        <h4 style="margin-top:0">To save a Unity project, you only need these three folders</h4>
         <div class="chips">
           <span class="chip keep">Assets</span>
           <span class="chip keep">Packages</span>
           <span class="chip keep">ProjectSettings</span>
-          <span class="chip keep">UserSettings</span>
         </div>
-        <p style="margin-bottom:6px">There's no reason to push the other folders to GitHub (or to submit them). Unity or your code editor regenerates them, or, like Builds, they only hold build output:</p>
+        <p style="margin-bottom:6px">There's no reason to push the other folders to GitHub (or to submit them). UserSettings only holds your personal editor preferences; Unity or your code editor regenerates the rest, or, like Builds, they only hold build output:</p>
         <div class="chips" style="margin-bottom:0">
+          <span class="chip skip">UserSettings</span>
           <span class="chip skip">Library</span>
           <span class="chip skip">Temp</span>
           <span class="chip skip">Logs</span>
@@ -370,18 +370,18 @@
           <li>At the very minimum, <b>fork</b> the provided repository so you'll know when there are changes.</li>
           <li><b>Do not start Unity yet.</b> Instead, open the GitHub folder in File Explorer.</li>
           <li>
-            <b>Observe</b> the Unity project folder <code>1.1.BasicSimpleProject</code>. It has five subfolders:
+            <b>Observe</b> the Unity project folder <code>1.1.BasicSimpleProject</code>. It has four subfolders:
             <div class="chips">
-              <span class="chip">Assets</span><span class="chip">Packages</span><span class="chip">ProjectSettings</span><span class="chip">UserSettings</span><span class="chip">EXE</span>
+              <span class="chip">Assets</span><span class="chip">Packages</span><span class="chip">ProjectSettings</span><span class="chip">EXE</span>
             </div>
             <ul>
               <li>You only need to pay attention to <b>Assets</b>. Keep all the resources you create in this folder.</li>
               <li><b>EXE</b> holds the <i>build</i> result of the project.</li>
-              <li>The other three folders track the state of your Unity editor.</li>
+              <li>The other two folders track the state of your Unity project.</li>
             </ul>
           </li>
           <li>
-            <b>Observe:</b> now open <code>1.1.BasicSimpleProject</code> with Unity. After the project opens, many new folders appear, including <code>Library</code>, <code>Logs</code> and <code>Temp</code>.
+            <b>Observe:</b> now open <code>1.1.BasicSimpleProject</code> with Unity. After the project opens, many new folders appear, including <code>Library</code>, <code>Logs</code>, <code>Temp</code> and <code>UserSettings</code>.
             <ul>
               <li><b>None</b> of these new folders are needed to save or retrieve your work.</li>
               <li>They do speed up Unity's startup, but please do <b>not</b> submit them and do <b>not</b> push them to GitHub.</li>

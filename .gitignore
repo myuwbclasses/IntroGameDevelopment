@@ -8,6 +8,8 @@
 [Bb]uilds/
 [Ll]ogs/
 [Mm]emoryCaptures/
+# Per-user editor preferences; not needed to open or build a project
+[Uu]ser[Ss]ettings/
 
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
